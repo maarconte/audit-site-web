@@ -1,18 +1,60 @@
 import "./ContactForm.scss";
 
-import React, { useActionState } from "react";
+import React, { useState } from "react";
 import Button from "../../UI/Button/Button";
 import Image from "next/image";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { useScoreStore } from "../../../store/useScoreStore";
-import { submitToBrevo } from "../../../../app/actions/submit-brevo";
 const tardis = "/images/tardis.webp";
+
+// Cloud Function URL — update after deployment
+const SUBMIT_URL =
+  process.env.NEXT_PUBLIC_SUBMIT_FUNCTION_URL ||
+  "https://submitform-xxxxxxxxxx-uc.a.run.app";
+
+interface FormState {
+  success: boolean;
+  message: string;
+}
 
 export default function ContactForm() {
   const scores = useScoreStore((s) => s.scores);
+  const [isPending, setIsPending] = useState(false);
+  const [state, setState] = useState<FormState | null>(null);
 
-  // React 19 Server Action integration
-  const [state, formAction, isPending] = useActionState(submitToBrevo, null);
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsPending(true);
+    setState(null);
+
+    const formData = new FormData(e.currentTarget);
+
+    const body = {
+      email: formData.get("email") as string,
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+      url: formData.get("url") as string,
+      scores,
+    };
+
+    try {
+      const response = await fetch(SUBMIT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data: FormState = await response.json();
+      setState(data);
+    } catch {
+      setState({
+        success: false,
+        message: "Erreur réseau. Veuillez réessayer.",
+      });
+    } finally {
+      setIsPending(false);
+    }
+  }
 
   return (
     <div className="ContactFormRefonte">
@@ -26,12 +68,10 @@ export default function ContactForm() {
         <div className="col-md-6">
           {!state?.success ? (
             <form
-              action={formAction}
+              onSubmit={handleSubmit}
               id="contact-form-refonte-siteweb"
               className="d-flex flex-column align-items-center justify-content-center"
             >
-              <input type="hidden" name="scores" value={JSON.stringify(scores)} />
-
               <div className="form-group mb-4 w-100">
                 <label htmlFor="url">URL du site web</label>
                 <input
@@ -114,7 +154,7 @@ export default function ContactForm() {
                 <MdOutlineMarkEmailUnread className="icon" size={32} />
               </span>
               <p className="text-center mt-3">
-                L’analyse de votre site web vous attend dans votre boîte mail ! Pensez à vérifier vos spams si vous ne le voyez pas dans votre boîte de réception.
+                L'analyse de votre site web vous attend dans votre boîte mail ! Pensez à vérifier vos spams si vous ne le voyez pas dans votre boîte de réception.
               </p>
             </div>
           )}
