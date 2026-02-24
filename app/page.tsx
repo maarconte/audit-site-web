@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="bg-landing">
-      <Image src="/images/planet-pink.webp" className="planet-pink" alt="Planète rose" width={300} height={300} style={{ objectFit: "contain" }} priority />
-      <Image src="/images/planet-yellow.webp" className="planet-yellow" alt="Planète jaune" width={200} height={200} style={{ objectFit: "contain" }} priority />
+      <Image src="/images/planet-pink.webp" className="planet-pink" alt="Planète rose" width={300} height={300} priority />
+      <Image src="/images/planet-yellow.webp" className="planet-yellow" alt="Planète jaune" width={200} height={200} priority />
       <div className="container-fluid z-2 position-relative">
         <HeroSection
           title="Est-ce le moment de refaire mon site internet ?"
