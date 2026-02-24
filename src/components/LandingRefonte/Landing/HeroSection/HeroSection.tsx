@@ -6,7 +6,7 @@ import Button from "../../../UI/Button/Button";
 import { FaArrowRight } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
-const logo = "/images/THATMUCH_Logo_White.webp";
+import logo from "../../../../../public/images/THATMUCH_Logo_White.webp";
 
 export interface IHeroSectionProps {
   title: string;

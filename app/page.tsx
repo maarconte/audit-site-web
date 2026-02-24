@@ -6,7 +6,9 @@ import LinkSection from "@/components/LandingRefonte/Landing/LinkSection/LinkSec
 import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/NumbersSection";
 import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
 import type { Metadata } from "next";
-const logo = "/images/THATMUCH_Logo_White.webp";
+import logo from "../public/images/THATMUCH_Logo_White.webp";
+import planetPink from "../public/images/planet-pink.webp";
+import planetYellow from "../public/images/planet-yellow.webp";
 
 export const metadata: Metadata = {
   title: "Analyse de la refonte de site web | Thatmuch",
@@ -16,8 +18,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="bg-landing">
-      <Image src="/images/planet-pink.webp" className="planet-pink" alt="Planète rose" width={300} height={300} priority />
-      <Image src="/images/planet-yellow.webp" className="planet-yellow" alt="Planète jaune" width={200} height={200} priority />
+      <Image src={planetPink} className="planet-pink" alt="Planète rose" width={300} height={300} priority />
+      <Image src={planetYellow} className="planet-yellow" alt="Planète jaune" width={200} height={200} priority />
       <div className="container-fluid z-2 position-relative">
         <HeroSection
           title="Est-ce le moment de refaire mon site internet ?"

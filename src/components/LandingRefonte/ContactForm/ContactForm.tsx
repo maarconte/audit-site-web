@@ -5,7 +5,7 @@ import Button from "../../UI/Button/Button";
 import Image from "next/image";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { useScoreStore } from "../../../store/useScoreStore";
-const tardis = "/images/tardis.webp";
+import tardis from "../../../../public/images/tardis.webp";
 
 // Cloud Function URL — update after deployment
 const SUBMIT_URL =
