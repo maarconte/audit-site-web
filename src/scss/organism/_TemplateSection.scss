@@ -8,7 +8,7 @@
   padding: 3.5rem;
   align-items: center;
   gap: 1.5rem;
-  background-image: url("/images/Background_Light.webp");
+  background-image: url("#{$base-path}/images/Background_Light.webp");
   background-size: cover;
   background-repeat: no-repeat;
   box-shadow: inset -3px -3px rgba(63, 210, 219, 0.5),

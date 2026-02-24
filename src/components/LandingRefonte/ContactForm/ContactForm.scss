@@ -3,7 +3,7 @@
 
 .ContactFormRefonte {
   background-color: $neutral-900;
-  background-image: url("/images/Background_Dark.webp");
+  background-image: url("#{$base-path}/images/Background_Dark.webp");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
