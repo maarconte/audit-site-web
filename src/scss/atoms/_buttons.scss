@@ -1,0 +1,166 @@
+@use "../../scss/vars" as *;
+@use "../../scss/mixins" as *;
+
+button {
+  // normalize button
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+.btn {
+  border: none;
+  display: inline-flex;
+  font-weight: 700;
+  height: 2.75rem;
+  padding: $spacing-s;
+  align-items: center;
+  gap: $spacing-xs;
+  flex-shrink: 0;
+  border-radius: $radius-l;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+  .btn-icon {
+    margin-left: 0;
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover {
+    .btn-icon {
+      margin-left: 0.5rem;
+    }
+  }
+
+  &:focus-visible {
+    outline: 3px solid;
+  }
+  &__content {
+    z-index: 5;
+    grid-column-gap: 0.5rem;
+    grid-row-gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+  }
+  &__overlay {
+    transform: translate3d(0px, 0px, 0px) scale3d(0, 0, 1) rotateX(0deg)
+      rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+    border-radius: 100%;
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    bottom: -40%;
+    //center the overlay
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    background-color: $neutral-300;
+    display: block;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover &__overlay {
+    transform: translate3d(0px, 0px, 0px) scale3d(20, 20, 1) rotateX(0deg)
+      rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+    transform-style: preserve-3d;
+  }
+
+  &-primary {
+    background-color: $neutral-900;
+    border-color: $neutral-900;
+    &:hover {
+      background-color: $neutral-500;
+      text-decoration: none;
+    }
+    &:disabled {
+      background: $status-disabled;
+    }
+  }
+
+  &-secondary {
+    background-color: transparent;
+    color: $status-info;
+    &:hover {
+      background-color: $status-info;
+      color: $text-color-default;
+    }
+    &:disabled {
+      background: $status-disabled;
+      color: $status-disabled-dark;
+    }
+  }
+
+  &-white {
+    background-color: $neutral-0;
+    color: $text-color-default;
+    &:hover {
+      background-color: transparent;
+      text-decoration: none;
+    }
+    &:disabled {
+      background: $status-disabled;
+      color: $status-disabled-dark;
+    }
+  }
+  &-dev {
+    color: $text-color-default;
+    background-color: $dev-500;
+    &:hover {
+      color: $text-color-default;
+      background-color: $dev-500;
+      text-decoration: none;
+    }
+
+    &:disabled {
+      background: $status-disabled;
+      border-color: $status-disabled;
+      color: $status-disabled-dark;
+    }
+    &.btn-outlined {
+      background-color: transparent;
+      border: 2px solid $dev-500;
+      color: $dev-500;
+      &:hover {
+        background-color: $dev-500;
+        color: $text-color-default;
+        border: 2px solid $neutral-300;
+      }
+    }
+  }
+
+  &-success {
+    color: $text-color-default;
+    background-color: $project-500;
+    &:hover {
+      color: $text-color-default;
+      background-color: $project-500;
+      text-decoration: none;
+    }
+    &:disabled {
+      background: $status-disabled;
+      color: $status-disabled-dark;
+    }
+  }
+
+  &-design {
+    color: $text-color-default;
+    background-color: $design-500;
+    &:hover {
+      color: $text-color-default;
+      background-color: $design-500;
+      text-decoration: none;
+    }
+    &:disabled {
+      background: $status-disabled;
+      color: $status-disabled-dark;
+    }
+  }
+}

@@ -1,0 +1,99 @@
+@use "../../../../../scss/vars" as *;
+@use "../../../../../scss/mixins" as *;
+.FormQuestion {
+  background: rgba(198, 189, 226, 0.1);
+  box-shadow: inset -1px -1px rgba(169, 159, 209, 0.1),
+    inset 1px 1px rgba(86, 68, 156, 1);
+  backdrop-filter: blur(5px);
+  border-radius: 2rem;
+  padding: $spacing-xs;
+  margin-bottom: $spacing-l;
+
+  &__option {
+    padding: 0 12px;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    border-radius: 20px;
+    box-shadow: inset -1px -1px rgba(169, 159, 209, 0.1),
+      inset 1px 1px rgba(86, 68, 156, 1);
+    background: rgba(237, 234, 246, 0.05);
+    cursor: pointer;
+
+    &:has(input[type="radio"]:checked) {
+      background: rgba(237, 234, 246, 0.2);
+    }
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.selected {
+      background: $dev-50;
+    }
+
+    input[type="radio"] {
+      -webkit-appearance: none;
+      appearance: none;
+      margin-top: 4px;
+    }
+    label {
+      position: relative;
+      margin-left: 20px;
+      width: 100%;
+      padding: 8px 0;
+
+      &::before {
+        content: "";
+        position: absolute;
+        border: 1px solid $dev-200;
+        width: 17px;
+        height: 17px;
+        left: -30px;
+        top: calc(50% - 17px/2);
+        border: 1px solid white;
+        border-radius: $radius-m;
+      }
+    }
+    input[type="radio"] + label:before,
+    input:checked[type="radio"] + label:after {
+      border-radius: 17px;
+    }
+
+    input[type="radio"]:checked + label:before {
+      border-color: $dev-500;
+    }
+
+    input:checked + label:after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      background-color: $dev-500;
+      left: -26px;
+      top: calc(50% - 9px/2);
+      border-radius: 2px;
+      transition: 0.5s;
+    }
+  }
+
+  &__error {
+    background-color: rgba($com-500, 0.3);
+    border-radius: 6.25rem;
+    padding: $spacing-xs $spacing-xs $spacing-xs $spacing-s;
+    font-size: $font-size-xs;
+    margin-top: 0.5rem;
+  }
+
+  &__input {
+    border-radius: 6.25rem;
+    box-shadow: inset -1px -1px rgba(169, 159, 209, 0.1),
+      inset 1px 1px rgba(86, 68, 156, 1);
+    background: rgba(237, 234, 246, 0.05);
+    cursor: text;
+    color: #fff;
+    padding: 12px 1.5rem;
+    border: none;
+    width: 50%;
+  }
+}

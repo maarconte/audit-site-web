@@ -1,0 +1,45 @@
+@use "../vars" as *;
+
+blockquote {
+  border-radius: $radius-m;
+  background: $surface-default;
+  padding: $spacing-xl $spacing-l $spacing-l $spacing-xl;
+  position: relative;
+  margin-bottom: $spacing-l;
+  margin-top: $spacing-l;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  &:before {
+    content: "";
+    position: absolute;
+    top: $spacing-l;
+    left: $spacing-l;
+    width: 4px;
+    height: calc(100% - $spacing-l * 2);
+    background: var(--text-color-default, $neutral-200);
+  }
+  p {
+    position: relative;
+    padding: $spacing-m;
+    font-size: $font-size-xl;
+    line-height: 1.5;
+    &:before {
+      content: "\201C";
+      font-size: 4rem;
+      color: var(--text-color-default, $neutral-200);
+      position: absolute;
+      top: -3rem;
+      left: 0;
+    }
+    &:after {
+      content: "\201D";
+      font-size: 4rem;
+      color: var(--text-color-default, $neutral-200);
+      position: absolute;
+      bottom: -3rem;
+      right: 0;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+img.animate {
+	animation: image-appear ease-in both;
+	animation-timeline: view();
+	animation-range: 0vh 20vh;
+}
+
+@keyframes image-appear {
+	from {
+		opacity: 0;
+		translate: 0 4rem;
+	}
+}

@@ -1,0 +1,21 @@
+@import "bootstrap/scss/bootstrap";
+@import "../src/scss/_fonts.scss";
+@import "../src/scss/_animations.scss";
+@import "../src/scss/atoms/_badge.scss";
+@import "../src/scss/atoms/_buttons.scss";
+@import "../src/scss/atoms/_divider.scss";
+@import "../src/scss/atoms/_headings.scss";
+@import "../src/scss/atoms/_input.scss";
+@import "../src/scss/atoms/_links.scss";
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+.text-white {
+	color: white;
+}

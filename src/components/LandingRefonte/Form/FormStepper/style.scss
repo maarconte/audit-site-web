@@ -1,0 +1,91 @@
+@use "../../../../scss/mixins" as *;
+@use "../../../../scss/vars" as *;
+
+.FormStepper {
+  position: relative;
+  display: flex;
+
+  padding: 0.625rem $spacing-s;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  border-radius: $radius-l;
+  background: $neutral-800;
+  margin: 0 auto $spacing-l;
+  gap: $spacing-s;
+  &__step {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: $spacing-s;
+    flex-shrink: 0;
+    color: $neutral-200;
+    &.active &__icon {
+      background-color: $dev-500;
+      color: $neutral-900;
+    }
+    &.completed &__icon {
+      background-color: $project-400;
+      color: $project-900;
+    }
+    &__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: $neutral-500;
+      color: $neutral-200;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    &__name {
+      text-wrap: wrap;
+      color: #fff;
+    }
+  }
+  &__activeLabel {
+    display: none;
+  }
+
+  @media screen and (max-width: 750px) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: $spacing-xs;
+    gap: $spacing-xs;
+    padding-bottom: 3rem;
+
+    &__step {
+      flex-direction: column;
+      flex:1;
+      align-items: center;
+      gap: $spacing-xxs;
+      flex-shrink: 0;
+
+      &__icon {
+        width: 2rem;
+        height: 2rem;
+        margin: 0;
+        margin-top: 1rem;
+      }
+
+      &__name {
+        display: none;
+      }
+    }
+
+    &__activeLabel {
+      display: block;
+      position: absolute;
+      bottom: -1.1rem;
+      left: 50%;
+      transform: translate(-50%, -2rem);
+      font-size: 0.75rem;
+      color: white;
+      white-space: nowrap;
+      text-align: center;
+    }
+  }
+}

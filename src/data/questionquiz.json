@@ -1,0 +1,409 @@
+[
+  {
+    "category": "Design & Identité visuelle",
+    "slug": "design",
+    "questions": [
+      {
+        "id": "design-1",
+        "question": "Mon identité visuelle existe depuis …",
+        "options": [
+          {
+            "text": "Moins d’un an",
+            "score": 5
+          },
+          {
+            "text": "Entre 1 et 5 ans",
+            "score": 3
+          },
+          {
+            "text": "Plus de 5 ans",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": "design-2",
+        "question": "Le design de mon site a été créé par …",
+        "options": [
+          {
+            "text": "un ux/ui designer",
+            "score": 5
+          },
+          {
+            "text": "un stagiaire",
+            "score": 0
+          },
+          {
+            "text": "un développeur",
+            "score": 2
+          },
+          {
+            "text": "moi-même en m’aidant de Canva et de templates",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "id": "design-3",
+        "question": "Mon identité visuelle contient …",
+        "options": [
+          {
+            "text": "un logo",
+            "score": 0
+          },
+          {
+            "text": "un logo, une typo et une gamme de couleur",
+            "score": 3
+          },
+          {
+            "text": "un logo, des couleurs, des typographies, des éléments, graphiques...",
+            "score": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Expérience utilisateur (UX)",
+    "slug": "ux",
+    "questions": [
+      {
+        "id": "ux-1",
+        "question": "Mon site est adapté pour les mobiles/tablettes",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": "ux-2",
+        "question": "Il est facile de trouver les informations importantes sur mon site",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          },
+          {
+            "text": "Je ne sais pas",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "id": "ux-3",
+        "question": "Mon site a-t-il été réfléchi en prenant compte de l’accessibilité utilisateur ?",
+        "description": "Par exemple : couleurs, contrastes, polices, taille des textes, navigation au clavier, etc.",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          },
+          {
+            "text": "Je ne sais pas",
+            "score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Stratégie marketing",
+    "slug": "marketing",
+    "questions": [
+      {
+        "id": "marketing-1",
+        "question": "Le branding et les valeurs de ma marque",
+        "category": "Marketing",
+        "options": [
+          {
+            "text": "n’ont pas changé",
+            "score": 3
+          },
+          {
+            "text": "ont peu évolué",
+            "score": 2
+          },
+          {
+            "text": "ont complètement changé",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": "marketing-2",
+        "question": "Mon offre sur le marché et auprès de ma cible",
+        "options": [
+          {
+            "text": "n’a pas changé",
+            "score": 5
+          },
+          {
+            "text": "a un peu changé",
+            "score": 3
+          },
+          {
+            "text": "j’ai fait un pivot",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": "marketing-3",
+        "question": "Je souhaite ajouter des nouvelles pages/services à mon site",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": "marketing-4",
+        "question": "Mon site est visible sur Google Maps ?",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 2
+          },
+          {
+            "text": "Non",
+            "score": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Référencement naturel (SEO)",
+    "slug": "seo",
+    "questions": [
+      {
+        "id": "seo-1",
+        "question": "Mon site est-il dans la première page google dans les mots-clés de mon secteur d’activité ?",
+        "description": "Par exemple : Pour une boutique de bijoux à Nice, vous êtes dans la première page des résultats Google pour la recherche “création de bijoux Nice",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": "seo-2",
+        "question": "J’utilise des titres et sous-titres pour structurer mon texte",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          },
+          {
+            "text": "Pas toujours",
+            "score": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Performance & Conversion",
+    "slug": "performance",
+    "questions": [
+      {
+        "id": "performance-1",
+        "question": "J’ai installé un outil pour analyser les performances de mon site",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          },
+          {
+            "text": "Je ne sais pas",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "id": "performance-2",
+        "question": "Le contenu de mes pages met-il du temps à s’afficher ?",
+        "options": [
+          {
+            "text": "Oui, plus de 3 secondes",
+            "score": 0
+          },
+          {
+            "text": "Non, moins de 3 secondes",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "id": "performance-3",
+        "question": "Est-ce que mon site convertit ? ( prises de contact, ventes, abonnements … )",
+        "options": [
+          {
+            "text": "Un peu",
+            "score": 3
+          },
+          {
+            "text": "Beaucoup",
+            "score": 5
+          },
+          {
+            "text": "Pas du tout",
+            "score": 0
+          },
+          {
+            "text": "Je ne cherche pas à convertir",
+            "score": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "Technique & Maintenance",
+    "slug": "technique",
+    "questions": [
+      {
+        "id": "technique-1",
+        "question": "Mon site est sur",
+        "options": [
+          {
+            "text": "Je ne sais pas",
+            "score": 0
+          },
+          {
+            "text": "Wix",
+            "score": 2
+          },
+          {
+            "text": "Wordpress",
+            "score": 5
+          },
+          {
+            "text": "Autre (préciser)",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "id": "technique-2",
+        "question": "Est-il facile de modifier mon site ?",
+        "options": [
+          {
+            "text": "Non, je dois passer par un développeur",
+            "score": 0
+          },
+          {
+            "text": "Oui mais avec des limites",
+            "score": 3
+          },
+          {
+            "text": "Oui, sans difficulté",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "id": "technique-3",
+        "question": "Je reçois des spams sur le mail de contact de mon site",
+        "options": [
+          {
+            "text": "beaucoup",
+            "score": 0
+          },
+          {
+            "text": "un peu",
+            "score": 3
+          },
+          {
+            "text": "pas du tout",
+            "score": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "category": "RGPD",
+    "slug": "legal",
+    "questions": [
+      {
+        "id": "legal-1",
+        "question": "Mon site a un pop-up pour gérer les cookies ?",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          },
+          {
+            "text": "Je ne sais pas",
+            "score": 3
+          }
+        ]
+      },
+      {
+        "id": "legal-2",
+        "question": "Mon site a-t-il un email ou un formulaire de contact clairement visible sur une page dédiée ou en page d’accueil ?",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 0
+          },
+          {
+            "text": "Non",
+            "score": 5
+          }
+        ]
+      },
+      {
+        "id": "legal-3",
+        "question": "Mon site a des pages de politiques de confidentialité et/ou conditions générales ?",
+        "options": [
+          {
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
+            "score": 0
+          }
+        ]
+      }
+    ]
+  }
+]

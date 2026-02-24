@@ -1,0 +1,29 @@
+@use "../vars" as *;
+.tag {
+  border-radius: $radius-s; // 0.25rem
+  padding: $spacing-xxs; // 0.25rem
+  font-weight: 700;
+  background: $status-disabled; // #c6bde2
+  color: $status-disabled-dark; // #331e73
+  letter-spacing: 0.03125rem;
+
+  &.tag--dev {
+    background: $status-info-light; // #e7f9fb
+    color: $status-info-dark; // #065458
+  }
+
+  &.tag--design {
+    background: $status-warning-light; // #fff9e6
+    color: $status-warning-dark; // #6a5300
+  }
+
+  &.tag--com {
+    background: $status-error-light; // #fcecf0
+    color: $status-error-dark; // #5d1a2a
+  }
+
+  &.tag--proj {
+    background: $status-success-light; // #f5fcf0
+    color: $status-success-dark; // #4f792d
+  }
+}

@@ -1,0 +1,23 @@
+@use "../vars" as *;
+@use "../mixins" as *;
+
+.TemplateSection {
+  font-family: "SpaceMono", sans-serif;
+  display: flex;
+  border-radius: 6.25rem;
+  padding: 3.5rem;
+  align-items: center;
+  gap: 1.5rem;
+  background-image: url("/images/Background_Light.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: inset -3px -3px rgba(63, 210, 219, 0.5),
+    inset 3px 3px rgba(231, 249, 251, 0.5);
+  margin-bottom: 3.5rem;
+
+  img {
+    flex-shrink: 0;
+    border-radius: 2.75rem;
+    width: 15rem;
+  }
+}

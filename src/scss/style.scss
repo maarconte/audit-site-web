@@ -1,0 +1,205 @@
+@use "./animations" as *;
+@use "./vars" as *;
+@use "./fonts" as *;
+@use "./mixins" as *;
+@use "./atoms/atoms" as *;
+@use "./organism/TemplateSection" as *;
+@use "./organism/section" as *;
+
+html {
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+body {
+  font-family: "SpaceMono", sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  box-sizing: border-box;
+  color: $text-color-default;
+  transition-duration: 1s;
+  background: linear-gradient(#fff, $neutral-0) no-repeat fixed;
+
+  img,
+  iframe {
+    max-width: 100%;
+  }
+
+  img {
+    height: auto;
+  }
+
+  p {
+    margin-bottom: $spacing-m;
+  }
+
+  .bg-dark {
+    color: #fff;
+    background-color: $neutral-900 !important;
+  }
+
+  .section {
+    overflow: hidden;
+  }
+
+  /* Utiles */
+  .bg-cyan {
+    background-color: $tm-cyan;
+  }
+
+  .bg-yellow {
+    background-color: $tm-yellow;
+  }
+
+  .bg-green {
+    background-color: $tm-green;
+  }
+
+  .bg-magenta {
+    background-color: $tm-magenta;
+  }
+
+  .bg-grey-2 {
+    background-color: $neutral-50;
+  }
+}
+
+.bg-form {
+  background-color: $neutral-900;
+  background-image: url("/images/bg-stars.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.bg-landing {
+  position: relative;
+  background-image: url("/images/bg_landing.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: #fff;
+  background-color: #281759;
+  overflow: hidden;
+
+  @include breakpoint(desktop) {
+    background-size: cover;
+  }
+
+  .planet-pink {
+    z-index: 0;
+    position: absolute;
+    background-image: url("/images/planet-pink.webp");
+    left: 0;
+    top: 500px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    background-size: contain;
+  }
+
+  .planet-yellow {
+    z-index: 0;
+
+    position: absolute;
+    background-image: url("/images/planet-yellow.webp");
+    right: -50px;
+    top: 500px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: contain;
+
+    @include breakpoint(mobile) {
+      width: 200px;
+      top: 470px;
+      right: 0;
+    }
+  }
+}
+
+// Animations
+
+
+
+.rotating {
+  animation: rotating 2s linear infinite;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.container-fluid {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-l;
+  padding-right: $spacing-l;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+
+figure.wp-block-table {
+  margin: 0 0 1.5em !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+
+figure.wp-block-table table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+figure.wp-block-table th,
+figure.wp-block-table td {
+  border: 1px solid #ddd !important;
+  padding: 8px !important;
+  text-align: left !important;
+}
+
+p:not(.no-animation),
+h2,
+h3,
+blockquote,
+hr {
+  /* animation-name: text-appear; @keyframes defined below */
+  /* animation-timing-function: ease-in; standard should be linear */
+  /* animation-fill-mode: both; keeps animated values forwards and backwards */
+  animation: text-appear ease-in both;
+  animation-timeline: view();
+  /* applies animation state relative to viewport */
+  animation-range: 0vh 20vh;
+  /* set 0% and 100% positions */
+}
+
+@prefers-reduced-motion {
+
+  p,
+  h2,
+  h3,
+  blockquote,
+  hr,
+  img {
+    animation: none;
+  }
+}
+
+.landing-header {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+
+  &__logo {
+    width: 150px;
+    height: 50px;
+    position: relative;
+    z-index: 10;
+  }
+}

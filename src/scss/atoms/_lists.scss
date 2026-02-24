@@ -1,0 +1,8 @@
+@use "../vars" as *;
+ul:not(.wp-block-list) {
+  padding: 0;
+  li {
+    list-style: none;
+    margin-bottom: $spacing-xs;
+  }
+}

@@ -1,0 +1,55 @@
+/* Responsive */
+@mixin breakpoint($device) {
+  @if $device == desktop {
+    @media screen and (min-width: 1200px) {
+      @content;
+    }
+  } @else if $device == laptop {
+    @media screen and (min-width: 992px) {
+      @content;
+    }
+  } @else if $device == tablet {
+    @media screen and (min-width: 768px) {
+      @content;
+    }
+  } @else if $device == phablet {
+    @media screen and (min-width: 451px) {
+      @content;
+    }
+  } @else if $device == mobile {
+    @media screen and (max-width: 450px) {
+      @content;
+    }
+  } @else if $device == mobile_S {
+    @media screen and (max-width: 320px) {
+      @content;
+    }
+  }
+}
+
+// settings
+$remBase: 17; //set base font size. unitless value in pixels.
+$widthMin: 480; //set small breakpoint. unitless value in pixels.
+$widthMax: 1024; //set large breakpoint. unitless value in pixels.
+
+@mixin font-size($valueMin, $valueMax) {
+  // turn mixin parameters into rem value.
+  $fontMin: $valueMin * $remBase;
+  $fontMax: $valueMax * $remBase;
+
+  // set minimum font size. give it rem value.
+  font-size: $valueMin * 1rem;
+
+  // set font size between min and max breakpoints.
+  @media (min-width: #{$widthMin}px) {
+    font-size: calc(
+      #{$fontMin}px + (#{$fontMax} - #{$fontMin}) *
+        ((100vw - #{$widthMin}px) / (#{$widthMax} - #{$widthMin}))
+    );
+  }
+
+  // set font size above max breakpoint
+  @media (min-width: #{$widthMax}px) {
+    font-size: $valueMax * 1rem;
+  }
+}

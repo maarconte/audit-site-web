@@ -1,0 +1,15 @@
+@use "../../../../scss/vars" as *;
+@use "../../../../scss/mixins" as *;
+.hero-section {
+  text-align: center;
+  max-width: 640px;
+  margin: 250px auto 100px;
+  @include breakpoint(mobile) {
+    margin: 50px auto 50px;
+  }
+}
+.hero-title {
+  line-height: 4.21875rem;
+  text-align: center;
+  color: #fff;
+}

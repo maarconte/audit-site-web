@@ -1,0 +1,155 @@
+$tm-magenta: #de3d64;
+$tm-yellow: #fdc500;
+$tm-cyan: #0fc7d2;
+$tm-green: #9fdf6c;
+
+//Gradient
+$gradient_rainbow: linear-gradient(90deg,
+        rgba(15, 199, 210, 1) 0%,
+        rgba(15, 199, 210, 1) 24%,
+        rgba(159, 223, 108, 1) 25%,
+        rgba(159, 223, 108, 1) 49%,
+        rgba(253, 197, 0, 1) 50%,
+        rgba(253, 197, 0, 1) 74%,
+        rgba(222, 61, 100, 1) 75%,
+        rgba(222, 61, 100, 1) 100%);
+
+// Spaces
+$space_XXL: 100px;
+$space_XL: 50px;
+$space_M: 20px;
+$space_S: 15px;
+
+// Speed
+$fast: 0.5s;
+$slow: 1s;
+
+// +===============================
+/* Primitive */
+$com-50: #fcecf0;
+$com-100: #f5c3cf;
+$com-200: #f0a6b8;
+$com-300: #e97d97;
+$com-400: #e56483;
+$com-500: #de3d64;
+$com-600: #ca385b;
+$com-700: #9e2b47;
+$com-800: #7a2237;
+$com-900: #5d1a2a;
+
+$design-50: #fff9e6;
+$design-100: #feedb0;
+$design-200: #fee48a;
+$design-300: #fed854;
+$design-400: #fdd133;
+$design-500: #fdc500;
+$design-600: #e6b300;
+$design-700: #b48c00;
+$design-800: #8b6c00;
+$design-900: #6a5300;
+
+$dev-50: #e7f9fb;
+$dev-100: #b5eef1;
+$dev-200: #91e5ea;
+$dev-300: #5ed9e1;
+$dev-400: #3fd2db;
+$dev-500: #3fd2db;
+$dev-600: #0eb5bf;
+$dev-700: #0b8d95;
+$dev-800: #086d74;
+$dev-900: #065458;
+
+$neutral-0: #f8f8fb;
+$neutral-50: #edeaf6;
+$neutral-100: #c6bde2;
+$neutral-200: #ab9dd4;
+$neutral-300: #8470c1;
+$neutral-400: #6d55b5;
+$neutral-500: #482aa2;
+$neutral-600: #422693;
+$neutral-700: #331e73;
+$neutral-800: #281759;
+$neutral-900: #1e1244;
+
+$project-50: #f5fcf0;
+$project-100: #e1f5d1;
+$project-200: #d3f0bb;
+$project-300: #bfea9d;
+$project-400: #b2e589;
+$project-500: #9fdf6c;
+$project-600: #91cb62;
+$project-700: #719e4d;
+$project-800: #577b3b;
+$project-900: #4f792d;
+
+/* Tokens */
+
+/* color */
+$background: $neutral-0;
+
+/* Status */
+$status-disabled: $neutral-100;
+$status-disabled-dark: $neutral-700;
+$status-disabled-light: $neutral-500;
+$status-error: $com-500;
+$status-error-dark: $com-900;
+$status-error-light: $com-50;
+$status-info: $dev-500;
+$status-info-dark: $dev-900;
+$status-info-light: $dev-50;
+$status-success: $project-500;
+$status-success-dark: $project-900;
+$status-success-light: $project-50;
+$status-warning: $design-500;
+$status-warning-dark: $design-900;
+$status-warning-light: $design-50;
+
+/* Surface */
+$surface-default: $neutral-50;
+$surface-com: $com-50;
+$surface-design: $design-50;
+$surface-dev: $dev-50;
+$surface-project: $project-50;
+
+/* Text */
+$text-color-default: $neutral-900;
+$text-color-light: $neutral-0;
+$text-color-link: $neutral-400;
+$text-color-mid: $neutral-600;
+
+/* Numbers */
+
+/* Radius */
+$radius-s: 0.25rem;
+$radius-m: 0.5rem;
+$radius-l: 6.25rem;
+
+$size-xs: 0.5rem;
+$size-s: 1rem;
+$size-m: 1.5rem;
+$size-l: 2rem;
+$size-xl: 3.5rem;
+
+/* Spacing */
+$spacing-xxs: 0.25rem;
+$spacing-xs: 0.5rem;
+$spacing-s: 1rem;
+$spacing-m: 1.5rem;
+$spacing-l: 2rem;
+$spacing-xl: 3.5rem;
+
+/* Font */
+$font-size-xxs: 0.625rem;
+$font-size-xs: 0.75rem;
+$font-size-s: 0.875rem;
+$font-size-m: 1rem;
+$font-size-l: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-xxl: 2rem;
+$font-size-xxxl: 3rem;
+$font-size-display: 6.25rem;
+
+/* Breakpoints -  Add your breakpoints here */
+$breakpoint-small: 768px;
+$breakpoint-medium: 992px;
+$breakpoint-large: 1200px;

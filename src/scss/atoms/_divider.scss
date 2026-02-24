@@ -1,0 +1,7 @@
+@use "../../scss/vars" as *;
+.divider {
+  margin-top: 8px;
+  height: 4px;
+  width: 96px;
+  background: $gradient_rainbow;
+}

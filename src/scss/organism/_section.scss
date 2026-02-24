@@ -1,0 +1,11 @@
+@use "../mixins" as *;
+@use "../vars" as *;
+
+.section {
+  &__header {
+    margin-bottom: $spacing-m;
+    @include breakpoint(mobile) {
+      width: 100%;
+    }
+  }
+}

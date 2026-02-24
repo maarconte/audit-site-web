@@ -1,0 +1,17 @@
+@use "../../scss/vars" as *;
+@use "../../scss/mixins" as *;
+.badge {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: $neutral-500;
+  color: $neutral-200;
+  font-size: 1rem;
+  &-success {
+    background-color: $project-400;
+    color: $project-900;
+  }
+}

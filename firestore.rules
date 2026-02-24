@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /submissions/{document=**} {
+      allow create: if request.resource.data.keys().hasOnly(['firstName', 'lastName', 'email', 'url', 'scores', 'createdAt'])
+        && request.resource.data.firstName is string
+        && request.resource.data.lastName is string
+        && request.resource.data.email is string
+        && request.resource.data.url is string
+        && request.resource.data.scores is map
+        && request.resource.data.scores.globalScore is number
+        && request.resource.data.createdAt is timestamp;
+
+      allow read: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}
