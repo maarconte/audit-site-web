@@ -149,8 +149,9 @@ export default function FormContainer({
               <FormQuestion
                 item={question}
                 key={question.id}
-                errors={errors}
-                touched={touched}
+                currentValue={values[question.id]}
+                error={errors[question.id]}
+                isTouched={touched[question.id]}
                 showErrors={showErrors}
               />
             ))}
