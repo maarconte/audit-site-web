@@ -25,14 +25,20 @@ export const submitForm = onRequest(
 			return;
 		}
 
-		const {
-			email,
-			firstName,
-			lastName,
-			url,
-			scores,
-			listIds,
-		} = req.body as SubmitFormBody;
+		const body = req.body as Partial<SubmitFormBody>;
+
+		// Basic type checking
+		if (typeof body.email !== "string" || typeof body.firstName !== "string" || typeof body.lastName !== "string") {
+			res.status(400).json({ success: false, message: "Invalid input types." });
+			return;
+		}
+
+		const email = body.email.trim();
+		const firstName = body.firstName.trim();
+		const lastName = body.lastName.trim();
+		const url = typeof body.url === "string" ? body.url.trim() : "";
+		const scores = body.scores || {};
+		const listIds = body.listIds;
 
 		// Validation
 		if (!email || !firstName || !lastName) {
@@ -40,6 +46,38 @@ export const submitForm = onRequest(
 				.status(400)
 				.json({ success: false, message: "Tous les champs sont requis." });
 			return;
+		}
+
+		// Length validation
+		if (firstName.length > 100 || lastName.length > 100) {
+			res.status(400).json({ success: false, message: "Name fields too long." });
+			return;
+		}
+
+		if (email.length > 254) {
+			res.status(400).json({ success: false, message: "Email too long." });
+			return;
+		}
+
+		// Email format validation
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+			res.status(400).json({ success: false, message: "Invalid email format." });
+			return;
+		}
+
+		// URL validation if provided
+		if (url) {
+			if (url.length > 2000) {
+				res.status(400).json({ success: false, message: "URL too long." });
+				return;
+			}
+			try {
+				new URL(url);
+			} catch {
+				res.status(400).json({ success: false, message: "Invalid URL format." });
+				return;
+			}
 		}
 
 		const finalLists =
@@ -53,8 +91,8 @@ export const submitForm = onRequest(
 				firstName,
 				lastName,
 				email,
-				url: url || "",
-				scores: scores || {},
+				url,
+				scores,
 				createdAt: admin.firestore.FieldValue.serverTimestamp(),
 			});
 
