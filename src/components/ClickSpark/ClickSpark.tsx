@@ -31,6 +31,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
   const startTimeRef = useRef<number | null>(null);
+  const animationIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -81,15 +82,15 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     [easing]
   );
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return; // Add a check for ctx
+  const drawRef = useRef<(timestamp: number) => void>(() => {});
 
-    let animationId: number;
+  const draw = useCallback(
+    (timestamp: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
-    const draw = (timestamp: number) => {
       if (!startTimeRef.current) {
         startTimeRef.current = timestamp;
       }
@@ -122,23 +123,26 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
         return true;
       });
 
-      animationId = requestAnimationFrame(draw);
-    };
+      if (sparksRef.current.length > 0) {
+        animationIdRef.current = requestAnimationFrame((t) => drawRef.current(t));
+      } else {
+        animationIdRef.current = null;
+      }
+    },
+    [sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]
+  );
 
-    animationId = requestAnimationFrame(draw);
+  useEffect(() => {
+    drawRef.current = draw;
+  }, [draw]);
 
+  useEffect(() => {
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationIdRef.current !== null) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
     };
-  }, [
-    sparkColor,
-    sparkSize,
-    sparkRadius,
-    sparkCount,
-    duration,
-    easeFunc,
-    extraScale,
-  ]);
+  }, []);
 
   const handleClick = (e: React.MouseEvent) => {
     const canvas = canvasRef.current;
@@ -156,6 +160,10 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }));
 
     sparksRef.current.push(...newSparks);
+
+    if (animationIdRef.current === null) {
+      animationIdRef.current = requestAnimationFrame((t) => draw(t));
+    }
   };
 
   return (
