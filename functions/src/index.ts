@@ -42,28 +42,61 @@ export const submitForm = onRequest(
 			return;
 		}
 
-		const finalLists =
-			listIds && listIds.length > 0 ? listIds : [5];
+		if (
+			typeof email !== "string" ||
+			typeof firstName !== "string" ||
+			typeof lastName !== "string" ||
+			(url && typeof url !== "string")
+		) {
+			res.status(400).json({ success: false, message: "Type de données invalide." });
+			return;
+		}
+
+		// Security: Input validation and sanitization
+		const trimmedEmail = email.trim();
+		const trimmedFirstName = firstName.trim();
+		const trimmedLastName = lastName.trim();
+		const trimmedUrl = url ? url.trim() : "";
+
+		// Limit input lengths to prevent DoS and buffer issues
+		if (
+			trimmedEmail.length > 254 ||
+			trimmedFirstName.length > 100 ||
+			trimmedLastName.length > 100 ||
+			trimmedUrl.length > 2000
+		) {
+			res.status(400).json({ success: false, message: "Données invalides." });
+			return;
+		}
+
+		// Basic email format validation
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(trimmedEmail)) {
+			res.status(400).json({ success: false, message: "Format d'email invalide." });
+			return;
+		}
+
+		const finalLists = listIds && listIds.length > 0 ? listIds : [5];
 
 		try {
 			// 1. Save to Firestore
 			const collectionName =
 				process.env.FIREBASE_COLLECTION_SUBMISSIONS || "submissions";
 			await db.collection(collectionName).add({
-				firstName,
-				lastName,
-				email,
-				url: url || "",
+				firstName: trimmedFirstName,
+				lastName: trimmedLastName,
+				email: trimmedEmail,
+				url: trimmedUrl,
 				scores: scores || {},
 				createdAt: admin.firestore.FieldValue.serverTimestamp(),
 			});
 
 			// 2. Submit to Brevo
 			const contactData = {
-				email,
+				email: trimmedEmail,
 				attributes: {
-					PRENOM: firstName,
-					NOM: lastName,
+					PRENOM: trimmedFirstName,
+					NOM: trimmedLastName,
 				},
 				listIds: finalLists,
 				updateEnabled: true,
@@ -90,6 +123,7 @@ export const submitForm = onRequest(
 						message: "Évaluation envoyée avec succès.",
 					});
 			} else {
+				// Log the error internally for observability, while returning generic error to client
 				const errorData = await brevoResponse.json();
 				console.error("Brevo Error Response:", errorData);
 				res
@@ -100,6 +134,7 @@ export const submitForm = onRequest(
 					});
 			}
 		} catch (error) {
+			// Log internal errors for observability, return generic error to client
 			console.error("Submission Error (Firebase/Brevo):", error);
 			res
 				.status(500)
