@@ -1,0 +1,3 @@
+## 2024-05-14 - Canvas animation loop optimization
+**Learning:** React components that use `requestAnimationFrame` for canvas animations can introduce significant performance bottlenecks if the animation loop runs unconditionally when there is nothing to draw, consuming unnecessary CPU and battery resources.
+**Action:** When creating or maintaining canvas-based animations or particle effects in React (like `ClickSpark.tsx`), implement an on-demand animation loop that stops calling `requestAnimationFrame` when there are no active elements to render. Always clean up animation frame IDs when unmounting to avoid memory leaks.

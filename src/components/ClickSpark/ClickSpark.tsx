@@ -31,6 +31,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
   const startTimeRef = useRef<number | null>(null);
+  const animationIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -82,67 +83,20 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   );
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return; // Add a check for ctx
-
-    let animationId: number;
-
-    const draw = (timestamp: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
-      }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      sparksRef.current = sparksRef.current.filter((spark) => {
-        const elapsed = timestamp - spark.startTime;
-        if (elapsed >= duration) {
-          return false;
-        }
-
-        const progress = elapsed / duration;
-        const eased = easeFunc(progress);
-
-        const distance = eased * sparkRadius * extraScale;
-        const lineLength = sparkSize * (1 - eased);
-
-        const x1 = spark.x + distance * Math.cos(spark.angle);
-        const y1 = spark.y + distance * Math.sin(spark.angle);
-        const x2 = spark.x + (distance + lineLength) * Math.cos(spark.angle);
-        const y2 = spark.y + (distance + lineLength) * Math.sin(spark.angle);
-
-        ctx.strokeStyle = sparkColor;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-
-        return true;
-      });
-
-      animationId = requestAnimationFrame(draw);
-    };
-
-    animationId = requestAnimationFrame(draw);
-
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+        animationIdRef.current = null;
+      }
     };
-  }, [
-    sparkColor,
-    sparkSize,
-    sparkRadius,
-    sparkCount,
-    duration,
-    easeFunc,
-    extraScale,
-  ]);
+  }, []);
 
   const handleClick = (e: React.MouseEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -156,6 +110,55 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
     }));
 
     sparksRef.current.push(...newSparks);
+
+    // ⚡ Bolt Performance Optimization:
+    // Start the animation loop only when there are sparks to draw.
+    // Previously, requestAnimationFrame ran continuously even when idle.
+    if (!animationIdRef.current) {
+      const draw = (timestamp: number) => {
+        if (!startTimeRef.current) {
+          startTimeRef.current = timestamp;
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        sparksRef.current = sparksRef.current.filter((spark) => {
+          const elapsed = timestamp - spark.startTime;
+          if (elapsed >= duration) {
+            return false;
+          }
+
+          const progress = elapsed / duration;
+          const eased = easeFunc(progress);
+
+          const distance = eased * sparkRadius * extraScale;
+          const lineLength = sparkSize * (1 - eased);
+
+          const x1 = spark.x + distance * Math.cos(spark.angle);
+          const y1 = spark.y + distance * Math.sin(spark.angle);
+          const x2 = spark.x + (distance + lineLength) * Math.cos(spark.angle);
+          const y2 = spark.y + (distance + lineLength) * Math.sin(spark.angle);
+
+          ctx.strokeStyle = sparkColor;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+
+          return true;
+        });
+
+        // ⚡ Stop the animation loop if there are no more sparks
+        if (sparksRef.current.length > 0) {
+          animationIdRef.current = requestAnimationFrame(draw);
+        } else {
+          animationIdRef.current = null;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      };
+
+      animationIdRef.current = requestAnimationFrame(draw);
+    }
   };
 
   return (
