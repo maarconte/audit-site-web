@@ -13,7 +13,6 @@ interface SubmitFormBody {
 	lastName: string;
 	url?: string;
 	scores?: Record<string, unknown>;
-	listIds?: number[];
 }
 
 export const submitForm = onRequest(
@@ -31,19 +30,18 @@ export const submitForm = onRequest(
 			lastName,
 			url,
 			scores,
-			listIds,
 		} = req.body as SubmitFormBody;
 
 		// Validation
-		if (!email || !firstName || !lastName) {
+		if (!email || typeof email !== "string" || !/^\S+@\S+\.\S+$/.test(email) || !firstName || typeof firstName !== "string" || !lastName || typeof lastName !== "string") {
 			res
 				.status(400)
-				.json({ success: false, message: "Tous les champs sont requis." });
+				.json({ success: false, message: "Tous les champs sont requis et doivent être valides." });
 			return;
 		}
 
-		const finalLists =
-			listIds && listIds.length > 0 ? listIds : [5];
+		// Hardcode Brevo list IDs to prevent Mass Assignment / IDOR vulnerabilities
+		const finalLists = [5];
 
 		try {
 			// 1. Save to Firestore
