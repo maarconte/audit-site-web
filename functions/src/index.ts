@@ -13,7 +13,6 @@ interface SubmitFormBody {
 	lastName: string;
 	url?: string;
 	scores?: Record<string, unknown>;
-	listIds?: number[];
 }
 
 export const submitForm = onRequest(
@@ -31,10 +30,10 @@ export const submitForm = onRequest(
 			lastName,
 			url,
 			scores,
-			listIds,
 		} = req.body as SubmitFormBody;
 
 		// Validation
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!email || !firstName || !lastName) {
 			res
 				.status(400)
@@ -42,8 +41,15 @@ export const submitForm = onRequest(
 			return;
 		}
 
-		const finalLists =
-			listIds && listIds.length > 0 ? listIds : [5];
+		if (!emailRegex.test(email)) {
+			res
+				.status(400)
+				.json({ success: false, message: "Format d'email invalide." });
+			return;
+		}
+
+		// Hardcode list ID to prevent arbitrary list assignment (IDOR)
+		const finalLists = [5];
 
 		try {
 			// 1. Save to Firestore
