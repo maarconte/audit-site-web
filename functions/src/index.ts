@@ -25,16 +25,38 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Prevent Mass Assignment/IDOR by ignoring `listIds` from user input
+		// We only extract the fields we explicitly expect and validate them
 		const {
 			email,
 			firstName,
 			lastName,
 			url,
 			scores,
-			listIds,
 		} = req.body as SubmitFormBody;
 
-		// Validation
+		// 🛡️ SECURITY: Strict input validation for type and length limits
+		if (
+			typeof email !== "string" || email.length > 255 ||
+			typeof firstName !== "string" || firstName.length > 100 ||
+			typeof lastName !== "string" || lastName.length > 100 ||
+			(url !== undefined && (typeof url !== "string" || url.length > 500))
+		) {
+			res
+				.status(400)
+				.json({ success: false, message: "Format de données invalide." });
+			return;
+		}
+
+		// 🛡️ SECURITY: Basic email regex validation
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+			res
+				.status(400)
+				.json({ success: false, message: "Format d'email invalide." });
+			return;
+		}
+
 		if (!email || !firstName || !lastName) {
 			res
 				.status(400)
@@ -42,8 +64,8 @@ export const submitForm = onRequest(
 			return;
 		}
 
-		const finalLists =
-			listIds && listIds.length > 0 ? listIds : [5];
+		// 🛡️ SECURITY: Hardcode the destination list ID to prevent unauthorized subscriptions
+		const finalLists = [5];
 
 		try {
 			// 1. Save to Firestore
