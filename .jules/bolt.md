@@ -1,0 +1,3 @@
+## 2025-03-03 - Formik Re-render Optimization & DOM Anti-patterns
+**Learning:** In a large form managed by Formik, passing the full `errors` and `touched` objects to each mapped field component causes every field to re-render whenever ANY field is changed (since the objects change). Additionally, using `document.getElementById` to check field state during the render cycle is an expensive anti-pattern that bypasses React's state management.
+**Action:** When mapping Formik fields, extract the specific `error`, `isTouched`, and `value` strings/booleans for each field and pass those as props to a child component wrapped in `React.memo()`. Always rely on the bound form state (like the Formik `value` prop) rather than manual DOM queries to check if an option is selected.
