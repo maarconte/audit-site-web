@@ -145,15 +145,22 @@ export default function FormContainer({
       >
         {({ errors, touched, values, dirty }) => (
           <Form role="form" aria-labelledby="quiz-title">
-            {currentCategoryData?.questions?.map((question) => (
-              <FormQuestion
-                item={question}
-                key={question.id}
-                errors={errors}
-                touched={touched}
-                showErrors={showErrors}
-              />
-            ))}
+            {currentCategoryData?.questions?.map((question) => {
+              const error = errors[question.id] as string | undefined;
+              const isTouched = touched[question.id] as boolean | undefined;
+              const value = values[question.id];
+
+              return (
+                <FormQuestion
+                  item={question}
+                  key={question.id}
+                  error={error}
+                  isTouched={isTouched}
+                  value={value}
+                  showErrors={showErrors}
+                />
+              );
+            })}
             <div
               className="d-flex justify-content-between align-items-center mt-4"
               role="navigation"
