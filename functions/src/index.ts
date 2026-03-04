@@ -48,6 +48,26 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Validate scores to prevent NoSQL injection / Mass Assignment / DoS
+		// The admin SDK bypasses firestore.rules, so we must strictly validate any dynamic object
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format de scores invalide." });
+				return;
+			}
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 50) {
+				res.status(400).json({ success: false, message: "Trop de scores soumis." });
+				return;
+			}
+			for (const key of scoreKeys) {
+				if (typeof key !== "string" || key.length > 50 || typeof scores[key] !== "number") {
+					res.status(400).json({ success: false, message: "Contenu des scores invalide." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
