@@ -6,6 +6,7 @@ import Image from "next/image";
 import React from "react";
 import img from "./tardisStars.webp";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Props = {};
 
 export default function LinkSection({}: Props) {

@@ -56,7 +56,7 @@ export default function RefonteFormClient() {
                 currentCategoryIndex={currentCategoryIndex}
                 categories={categories}
                 setCurrentCategoryIndex={setCurrentCategoryIndex}
-                data={data as any}
+                data={data}
                 setIsFinished={setIsFinished}
               />
             </>

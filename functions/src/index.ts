@@ -48,6 +48,40 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Validate scores object to prevent NoSQL injection or DoS
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res
+					.status(400)
+					.json({ success: false, message: "Format des scores invalide." });
+				return;
+			}
+
+			const keys = Object.keys(scores);
+			if (keys.length > 50) { // Limit number of keys to prevent DoS
+				res
+					.status(400)
+					.json({ success: false, message: "Trop de scores soumis." });
+				return;
+			}
+
+			for (const key of keys) {
+				if (typeof key !== "string" || key.length > 50) {
+					res
+						.status(400)
+						.json({ success: false, message: "Clé de score invalide." });
+					return;
+				}
+				const value = scores[key];
+				if (typeof value !== "number" && typeof value !== "string") {
+					res
+						.status(400)
+						.json({ success: false, message: "Valeur de score invalide." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
