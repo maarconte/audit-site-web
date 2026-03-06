@@ -3,7 +3,7 @@ import "./style.scss";
 import * as Yup from "yup";
 
 import { Form, Formik, FormikErrors } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import Button from "../../../UI/Button/Button";
 import FormQuestion from "./FormQuestion/FormQuestion";
@@ -31,7 +31,6 @@ export default function FormContainer({
   setIsFinished,
 }: Props) {
   const updateScoreByCategory = useScoreStore((s) => s.updateScore);
-  const [showErrors, setShowErrors] = useState(false);
   const isLastCategory = currentCategoryIndex === categories.length - 1;
   const currentCategory = categories[currentCategoryIndex];
   const currentCategoryData = data[currentCategoryIndex];
@@ -143,15 +142,15 @@ export default function FormContainer({
         onSubmit={handleSubmit}
         //enableReinitialize={true}
       >
-        {({ errors, touched, values, dirty }) => (
+        {({ errors, touched, values }) => (
           <Form role="form" aria-labelledby="quiz-title">
             {currentCategoryData?.questions?.map((question) => (
               <FormQuestion
                 item={question}
                 key={question.id}
-                errors={errors}
-                touched={touched}
-                showErrors={showErrors}
+                error={errors[question.id] as string | undefined}
+                isTouched={touched[question.id] as boolean | undefined}
+                value={values[question.id]}
               />
             ))}
             <div
