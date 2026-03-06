@@ -1,3 +1,7 @@
 ## 2025-02-28 - [Canvas Animation Loop Anti-Pattern]
 **Learning:** In Next.js/React applications, starting a `requestAnimationFrame` loop on component mount that constantly runs (even when there's nothing to draw on the canvas, like in the previous `ClickSpark` implementation) causes massive CPU and battery drain. Next.js does not magically optimize this away.
 **Action:** Always start canvas animations based on user interaction (like `onClick`) and explicitly stop the loop (`cancelAnimationFrame` or exit the recursion) when the animation finishes or there are no items left to render.
+
+## 2024-03-06 - React Formik Re-renders & Synchronous DOM Queries Anti-pattern
+**Learning:** Found a specific anti-pattern in `FormContainer.tsx` where mapping Formik form fields dynamically generated components but passed full `errors` and `touched` Formik state objects as props. Because these objects change reference whenever ANY field is interacted with, this caused O(n) child components to re-render. Additionally, child components used `document.getElementById` to check radio button status *synchronously during render*.
+**Action:** When mapping Formik lists in this codebase, explicitly pass primitive values (`error={errors[id]}`, `isTouched={touched[id]}`, `value={values[id]}`) and wrap the child component in `React.memo()`. Remove synchronous DOM queries in renders and derive state from the passed `value` prop.
