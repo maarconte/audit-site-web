@@ -31,7 +31,7 @@ export default function FormContainer({
   setIsFinished,
 }: Props) {
   const updateScoreByCategory = useScoreStore((s) => s.updateScore);
-  const [showErrors, setShowErrors] = useState(false);
+  const [showErrors] = useState(false);
   const isLastCategory = currentCategoryIndex === categories.length - 1;
   const currentCategory = categories[currentCategoryIndex];
   const currentCategoryData = data[currentCategoryIndex];
@@ -143,7 +143,7 @@ export default function FormContainer({
         onSubmit={handleSubmit}
         //enableReinitialize={true}
       >
-        {({ errors, touched, values, dirty }) => (
+        {({ errors, touched, values }) => (
           <Form role="form" aria-labelledby="quiz-title">
             {currentCategoryData?.questions?.map((question) => (
               <FormQuestion

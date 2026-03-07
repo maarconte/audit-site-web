@@ -24,7 +24,7 @@ type Props = {
   showErrors?: boolean;
 };
 
-const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
+const FormQuestion = ({ item, errors, touched }: Props) => {
   const { question, options, id, description } = item;
   // Gestion des touches clavier pour l'accessibilité
   const handleKeyDown = (event: React.KeyboardEvent, callback: () => void) => {

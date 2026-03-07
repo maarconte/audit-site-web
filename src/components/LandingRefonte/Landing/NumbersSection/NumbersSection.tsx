@@ -4,16 +4,13 @@ import {
   FaArrowTrendUp,
   FaCalendar,
   FaGlobe,
-  FaGoogle,
   FaHourglass,
   FaMobile,
 } from "react-icons/fa6";
 
 import React from "react";
 
-type Props = {};
-
-export default function NumbersSection({}: Props) {
+export default function NumbersSection() {
   return (
     <div className="NumbersSection">
       <div className="NumbersSection__content mb-5">

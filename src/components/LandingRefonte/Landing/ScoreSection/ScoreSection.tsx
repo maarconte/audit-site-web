@@ -4,9 +4,7 @@ import Image from "next/image";
 import React from "react";
 import scoreImage from "./ScoreInbox.webp";
 
-type Props = {};
-
-export default function ScoreSection({}: Props) {
+export default function ScoreSection() {
   return (
     <div className="ScoreSection">
       <div>

@@ -1,11 +1,15 @@
 import { onRequest } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
+import { defineSecret, defineString } from "firebase-functions/params";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
 const db = admin.firestore();
 
 const brevoApiKey = defineSecret("BREVO_API_KEY");
+// 🛡️ SECURITY: Use a configurable list of allowed origins to prevent unauthorized cross-origin requests
+const allowedOrigins = defineString("ALLOWED_ORIGINS", {
+	default: "http://localhost:3000",
+});
 
 interface SubmitFormBody {
 	email: string;
@@ -17,7 +21,10 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{
+		secrets: [brevoApiKey],
+		cors: allowedOrigins.value().split(",").map((o) => o.trim()),
+	},
 	async (req, res) => {
 		// Only accept POST
 		if (req.method !== "POST") {
