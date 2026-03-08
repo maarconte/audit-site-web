@@ -31,7 +31,7 @@ export default function FormContainer({
   setIsFinished,
 }: Props) {
   const updateScoreByCategory = useScoreStore((s) => s.updateScore);
-  const [showErrors, setShowErrors] = useState(false);
+  const [showErrors, setShowErrors] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
   const isLastCategory = currentCategoryIndex === categories.length - 1;
   const currentCategory = categories[currentCategoryIndex];
   const currentCategoryData = data[currentCategoryIndex];
@@ -143,14 +143,15 @@ export default function FormContainer({
         onSubmit={handleSubmit}
         //enableReinitialize={true}
       >
-        {({ errors, touched, values, dirty }) => (
+        {({ errors, touched, values, dirty }) => ( // eslint-disable-line @typescript-eslint/no-unused-vars
           <Form role="form" aria-labelledby="quiz-title">
             {currentCategoryData?.questions?.map((question) => (
               <FormQuestion
                 item={question}
                 key={question.id}
-                errors={errors}
-                touched={touched}
+                error={errors[question.id] as string}
+                isTouched={touched[question.id] as boolean}
+                value={values[question.id]}
                 showErrors={showErrors}
               />
             ))}

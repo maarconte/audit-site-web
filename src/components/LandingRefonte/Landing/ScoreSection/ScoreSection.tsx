@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 import scoreImage from "./ScoreInbox.webp";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type Props = {};
 
 export default function ScoreSection({}: Props) {

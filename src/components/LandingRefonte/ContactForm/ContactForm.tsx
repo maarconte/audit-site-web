@@ -1,7 +1,6 @@
 import "./ContactForm.scss";
 
 import React, { useState } from "react";
-import Button from "../../UI/Button/Button";
 import Image from "next/image";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { useScoreStore } from "../../../store/useScoreStore";
@@ -127,7 +126,7 @@ export default function ContactForm() {
                   />
                   <label htmlFor="terms" className="form-check-label">
                     <small>
-                      J'accepte que <span className="uppercase">Thatmuch</span> collecte mes données selon sa{" "}
+                      J&apos;accepte que <span className="uppercase">Thatmuch</span> collecte mes données selon sa{" "}
                       <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer" className="text-decoration-underline">
                         politique de confidentialité.
                       </a>
@@ -154,7 +153,7 @@ export default function ContactForm() {
                 <MdOutlineMarkEmailUnread className="icon" size={32} />
               </span>
               <p className="text-center mt-3">
-                L'analyse de votre site web vous attend dans votre boîte mail ! Pensez à vérifier vos spams si vous ne le voyez pas dans votre boîte de réception.
+                L&apos;analyse de votre site web vous attend dans votre boîte mail ! Pensez à vérifier vos spams si vous ne le voyez pas dans votre boîte de réception.
               </p>
             </div>
           )}
