@@ -56,7 +56,7 @@ export default function RefonteFormClient() {
                 currentCategoryIndex={currentCategoryIndex}
                 categories={categories}
                 setCurrentCategoryIndex={setCurrentCategoryIndex}
-                data={data as any}
+                data={data as any} // eslint-disable-line @typescript-eslint/no-explicit-any
                 setIsFinished={setIsFinished}
               />
             </>
