@@ -17,8 +17,10 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{ secrets: [brevoApiKey], cors: ["https://thatmuch.fr"] },
 	async (req, res) => {
+		// 🛡️ SECURITY: Prevent overly permissive CORS by explicitly configuring allowed origins
+
 		// Only accept POST
 		if (req.method !== "POST") {
 			res.status(405).json({ success: false, message: "Method not allowed" });
