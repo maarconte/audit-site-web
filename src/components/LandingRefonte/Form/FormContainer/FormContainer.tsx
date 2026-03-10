@@ -143,14 +143,15 @@ export default function FormContainer({
         onSubmit={handleSubmit}
         //enableReinitialize={true}
       >
-        {({ errors, touched, values, dirty }) => (
+        {({ errors, touched, values }) => (
           <Form role="form" aria-labelledby="quiz-title">
             {currentCategoryData?.questions?.map((question) => (
               <FormQuestion
                 item={question}
                 key={question.id}
-                errors={errors}
-                touched={touched}
+                error={errors[question.id] as string}
+                isTouched={touched[question.id] as boolean}
+                value={values[question.id] as string}
                 showErrors={showErrors}
               />
             ))}
