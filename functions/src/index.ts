@@ -1,11 +1,12 @@
 import { onRequest } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
+import { defineSecret, defineString } from "firebase-functions/params";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
 const db = admin.firestore();
 
 const brevoApiKey = defineSecret("BREVO_API_KEY");
+const allowedCorsOrigin = defineString("ALLOWED_CORS_ORIGIN");
 
 interface SubmitFormBody {
 	email: string;
@@ -17,13 +18,19 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{ secrets: [brevoApiKey] },
 	async (req, res) => {
-		// Only accept POST
-		if (req.method !== "POST") {
-			res.status(405).json({ success: false, message: "Method not allowed" });
-			return;
-		}
+		// 🛡️ SECURITY: Restrict CORS to specific origins instead of `cors: true` (which allows all origins)
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		const cors = require("cors");
+		const corsHandler = cors({ origin: allowedCorsOrigin.value() });
+
+		corsHandler(req, res, async () => {
+			// Only accept POST
+			if (req.method !== "POST") {
+				res.status(405).json({ success: false, message: "Method not allowed" });
+				return;
+			}
 
 		// 🛡️ SECURITY: Prevent Mass Assignment/IDOR by ignoring `listIds` from user input
 		// We only extract the fields we explicitly expect and validate them
@@ -121,14 +128,15 @@ export const submitForm = onRequest(
 						message: "Erreur lors de l'ajout à la newsletter.",
 					});
 			}
-		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
-			res
-				.status(500)
-				.json({
-					success: false,
-					message: "Erreur lors de la soumission de l'évaluation.",
-				});
-		}
+			} catch (error) {
+				console.error("Submission Error (Firebase/Brevo):", error);
+				res
+					.status(500)
+					.json({
+						success: false,
+						message: "Erreur lors de la soumission de l'évaluation.",
+					});
+			}
+		});
 	}
 );
