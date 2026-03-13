@@ -14,20 +14,21 @@ type Props = {
   currentCategoryIndex: number;
 };
 
+const icons: Record<string, React.ReactNode> = {
+  design: <MdDesignServices className="step-icon" />,
+  marketing: <MdAdsClick className="step-icon" />,
+  ux: <CgIfDesign className="step-icon" />,
+  dev: <SiTmux className="step-icon" />,
+  seo: <MdSearch className="step-icon" />,
+  performance: <IoStatsChart className="step-icon" />,
+  technique: <TiSpanner className="step-icon" />,
+  legal: <FaScaleBalanced className="step-icon" />,
+};
+
 export default function FormStepper({
   categories,
   currentCategoryIndex,
 }: Props) {
-  const icons: Record<string, React.ReactNode> = {
-    design: <MdDesignServices className="step-icon" />,
-    marketing: <MdAdsClick className="step-icon" />,
-    ux: <CgIfDesign className="step-icon" />,
-    dev: <SiTmux className="step-icon" />,
-    seo: <MdSearch className="step-icon" />,
-    performance: <IoStatsChart className="step-icon" />,
-    technique: <TiSpanner className="step-icon" />,
-    legal: <FaScaleBalanced className="step-icon" />,
-  };
   // format categories to add an icon
   const formattedCategories = categories.map((category) => ({
     ...category,
