@@ -1,11 +1,15 @@
 import { onRequest } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
+import { defineSecret, defineString } from "firebase-functions/params";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
 const db = admin.firestore();
 
 const brevoApiKey = defineSecret("BREVO_API_KEY");
+const allowedOrigins = defineString("ALLOWED_ORIGINS", {
+	default: "http://localhost:3000",
+	description: "Comma-separated list of allowed CORS origins",
+});
 
 interface SubmitFormBody {
 	email: string;
@@ -17,13 +21,20 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{ secrets: [brevoApiKey] },
 	async (req, res) => {
-		// Only accept POST
-		if (req.method !== "POST") {
-			res.status(405).json({ success: false, message: "Method not allowed" });
-			return;
-		}
+		// 🛡️ SECURITY: Restrict CORS origins using ALLOWED_ORIGINS parameter
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		const corsHandler = require("cors")({
+			origin: allowedOrigins.value().split(",").map((o) => o.trim()),
+		});
+
+		corsHandler(req, res, async () => {
+			// Only accept POST
+			if (req.method !== "POST") {
+				res.status(405).json({ success: false, message: "Method not allowed" });
+				return;
+			}
 
 		// 🛡️ SECURITY: Prevent Mass Assignment/IDOR by ignoring `listIds` from user input
 		// We only extract the fields we explicitly expect and validate them
@@ -130,5 +141,6 @@ export const submitForm = onRequest(
 					message: "Erreur lors de la soumission de l'évaluation.",
 				});
 		}
+		});
 	}
 );
