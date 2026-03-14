@@ -1,11 +1,15 @@
 import { onRequest } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
+import { defineSecret, defineString } from "firebase-functions/params";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
 const db = admin.firestore();
 
 const brevoApiKey = defineSecret("BREVO_API_KEY");
+const allowedOrigins = defineString("ALLOWED_ORIGINS", {
+	default: "http://localhost:3000",
+	description: "Comma-separated list of allowed CORS origins",
+});
 
 interface SubmitFormBody {
 	email: string;
@@ -17,15 +21,23 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{ secrets: [brevoApiKey] },
 	async (req, res) => {
-		// Only accept POST
-		if (req.method !== "POST") {
-			res.status(405).json({ success: false, message: "Method not allowed" });
-			return;
-		}
+		// 🛡️ SECURITY: Prevent overly permissive CORS by restricting origins
+		// Using dynamic import/require inside the function to avoid global scope evaluation crashes
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		const cors = require("cors")({
+			origin: allowedOrigins.value().split(",").map(o => o.trim()),
+		});
 
-		// 🛡️ SECURITY: Prevent Mass Assignment/IDOR by ignoring `listIds` from user input
+		cors(req, res, async () => {
+			// Only accept POST
+			if (req.method !== "POST") {
+				res.status(405).json({ success: false, message: "Method not allowed" });
+				return;
+			}
+
+			// 🛡️ SECURITY: Prevent Mass Assignment/IDOR by ignoring `listIds` from user input
 		// We only extract the fields we explicitly expect and validate them
 		const {
 			email,
@@ -104,31 +116,32 @@ export const submitForm = onRequest(
 				}
 			);
 
-			if (brevoResponse.ok || brevoResponse.status === 204) {
-				res
-					.status(200)
-					.json({
-						success: true,
-						message: "Évaluation envoyée avec succès.",
-					});
-			} else {
-				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				if (brevoResponse.ok || brevoResponse.status === 204) {
+					res
+						.status(200)
+						.json({
+							success: true,
+							message: "Évaluation envoyée avec succès.",
+						});
+				} else {
+					const errorData = await brevoResponse.json();
+					console.error("Brevo Error Response:", errorData);
+					res
+						.status(500)
+						.json({
+							success: false,
+							message: "Erreur lors de l'ajout à la newsletter.",
+						});
+				}
+			} catch (error) {
+				console.error("Submission Error (Firebase/Brevo):", error);
 				res
 					.status(500)
 					.json({
 						success: false,
-						message: "Erreur lors de l'ajout à la newsletter.",
+						message: "Erreur lors de la soumission de l'évaluation.",
 					});
 			}
-		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
-			res
-				.status(500)
-				.json({
-					success: false,
-					message: "Erreur lors de la soumission de l'évaluation.",
-				});
-		}
+		});
 	}
 );
