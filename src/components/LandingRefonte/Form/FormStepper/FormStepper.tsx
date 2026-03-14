@@ -14,25 +14,33 @@ type Props = {
   currentCategoryIndex: number;
 };
 
+// Performance optimization: Move static mapping outside component body to prevent
+// unnecessary object allocation and React element creation on every render.
+const categoryIcons: Record<string, React.ReactNode> = {
+  design: <MdDesignServices className="step-icon" />,
+  marketing: <MdAdsClick className="step-icon" />,
+  ux: <CgIfDesign className="step-icon" />,
+  dev: <SiTmux className="step-icon" />,
+  seo: <MdSearch className="step-icon" />,
+  performance: <IoStatsChart className="step-icon" />,
+  technique: <TiSpanner className="step-icon" />,
+  legal: <FaScaleBalanced className="step-icon" />,
+};
+
+const defaultIcon = <MdDesignServices className="step-icon" />;
+
 export default function FormStepper({
   categories,
   currentCategoryIndex,
 }: Props) {
-  const icons: Record<string, React.ReactNode> = {
-    design: <MdDesignServices className="step-icon" />,
-    marketing: <MdAdsClick className="step-icon" />,
-    ux: <CgIfDesign className="step-icon" />,
-    dev: <SiTmux className="step-icon" />,
-    seo: <MdSearch className="step-icon" />,
-    performance: <IoStatsChart className="step-icon" />,
-    technique: <TiSpanner className="step-icon" />,
-    legal: <FaScaleBalanced className="step-icon" />,
-  };
   // format categories to add an icon
-  const formattedCategories = categories.map((category) => ({
-    ...category,
-    icon: icons[category.slug] || <MdDesignServices className="step-icon" />, // Default icon if not found
-  }));
+  const formattedCategories = React.useMemo(() => {
+    return categories.map((category) => ({
+      ...category,
+      icon: categoryIcons[category.slug] || defaultIcon, // Default icon if not found
+    }));
+  }, [categories]);
+
   return (
     <div className="FormStepper">
       {formattedCategories.map((category, index) => (
