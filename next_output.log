@@ -1,0 +1,13 @@
+
+> analyse-refonte-web@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 1201ms
+○ Compiling /refonte-form ...
+ GET /refonte-form 200 in 8.9s (compile: 7.3s, render: 1592ms)
+ GET /images/bg-stars.webp 404 in 1737ms (compile: 1611ms, render: 125ms)
