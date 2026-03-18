@@ -64,6 +64,25 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Validate scores object to prevent Mass Assignment/NoSQL injection
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format de scores invalide." });
+				return;
+			}
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 20) {
+				res.status(400).json({ success: false, message: "Trop de scores." });
+				return;
+			}
+			for (const key of scoreKeys) {
+				if (key.length > 50 || typeof scores[key] !== "number") {
+					res.status(400).json({ success: false, message: "Format de score individuel invalide." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Hardcode the destination list ID to prevent unauthorized subscriptions
 		const finalLists = [5];
 
