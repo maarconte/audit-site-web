@@ -48,6 +48,30 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Strict validation of dynamic payload `scores`
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 50) {
+				res.status(400).json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+			for (const key of scoreKeys) {
+				if (key.length > 50) {
+					res.status(400).json({ success: false, message: "Format de données invalide." });
+					return;
+				}
+				const val = scores[key];
+				if (typeof val !== "number" && typeof val !== "string" && typeof val !== "boolean") {
+					res.status(400).json({ success: false, message: "Format de données invalide." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
@@ -112,8 +136,9 @@ export const submitForm = onRequest(
 						message: "Évaluation envoyée avec succès.",
 					});
 			} else {
-				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				const errorData = await brevoResponse.json() as { code?: string, message?: string };
+				// 🛡️ SECURITY: Sanitize error logs, log only known safe fields
+				console.error("Brevo Error Response:", { code: errorData.code, message: errorData.message });
 				res
 					.status(500)
 					.json({
@@ -122,7 +147,8 @@ export const submitForm = onRequest(
 					});
 			}
 		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
+			// 🛡️ SECURITY: Prevent leaking PII, internal context, or stack traces
+			console.error("Submission Error (Firebase/Brevo):", error instanceof Error ? error.message : "Unknown error");
 			res
 				.status(500)
 				.json({
