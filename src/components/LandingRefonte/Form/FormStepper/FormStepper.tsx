@@ -14,24 +14,29 @@ type Props = {
   currentCategoryIndex: number;
 };
 
+// ⚡ Bolt Performance Optimization:
+// Hoisted the static icons object outside of the FormStepper component render function.
+// This prevents the object and its React elements from being re-allocated on every single render,
+// reducing unnecessary garbage collection and improving component update performance.
+const ICONS: Record<string, React.ReactNode> = {
+  design: <MdDesignServices className="step-icon" />,
+  marketing: <MdAdsClick className="step-icon" />,
+  ux: <CgIfDesign className="step-icon" />,
+  dev: <SiTmux className="step-icon" />,
+  seo: <MdSearch className="step-icon" />,
+  performance: <IoStatsChart className="step-icon" />,
+  technique: <TiSpanner className="step-icon" />,
+  legal: <FaScaleBalanced className="step-icon" />,
+};
+
 export default function FormStepper({
   categories,
   currentCategoryIndex,
 }: Props) {
-  const icons: Record<string, React.ReactNode> = {
-    design: <MdDesignServices className="step-icon" />,
-    marketing: <MdAdsClick className="step-icon" />,
-    ux: <CgIfDesign className="step-icon" />,
-    dev: <SiTmux className="step-icon" />,
-    seo: <MdSearch className="step-icon" />,
-    performance: <IoStatsChart className="step-icon" />,
-    technique: <TiSpanner className="step-icon" />,
-    legal: <FaScaleBalanced className="step-icon" />,
-  };
   // format categories to add an icon
   const formattedCategories = categories.map((category) => ({
     ...category,
-    icon: icons[category.slug] || <MdDesignServices className="step-icon" />, // Default icon if not found
+    icon: ICONS[category.slug] || <MdDesignServices className="step-icon" />, // Default icon if not found
   }));
   return (
     <div className="FormStepper">
