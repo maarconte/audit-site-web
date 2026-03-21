@@ -48,6 +48,40 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Strict validation for dynamic `scores` object
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res
+					.status(400)
+					.json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 50) { // Limit number of keys
+				res
+					.status(400)
+					.json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+
+			for (const key of scoreKeys) {
+				if (key.length > 100) { // Limit key length
+					res
+						.status(400)
+						.json({ success: false, message: "Format de données invalide." });
+					return;
+				}
+				const value = scores[key as keyof typeof scores];
+				if (typeof value !== "number" && typeof value !== "string") {
+					res
+						.status(400)
+						.json({ success: false, message: "Format de données invalide." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
@@ -112,8 +146,9 @@ export const submitForm = onRequest(
 						message: "Évaluation envoyée avec succès.",
 					});
 			} else {
-				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				const errorData = await brevoResponse.json() as { code?: string, message?: string };
+				// 🛡️ SECURITY: Log only known safe fields from external API to prevent PII leakage
+				console.error("Brevo Error Response:", { code: errorData?.code, message: errorData?.message });
 				res
 					.status(500)
 					.json({
@@ -122,7 +157,8 @@ export const submitForm = onRequest(
 					});
 			}
 		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
+			// 🛡️ SECURITY: Log only error message to prevent stack trace or PII leakage
+			console.error("Submission Error (Firebase/Brevo):", error instanceof Error ? error.message : "Unknown error");
 			res
 				.status(500)
 				.json({
