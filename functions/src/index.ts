@@ -113,7 +113,11 @@ export const submitForm = onRequest(
 					});
 			} else {
 				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				// 🛡️ SECURITY: Log only safe fields from external API to prevent PII/secret leakage
+				console.error("Brevo Error Response:", {
+					code: errorData?.code,
+					message: errorData?.message
+				});
 				res
 					.status(500)
 					.json({
@@ -122,7 +126,8 @@ export const submitForm = onRequest(
 					});
 			}
 		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
+			// 🛡️ SECURITY: Prevent stack trace leakage by logging only the error message
+			console.error("Submission Error (Firebase/Brevo):", error instanceof Error ? error.message : String(error));
 			res
 				.status(500)
 				.json({
