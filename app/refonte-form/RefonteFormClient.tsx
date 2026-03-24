@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClickSpark from "@/components/ClickSpark/ClickSpark";
 import ContactForm from "@/components/LandingRefonte/ContactForm/ContactForm";
 import FormContainer from "@/components/LandingRefonte/Form/FormContainer/FormContainer";
@@ -9,26 +9,24 @@ import { HeroSection } from "@/components/LandingRefonte/Landing/HeroSection/Her
 import data from "@/data/questionquiz.json";
 import { useScoreStore } from "@/store/useScoreStore";
 
+// ⚡ Bolt: Hoist static configuration outside of component
+// The raw `data` represents categories directly. We can map them once globally
+// instead of recomputing (even with useMemo) and avoid the unnecessary and ineffective
+// `new Set(data.map(q => q))` which attempts object-reference deduplication.
+const STATIC_CATEGORIES = data.map((item) => ({
+  name: item.category,
+  slug: item.slug,
+}));
+
 export default function RefonteFormClient() {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const setCategories = useScoreStore((s) => s.setCategories);
 
-  const categories = useMemo(() => {
-    // Récupération des catégories à partir des questions
-    const uniqueCategories = new Set(data.map((q) => q));
-    return Array.from(uniqueCategories).map((item) => ({
-      name: item.category as unknown as string,
-      slug: item.slug as unknown as string,
-    }));
-  }, []);
+  const categories = STATIC_CATEGORIES;
 
   useEffect(() => {
-    const categoriesForProvider = categories.map((cat) => ({
-      name: cat.name,
-      slug: cat.slug,
-    }));
-    setCategories(categoriesForProvider);
+    setCategories(categories);
   }, [categories, setCategories]);
 
   return (
@@ -56,6 +54,7 @@ export default function RefonteFormClient() {
                 currentCategoryIndex={currentCategoryIndex}
                 categories={categories}
                 setCurrentCategoryIndex={setCurrentCategoryIndex}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 data={data as any}
                 setIsFinished={setIsFinished}
               />

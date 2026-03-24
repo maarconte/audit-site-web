@@ -6,9 +6,7 @@ import Image from "next/image";
 import React from "react";
 import img from "./tardisStars.webp";
 
-type Props = {};
-
-export default function LinkSection({}: Props) {
+export default function LinkSection() {
   return (
     <div className="LinkSection">
       <div className="LinkSection__content">
