@@ -64,6 +64,39 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Strict validation for scores object to prevent Mass Assignment/NoSQL injection
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res
+					.status(400)
+					.json({ success: false, message: "Format de scores invalide." });
+				return;
+			}
+
+			const keys = Object.keys(scores);
+			if (keys.length > 50) {
+				res
+					.status(400)
+					.json({ success: false, message: "Trop de données de score." });
+				return;
+			}
+
+			for (const key of keys) {
+				if (key.length > 50) {
+					res
+						.status(400)
+						.json({ success: false, message: "Clé de score trop longue." });
+					return;
+				}
+				if (typeof scores[key] !== "number") {
+					res
+						.status(400)
+						.json({ success: false, message: "Valeur de score invalide (doit être un nombre)." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Hardcode the destination list ID to prevent unauthorized subscriptions
 		const finalLists = [5];
 
@@ -113,7 +146,8 @@ export const submitForm = onRequest(
 					});
 			} else {
 				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				// 🛡️ SECURITY: Sanitize error logs
+				console.error("Brevo Error Response:", { code: errorData.code, message: errorData.message });
 				res
 					.status(500)
 					.json({
@@ -122,7 +156,8 @@ export const submitForm = onRequest(
 					});
 			}
 		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
+			// 🛡️ SECURITY: Sanitize error logs to prevent PII/stack trace leakage
+			console.error("Submission Error (Firebase/Brevo):", error instanceof Error ? error.message : error);
 			res
 				.status(500)
 				.json({
