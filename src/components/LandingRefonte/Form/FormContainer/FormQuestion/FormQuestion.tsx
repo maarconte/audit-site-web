@@ -3,7 +3,6 @@ import "./style.scss";
 import { Field } from "formik";
 import React from "react";
 
-import { FormikErrors, FormikTouched } from "formik";
 
 export interface QuestionOption {
   text: string;
@@ -19,12 +18,18 @@ export interface Question {
 
 type Props = {
   item: Question;
-  errors: FormikErrors<{[key: string]: string}>;
-  touched: FormikTouched<{[key: string]: boolean}>;
+  // ⚡ Bolt Optimization:
+  // Instead of passing down the full Formik `errors` and `touched` objects, we now pass down
+  // only the specific primitive values (`error`, `isTouched`, `value`) for this field.
+  // This prevents unnecessary re-renders of the FormQuestion component when other fields
+  // in the form change, allowing React.memo to correctly identify when props haven't changed.
+  error?: string;
+  isTouched?: boolean;
+  value?: string;
   showErrors?: boolean;
 };
 
-const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
+const FormQuestionComponent = ({ item, error, isTouched, value, showErrors }: Props) => {
   const { question, options, id, description } = item;
   // Gestion des touches clavier pour l'accessibilité
   const handleKeyDown = (event: React.KeyboardEvent, callback: () => void) => {
@@ -35,15 +40,17 @@ const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
   };
 
   const optionIsChecked = (option: QuestionOption) => {
-    const inputId = `option-${item.id}-${options.indexOf(option)}`;
-    const inputElement = document.getElementById(inputId) as HTMLInputElement;
-    return inputElement?.checked || false;
+    // ⚡ Bolt Optimization:
+    // Removed synchronous DOM query `document.getElementById` which forces layout thrashing
+    // and is a major React anti-pattern inside render loops.
+    // Instead, simply derive the checked state directly from the Formik value prop.
+    return value === option.score.toString();
   };
 
   return (
     <div className="FormQuestion" key={id}>
       <fieldset
-        aria-describedby={errors[id] && touched[id] ? `error-${id}` : undefined}
+        aria-describedby={error && isTouched ? `error-${id}` : undefined}
       >
         <legend id={`legend-${id}`}>
           <h3 className="h5 mb-4">{question}</h3>
@@ -67,7 +74,7 @@ const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
                     name={id}
                     value={option.score.toString()}
                     aria-describedby={
-                      errors[id] && touched[id] ? `error-${id}` : undefined
+                      error && isTouched ? `error-${id}` : undefined
                     }
                     onKeyDown={(e: React.KeyboardEvent) =>
                       handleKeyDown(e, () => {
@@ -90,7 +97,7 @@ const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
                       placeholder="Précisez votre choix"
                       className="FormQuestion__input"
                       aria-describedby={
-                        errors[id] && touched[id] ? `error-${id}` : undefined
+                        error && isTouched ? `error-${id}` : undefined
                       }
                       onKeyDown={(e: React.KeyboardEvent) =>
                         handleKeyDown(e, () => {
@@ -103,9 +110,9 @@ const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
               </div>
             );
           })}
-          {/* {showErrors && errors[id] && (
+          {/* {showErrors && error && (
             <div className={`FormQuestion__error`} id={`error-${id}`}>
-              {errors[id] || "Veuillez sélectionner une option."}
+              {error || "Veuillez sélectionner une option."}
             </div>
           )} */}
         </div>
@@ -113,5 +120,11 @@ const FormQuestion = ({ item, errors, touched, showErrors }: Props) => {
     </div>
   );
 };
+
+// ⚡ Bolt Optimization:
+// Wrapped component in React.memo. Combined with primitive props, this dramatically reduces
+// CPU usage during typing in the form by skipping renders for untouched FormQuestions.
+const FormQuestion = React.memo(FormQuestionComponent);
+FormQuestion.displayName = "FormQuestion";
 
 export default FormQuestion;
