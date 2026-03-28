@@ -113,7 +113,11 @@ export const submitForm = onRequest(
 					});
 			} else {
 				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				// 🛡️ SECURITY: Sanitize error logs to prevent PII/internal context leakage
+				console.error("Brevo Error Response:", {
+					code: errorData.code,
+					message: errorData.message,
+				});
 				res
 					.status(500)
 					.json({
@@ -122,7 +126,8 @@ export const submitForm = onRequest(
 					});
 			}
 		} catch (error) {
-			console.error("Submission Error (Firebase/Brevo):", error);
+			// 🛡️ SECURITY: Log only safe error messages instead of full stack traces
+			console.error("Submission Error (Firebase/Brevo):", error instanceof Error ? error.message : "Unknown error");
 			res
 				.status(500)
 				.json({
