@@ -48,6 +48,23 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Validate dynamic scores payload to prevent Mass Assignment/NoSQL Injection
+		if (scores !== undefined) {
+			if (
+				typeof scores !== "object" ||
+				scores === null ||
+				Array.isArray(scores) ||
+				Object.keys(scores).length > 20 ||
+				Object.keys(scores).some((k) => k.length > 50) ||
+				Object.values(scores).some((v) => typeof v !== "number")
+			) {
+				res
+					.status(400)
+					.json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
