@@ -41,23 +41,18 @@ export default function FormContainer({
   }, [currentCategoryIndex]);
 
   // Helper function to calculate score for the current category based on form values
+  // Optimized: Consolidated sequential reduce calls into a single pass to eliminate intermediate object creation
   const calculateCurrentCategoryScore = (formValues: {[key: string]: string}) => {
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions || !formValues) return 0;
 
-    const currentCategoryFormValues = currentQuestions.reduce(
-      (acc: {[key: string]: string}, question) => {
-        // ignore questions that contain "ignore" in their id
-        if (question.id.includes("ignore")) return acc;
-        acc[question.id] = formValues[question.id];
-        return acc;
-      },
-      {}
-    );
-    return Object.values(currentCategoryFormValues).reduce(
-      (sum: number, val: unknown) => sum + (parseInt(val as string) || 0),
-      0
-    );
+    return currentQuestions.reduce((sum, question) => {
+      // ignore questions that contain "ignore" in their id
+      if (question.id.includes("ignore")) return sum;
+
+      const val = formValues[question.id];
+      return sum + (parseInt(val as string) || 0);
+    }, 0);
   };
 
   const handlePrevious = () => {
