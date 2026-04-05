@@ -45,19 +45,13 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions || !formValues) return 0;
 
-    const currentCategoryFormValues = currentQuestions.reduce(
-      (acc: {[key: string]: string}, question) => {
-        // ignore questions that contain "ignore" in their id
-        if (question.id.includes("ignore")) return acc;
-        acc[question.id] = formValues[question.id];
-        return acc;
-      },
-      {}
-    );
-    return Object.values(currentCategoryFormValues).reduce(
-      (sum: number, val: unknown) => sum + (parseInt(val as string) || 0),
-      0
-    );
+    // ⚡ Bolt Performance Optimization:
+    // Replaced multiple passes (reducing to an object, then Object.values.reduce)
+    // with a single iteration pass, avoiding intermediate object allocation.
+    return currentQuestions.reduce((sum: number, question) => {
+      if (question.id.includes("ignore")) return sum;
+      return sum + (parseInt(formValues[question.id] as string) || 0);
+    }, 0);
   };
 
   const handlePrevious = () => {
@@ -70,15 +64,6 @@ export default function FormContainer({
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
     setCurrentCategoryIndex(currentCategoryIndex + 1);
-  };
-
-  const getCurrentCategoryData = (values: {[key: string]: string}) => {
-    return Object.keys(values).reduce((acc: {[key: string]: string}, key) => {
-      if (key.startsWith(currentCategory.slug)) {
-        acc[key] = values[key];
-      }
-      return acc;
-    }, {});
   };
 
   const handleSubmit = (formValues: {[key: string]: string}) => {
@@ -102,12 +87,15 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions) return true; // No questions, disable
 
-    const currentCategoryFormValues = getCurrentCategoryData(values);
+    // ⚡ Bolt Performance Optimization:
+    // Replaced mapping over all form keys (getCurrentCategoryData) with a direct
+    // `.some()` check on the current category's questions, preventing intermediate object allocation
+    // and reducing iteration overhead.
+    const hasEmptyValue = currentQuestions.some(
+      (question) => question.id.startsWith(currentCategory.slug) && values[question.id] === ""
+    );
 
-    if (
-      Object.values(currentCategoryFormValues).some((value) => value === "") ||
-      Object.keys(errors).length > 0
-    ) {
+    if (hasEmptyValue || Object.keys(errors).length > 0) {
       return true;
     } else {
       return false;
