@@ -45,19 +45,13 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions || !formValues) return 0;
 
-    const currentCategoryFormValues = currentQuestions.reduce(
-      (acc: {[key: string]: string}, question) => {
-        // ignore questions that contain "ignore" in their id
-        if (question.id.includes("ignore")) return acc;
-        acc[question.id] = formValues[question.id];
-        return acc;
-      },
-      {}
-    );
-    return Object.values(currentCategoryFormValues).reduce(
-      (sum: number, val: unknown) => sum + (parseInt(val as string) || 0),
-      0
-    );
+    // ⚡ Bolt Performance Optimization:
+    // Replaced multiple passes (creating intermediate object then iterating over Object.values)
+    // with a single reduce pass. Avoids unnecessary object allocation and reduces iterations.
+    return currentQuestions.reduce((sum, question) => {
+      if (question.id.includes("ignore")) return sum;
+      return sum + (parseInt(formValues[question.id] as string) || 0);
+    }, 0);
   };
 
   const handlePrevious = () => {
@@ -70,15 +64,6 @@ export default function FormContainer({
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
     setCurrentCategoryIndex(currentCategoryIndex + 1);
-  };
-
-  const getCurrentCategoryData = (values: {[key: string]: string}) => {
-    return Object.keys(values).reduce((acc: {[key: string]: string}, key) => {
-      if (key.startsWith(currentCategory.slug)) {
-        acc[key] = values[key];
-      }
-      return acc;
-    }, {});
   };
 
   const handleSubmit = (formValues: {[key: string]: string}) => {
@@ -102,16 +87,15 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions) return true; // No questions, disable
 
-    const currentCategoryFormValues = getCurrentCategoryData(values);
-
-    if (
-      Object.values(currentCategoryFormValues).some((value) => value === "") ||
-      Object.keys(errors).length > 0
-    ) {
+    // ⚡ Bolt Performance Optimization:
+    // Replaced expensive `getCurrentCategoryData(values)` (which iterated over all form keys
+    // and created intermediate objects) with a direct `some()` check against `currentQuestions`.
+    // Exits iteration early and avoids unnecessary allocations.
+    if (Object.keys(errors).length > 0 || currentQuestions.some(q => values[q.id] === "")) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   };
 
   // Initialisation des valeurs du formulaire et du schéma de validation
