@@ -48,6 +48,25 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Strict validation for dynamic object payload to prevent NoSQL Injection / Mass Assignment
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format des scores invalide." });
+				return;
+			}
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 20) {
+				res.status(400).json({ success: false, message: "Trop de scores." });
+				return;
+			}
+			for (const key of scoreKeys) {
+				if (key.length > 50 || typeof (scores as Record<string, unknown>)[key] !== "number") {
+					res.status(400).json({ success: false, message: "Format des scores invalide." });
+					return;
+				}
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
