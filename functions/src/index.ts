@@ -48,6 +48,35 @@ export const submitForm = onRequest(
 			return;
 		}
 
+		// 🛡️ SECURITY: Validate dynamic `scores` object to prevent NoSQL injection / Mass Assignment
+		// admin.firestore() bypasses Firestore Rules, so we must validate the payload shape manually
+		const validatedScores: Record<string, number> = {};
+		if (scores !== undefined) {
+			if (typeof scores !== 'object' || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format de scores invalide." });
+				return;
+			}
+
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 20) {
+				res.status(400).json({ success: false, message: "Trop de catégories de scores." });
+				return;
+			}
+
+			for (const key of scoreKeys) {
+				if (typeof key !== 'string' || key.length > 50) {
+					res.status(400).json({ success: false, message: "Clé de score invalide." });
+					return;
+				}
+				const val = scores[key];
+				if (typeof val !== 'number' || isNaN(val)) {
+					res.status(400).json({ success: false, message: "Valeur de score invalide." });
+					return;
+				}
+				validatedScores[key] = val;
+			}
+		}
+
 		// 🛡️ SECURITY: Basic email regex validation
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!emailRegex.test(email)) {
@@ -76,7 +105,7 @@ export const submitForm = onRequest(
 				lastName,
 				email,
 				url: url || "",
-				scores: scores || {},
+				scores: validatedScores,
 				createdAt: admin.firestore.FieldValue.serverTimestamp(),
 			});
 
