@@ -1,3 +1,6 @@
 ## 2025-02-28 - [Canvas Animation Loop Anti-Pattern]
 **Learning:** In Next.js/React applications, starting a `requestAnimationFrame` loop on component mount that constantly runs (even when there's nothing to draw on the canvas, like in the previous `ClickSpark` implementation) causes massive CPU and battery drain. Next.js does not magically optimize this away.
 **Action:** Always start canvas animations based on user interaction (like `onClick`) and explicitly stop the loop (`cancelAnimationFrame` or exit the recursion) when the animation finishes or there are no items left to render.
+## 2025-02-28 - [Performance Optimization Pattern: Single Pass Reductions & Early Exits]
+**Learning:** Found a pattern where data derived from forms or JSON is passed through multiple sequential reduction passes or uses full iterations to check for a single condition (e.g. `reduce` -> `Object.values().some()`). This creates intermediate object and array allocations that are garbage collected on every keystroke in Formik.
+**Action:** Consolidate sequential `reduce` operations into a single pass and replace full-object filtering for validation states with early-exit methods like `some()`. This dramatically reduces CPU cycle count and heap churn per render.
