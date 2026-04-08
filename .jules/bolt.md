@@ -1,3 +1,6 @@
 ## 2025-02-28 - [Canvas Animation Loop Anti-Pattern]
 **Learning:** In Next.js/React applications, starting a `requestAnimationFrame` loop on component mount that constantly runs (even when there's nothing to draw on the canvas, like in the previous `ClickSpark` implementation) causes massive CPU and battery drain. Next.js does not magically optimize this away.
 **Action:** Always start canvas animations based on user interaction (like `onClick`) and explicitly stop the loop (`cancelAnimationFrame` or exit the recursion) when the animation finishes or there are no items left to render.
+## 2025-03-01 - [Synchronous DOM Queries in Render Cycle Anti-Pattern]
+**Learning:** In React form components (like Formik integrations), querying the DOM synchronously inside the render cycle (e.g., `document.getElementById('id').checked`) is an anti-pattern that can cause significant performance bottlenecks, especially when rendering lists of inputs. A simple benchmark showed that replacing a DOM query with standard state/prop comparison (`value === expectedValue`) can yield ~3.6x faster execution.
+**Action:** Always rely on React state or props for conditional rendering instead of querying the actual DOM.
