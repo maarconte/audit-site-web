@@ -1,0 +1,14 @@
+--- src/components/LandingRefonte/Form/FormContainer/FormContainer.tsx
++++ src/components/LandingRefonte/Form/FormContainer/FormContainer.tsx
+@@ -141,8 +141,9 @@
+               <FormQuestion
+                 item={question}
+                 key={question.id}
+-                errors={errors}
+-                touched={touched}
++                error={errors[question.id] as string | undefined}
++                isTouched={touched[question.id] as boolean | undefined}
++                value={values[question.id]}
+                 showErrors={showErrors}
+               />
+             ))}
