@@ -1,3 +1,6 @@
 ## 2025-02-28 - [Canvas Animation Loop Anti-Pattern]
 **Learning:** In Next.js/React applications, starting a `requestAnimationFrame` loop on component mount that constantly runs (even when there's nothing to draw on the canvas, like in the previous `ClickSpark` implementation) causes massive CPU and battery drain. Next.js does not magically optimize this away.
 **Action:** Always start canvas animations based on user interaction (like `onClick`) and explicitly stop the loop (`cancelAnimationFrame` or exit the recursion) when the animation finishes or there are no items left to render.
+## 2025-02-28 - [Consolidated Array Iterations Pattern]
+**Learning:** In codeblocks performing multiple object manipulations (like building an intermediate object via `reduce`, only to map over its values right after), you can often combine operations into a single loop. Doing this improves CPU efficiency and avoids unneeded garbage collection overhead. Using `some` instead of `reduce`/`filter` when checking for truthy conditions provides early-exit capabilities.
+**Action:** When working with derived state or form calculation loops, look for sequential chained methods (`reduce` then `reduce`, or `reduce` then `some`). Rewrite them to iterate once with proper short-circuiting logic when appropriate.
