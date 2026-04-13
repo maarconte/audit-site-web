@@ -17,7 +17,14 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{
+		secrets: [brevoApiKey],
+		cors: [
+			"https://analyse-refonte-web.web.app",
+			"https://analyse-refonte-web.firebaseapp.app",
+			"http://localhost:3000"
+		]
+	},
 	async (req, res) => {
 		// Only accept POST
 		if (req.method !== "POST") {
@@ -46,6 +53,31 @@ export const submitForm = onRequest(
 				.status(400)
 				.json({ success: false, message: "Format de données invalide." });
 			return;
+		}
+
+		// 🛡️ SECURITY: Validate `scores` structure (NoSQL Injection / Mass Assignment protection)
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format de scores invalide." });
+				return;
+			}
+
+			const keys = Object.keys(scores);
+			if (keys.length > 50) {
+				res.status(400).json({ success: false, message: "Trop de scores soumis." });
+				return;
+			}
+
+			for (const key of keys) {
+				if (key.length > 50) {
+					res.status(400).json({ success: false, message: "Clé de score trop longue." });
+					return;
+				}
+				if (typeof scores[key] !== "number") {
+					res.status(400).json({ success: false, message: "Valeur de score invalide." });
+					return;
+				}
+			}
 		}
 
 		// 🛡️ SECURITY: Basic email regex validation
