@@ -40,24 +40,16 @@ export default function FormContainer({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentCategoryIndex]);
 
-  // Helper function to calculate score for the current category based on form values
+  // ⚡ Bolt: Single-pass iteration to calculate score directly without intermediate object allocations
   const calculateCurrentCategoryScore = (formValues: {[key: string]: string}) => {
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions || !formValues) return 0;
 
-    const currentCategoryFormValues = currentQuestions.reduce(
-      (acc: {[key: string]: string}, question) => {
-        // ignore questions that contain "ignore" in their id
-        if (question.id.includes("ignore")) return acc;
-        acc[question.id] = formValues[question.id];
-        return acc;
-      },
-      {}
-    );
-    return Object.values(currentCategoryFormValues).reduce(
-      (sum: number, val: unknown) => sum + (parseInt(val as string) || 0),
-      0
-    );
+    return currentQuestions.reduce((sum: number, question) => {
+      // ignore questions that contain "ignore" in their id
+      if (question.id.includes("ignore")) return sum;
+      return sum + (parseInt(formValues[question.id]) || 0);
+    }, 0);
   };
 
   const handlePrevious = () => {
@@ -70,15 +62,6 @@ export default function FormContainer({
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
     setCurrentCategoryIndex(currentCategoryIndex + 1);
-  };
-
-  const getCurrentCategoryData = (values: {[key: string]: string}) => {
-    return Object.keys(values).reduce((acc: {[key: string]: string}, key) => {
-      if (key.startsWith(currentCategory.slug)) {
-        acc[key] = values[key];
-      }
-      return acc;
-    }, {});
   };
 
   const handleSubmit = (formValues: {[key: string]: string}) => {
@@ -97,21 +80,17 @@ export default function FormContainer({
     }
   };
 
+  // ⚡ Bolt: Eliminate intermediate object creation by checking values directly with early exit
   const handleDisableNext = (values: {[key: string]: string}, errors: FormikErrors<{[key: string]: string}>) => {
     // if values of current category are empty disable next button
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions) return true; // No questions, disable
 
-    const currentCategoryFormValues = getCurrentCategoryData(values);
+    if (Object.keys(errors).length > 0) return true;
 
-    if (
-      Object.values(currentCategoryFormValues).some((value) => value === "") ||
-      Object.keys(errors).length > 0
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return Object.keys(values).some((key) =>
+      key.startsWith(currentCategory.slug) && values[key] === ""
+    );
   };
 
   // Initialisation des valeurs du formulaire et du schéma de validation
