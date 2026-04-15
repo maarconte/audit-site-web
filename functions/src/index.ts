@@ -17,7 +17,7 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{ secrets: [brevoApiKey], cors: ["https://analyse-refonte-web.web.app", "https://analyse-refonte-web.firebaseapp.app", "http://localhost:3000"] },
 	async (req, res) => {
 		// Only accept POST
 		if (req.method !== "POST") {
@@ -46,6 +46,25 @@ export const submitForm = onRequest(
 				.status(400)
 				.json({ success: false, message: "Format de données invalide." });
 			return;
+		}
+
+		// 🛡️ SECURITY: Validate dynamic object (scores) since Admin SDK bypasses Firestore Rules
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format des scores invalide." });
+				return;
+			}
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 50) {
+				res.status(400).json({ success: false, message: "Trop de données de score." });
+				return;
+			}
+			for (const key of scoreKeys) {
+				if (key.length > 50 || typeof scores[key] !== "number") {
+					res.status(400).json({ success: false, message: "Format des scores invalide." });
+					return;
+				}
+			}
 		}
 
 		// 🛡️ SECURITY: Basic email regex validation
