@@ -1,3 +1,6 @@
 ## 2025-02-28 - [Canvas Animation Loop Anti-Pattern]
 **Learning:** In Next.js/React applications, starting a `requestAnimationFrame` loop on component mount that constantly runs (even when there's nothing to draw on the canvas, like in the previous `ClickSpark` implementation) causes massive CPU and battery drain. Next.js does not magically optimize this away.
 **Action:** Always start canvas animations based on user interaction (like `onClick`) and explicitly stop the loop (`cancelAnimationFrame` or exit the recursion) when the animation finishes or there are no items left to render.
+## 2026-04-15 - [Optimizing Component Configuration Objects and O(N) Iterations]
+**Learning:** Instantiating configuration objects (like static icon mappings) inside React component render functions leads to unnecessary object allocations on every render cycle. Additionally, full-object filtering via `Object.values(values).some()` for targeted form subset validation introduces unnecessary O(N) sweeps.
+**Action:** Always hoist static configuration arrays and objects outside of the React component's scope. For nested data extraction in multi-step forms, iterate over the minimal configuration array (e.g. `currentQuestions`) directly and use short-circuiting methods like `some()` rather than extracting sub-objects.
