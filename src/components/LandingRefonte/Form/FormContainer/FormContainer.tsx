@@ -41,23 +41,16 @@ export default function FormContainer({
   }, [currentCategoryIndex]);
 
   // Helper function to calculate score for the current category based on form values
+  // ⚡ Bolt Optimization: Single-pass iteration instead of intermediate object allocations
   const calculateCurrentCategoryScore = (formValues: {[key: string]: string}) => {
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions || !formValues) return 0;
 
-    const currentCategoryFormValues = currentQuestions.reduce(
-      (acc: {[key: string]: string}, question) => {
-        // ignore questions that contain "ignore" in their id
-        if (question.id.includes("ignore")) return acc;
-        acc[question.id] = formValues[question.id];
-        return acc;
-      },
-      {}
-    );
-    return Object.values(currentCategoryFormValues).reduce(
-      (sum: number, val: unknown) => sum + (parseInt(val as string) || 0),
-      0
-    );
+    return currentQuestions.reduce((sum: number, question) => {
+      // ignore questions that contain "ignore" in their id
+      if (question.id.includes("ignore")) return sum;
+      return sum + (parseInt(formValues[question.id] as string) || 0);
+    }, 0);
   };
 
   const handlePrevious = () => {
@@ -70,15 +63,6 @@ export default function FormContainer({
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
     setCurrentCategoryIndex(currentCategoryIndex + 1);
-  };
-
-  const getCurrentCategoryData = (values: {[key: string]: string}) => {
-    return Object.keys(values).reduce((acc: {[key: string]: string}, key) => {
-      if (key.startsWith(currentCategory.slug)) {
-        acc[key] = values[key];
-      }
-      return acc;
-    }, {});
   };
 
   const handleSubmit = (formValues: {[key: string]: string}) => {
@@ -102,16 +86,15 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions) return true; // No questions, disable
 
-    const currentCategoryFormValues = getCurrentCategoryData(values);
-
+    // ⚡ Bolt Optimization: Short-circuit evaluation over mounted keys instead of mapping to a new object
     if (
-      Object.values(currentCategoryFormValues).some((value) => value === "") ||
+      Object.keys(values).some(key => key.startsWith(currentCategory.slug) && values[key] === "") ||
       Object.keys(errors).length > 0
     ) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   };
 
   // Initialisation des valeurs du formulaire et du schéma de validation
