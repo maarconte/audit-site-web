@@ -1,3 +1,6 @@
 ## 2025-02-28 - [Canvas Animation Loop Anti-Pattern]
 **Learning:** In Next.js/React applications, starting a `requestAnimationFrame` loop on component mount that constantly runs (even when there's nothing to draw on the canvas, like in the previous `ClickSpark` implementation) causes massive CPU and battery drain. Next.js does not magically optimize this away.
 **Action:** Always start canvas animations based on user interaction (like `onClick`) and explicitly stop the loop (`cancelAnimationFrame` or exit the recursion) when the animation finishes or there are no items left to render.
+## 2025-02-28 - [Form Validation Loop Optimization]
+**Learning:** In `FormContainer.tsx`, scanning form fields using sequential `.reduce` calls (first to filter, then to sum or validate) introduces unnecessary intermediate object allocations. The previous `getCurrentCategoryData` helper built an entire object mapping just to check if any field was empty via `Object.values().some()`.
+**Action:** Replace intermediate object allocations with short-circuiting `.some()` evaluations directly on the original `Object.keys()`. Combine multiple filtering/summation steps into a single `.reduce` pass to minimize iterations and CPU overhead during form validation.
