@@ -17,7 +17,14 @@ interface SubmitFormBody {
 }
 
 export const submitForm = onRequest(
-	{ secrets: [brevoApiKey], cors: true },
+	{
+		secrets: [brevoApiKey],
+		cors: [
+			"http://localhost:3000",
+			"https://analyse-refonte-web.web.app",
+			"https://analyse-refonte-web.firebaseapp.com",
+		],
+	},
 	async (req, res) => {
 		// Only accept POST
 		if (req.method !== "POST") {
@@ -46,6 +53,25 @@ export const submitForm = onRequest(
 				.status(400)
 				.json({ success: false, message: "Format de données invalide." });
 			return;
+		}
+
+		// 🛡️ SECURITY: Strict validation for dynamic scores payload
+		if (scores !== undefined) {
+			if (typeof scores !== "object" || scores === null || Array.isArray(scores)) {
+				res.status(400).json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+			const scoreKeys = Object.keys(scores);
+			if (scoreKeys.length > 50) {
+				res.status(400).json({ success: false, message: "Format de données invalide." });
+				return;
+			}
+			for (const key of scoreKeys) {
+				if (typeof key !== "string" || key.length > 50 || typeof scores[key] !== "number") {
+					res.status(400).json({ success: false, message: "Format de données invalide." });
+					return;
+				}
+			}
 		}
 
 		// 🛡️ SECURITY: Basic email regex validation
@@ -113,7 +139,11 @@ export const submitForm = onRequest(
 					});
 			} else {
 				const errorData = await brevoResponse.json();
-				console.error("Brevo Error Response:", errorData);
+				// 🛡️ SECURITY: Sanitize logs to avoid PII leakage
+				console.error("Brevo Error Response:", {
+					code: errorData.code,
+					message: errorData.message,
+				});
 				res
 					.status(500)
 					.json({
