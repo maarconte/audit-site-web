@@ -45,17 +45,13 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions || !formValues) return 0;
 
-    const currentCategoryFormValues = currentQuestions.reduce(
-      (acc: {[key: string]: string}, question) => {
-        // ignore questions that contain "ignore" in their id
-        if (question.id.includes("ignore")) return acc;
-        acc[question.id] = formValues[question.id];
-        return acc;
+    // ⚡ Bolt: Consolidated multi-pass array iterations into a single pass to
+    // eliminate intermediate object allocations and O(N) mapping operations
+    return currentQuestions.reduce(
+      (sum: number, question) => {
+        if (question.id.includes("ignore")) return sum;
+        return sum + (parseInt(formValues[question.id]) || 0);
       },
-      {}
-    );
-    return Object.values(currentCategoryFormValues).reduce(
-      (sum: number, val: unknown) => sum + (parseInt(val as string) || 0),
       0
     );
   };
@@ -70,15 +66,6 @@ export default function FormContainer({
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
     setCurrentCategoryIndex(currentCategoryIndex + 1);
-  };
-
-  const getCurrentCategoryData = (values: {[key: string]: string}) => {
-    return Object.keys(values).reduce((acc: {[key: string]: string}, key) => {
-      if (key.startsWith(currentCategory.slug)) {
-        acc[key] = values[key];
-      }
-      return acc;
-    }, {});
   };
 
   const handleSubmit = (formValues: {[key: string]: string}) => {
@@ -102,16 +89,13 @@ export default function FormContainer({
     const currentQuestions = currentCategoryData?.questions;
     if (!currentQuestions) return true; // No questions, disable
 
-    const currentCategoryFormValues = getCurrentCategoryData(values);
+    // ⚡ Bolt: Used short-circuiting .some() directly on values instead of building
+    // an intermediate object for current category values via .reduce()
+    const hasEmptyField = Object.keys(values).some(
+      (key) => key.startsWith(currentCategory.slug) && values[key] === ""
+    );
 
-    if (
-      Object.values(currentCategoryFormValues).some((value) => value === "") ||
-      Object.keys(errors).length > 0
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return hasEmptyField || Object.keys(errors).length > 0;
   };
 
   // Initialisation des valeurs du formulaire et du schéma de validation
