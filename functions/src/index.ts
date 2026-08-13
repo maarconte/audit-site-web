@@ -7,6 +7,22 @@ const db = admin.firestore();
 
 const brevoApiKey = defineSecret("BREVO_API_KEY");
 
+// Maps score category slugs (src/data/questionquiz.json) to their Brevo contact attribute names
+const CATEGORY_ATTRIBUTE_MAP: Record<string, string> = {
+	design: "DESIGN",
+	marketing: "MARKETING",
+	ux: "UX",
+	seo: "SEO",
+	technique: "TECH",
+	performance: "PERFORMANCE",
+	legal: "LEGAL",
+};
+
+function toSafeScore(value: unknown): number {
+	const n = typeof value === "number" ? value : Number(value);
+	return Number.isFinite(n) ? n : 0;
+}
+
 interface SubmitFormBody {
 	email: string;
 	firstName: string;
@@ -81,11 +97,22 @@ export const submitForm = onRequest(
 			});
 
 			// 2. Submit to Brevo
+			let total = 0;
+			const categoryAttributes: Record<string, number> = {};
+			for (const [slug, attrName] of Object.entries(CATEGORY_ATTRIBUTE_MAP)) {
+				const score = toSafeScore(scores?.[slug]);
+				categoryAttributes[attrName] = score;
+				total += score;
+			}
+
 			const contactData = {
 				email,
 				attributes: {
 					PRENOM: firstName,
 					NOM: lastName,
+					URL: url || "",
+					TOTAL: total,
+					...categoryAttributes,
 				},
 				listIds: finalLists,
 				updateEnabled: true,
