@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   // next/link et next/image préfixent automatiquement ; les <a href> bruts, non —
   // ce qui est voulu pour les liens vers le site principal (ex: /politique-de-confidentialite).
   basePath: "/audit-refonte",
+  // Apache ne resout pas les URL sans extension vers un .html (contrairement a
+  // GitHub Pages) : sans cette option, /refonte-form pointe sur un dossier sans
+  // index.html et Apache renvoie 403. Ici l'export ecrit refonte-form/index.html.
+  trailingSlash: true,
   images: { unoptimized: true },
   sassOptions: {
     silenceDeprecations: ["legacy-js-api", "import", "global-builtin", "if-function"],
