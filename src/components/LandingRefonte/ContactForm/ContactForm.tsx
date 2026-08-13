@@ -12,6 +12,8 @@ const SUBMIT_URL =
   process.env.NEXT_PUBLIC_SUBMIT_FUNCTION_URL ||
   "https://submitform-xxxxxxxxxx-uc.a.run.app";
 
+const IS_TEST_ENV = process.env.NEXT_PUBLIC_IS_TEST_ENV === "true";
+
 interface FormState {
   success: boolean;
   message: string;
@@ -35,6 +37,7 @@ export default function ContactForm() {
       lastName: formData.get("lastName") as string,
       url: formData.get("url") as string,
       scores,
+      isTest: IS_TEST_ENV,
     };
 
     try {

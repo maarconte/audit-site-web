@@ -23,6 +23,9 @@ function toSafeScore(value: unknown): number {
 	return Number.isFinite(n) ? n : 0;
 }
 
+const PROD_LIST_ID = 5;
+const TEST_LIST_ID = 9;
+
 interface SubmitFormBody {
 	email: string;
 	firstName: string;
@@ -30,6 +33,7 @@ interface SubmitFormBody {
 	url?: string;
 	scores?: Record<string, unknown>;
 	listIds?: number[];
+	isTest?: boolean;
 }
 
 export const submitForm = onRequest(
@@ -49,6 +53,7 @@ export const submitForm = onRequest(
 			lastName,
 			url,
 			scores,
+			isTest,
 		} = req.body as SubmitFormBody;
 
 		// 🛡️ SECURITY: Strict input validation for type and length limits
@@ -80,13 +85,14 @@ export const submitForm = onRequest(
 			return;
 		}
 
-		// 🛡️ SECURITY: Hardcode the destination list ID to prevent unauthorized subscriptions
-		const finalLists = [5];
+		// 🛡️ SECURITY: Only a boolean switch between two hardcoded lists — never trust a
+		// client-supplied list ID directly (prevents unauthorized subscriptions).
+		const isTestSubmission = isTest === true;
+		const finalLists = [isTestSubmission ? TEST_LIST_ID : PROD_LIST_ID];
 
 		try {
 			// 1. Save to Firestore
-			const collectionName =
-				process.env.FIREBASE_COLLECTION_SUBMISSIONS || "submissions";
+			const collectionName = isTestSubmission ? "submissions-test" : "submissions";
 			await db.collection(collectionName).add({
 				firstName,
 				lastName,
