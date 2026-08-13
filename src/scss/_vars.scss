@@ -1,5 +1,8 @@
-// GitHub Pages base path - empty locally, "/audit-site-web" in CI
-$base-path: "" !default;
+// Prefixe des assets de public/ references en url() dans le SCSS.
+// Next ne reecrit pas ces chemins : il doit donc valoir exactement le
+// basePath declare dans next.config.ts, en dev comme en production
+// (next dev applique aussi le basePath).
+$base-path: "/audit-refonte" !default;
 
 $tm-magenta: #de3d64;
 $tm-yellow: #fdc500;
