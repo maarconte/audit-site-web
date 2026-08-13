@@ -169,8 +169,26 @@ Deux détails relevés au passage : `deploy.yml` ne se déclenche que sur
 main. Et **GTM est déjà configuré sur `thatmuch.fr`** — en sous-dossier, le même
 conteneur donne un funnel unifié dans un seul GA4, ce qui simplifie P0-4.
 
-**Estimation révisée : une demi-journée.** Time-box maintenu à une journée ; au-delà,
-retour au sous-domaine et sujet clos.
+### P2-1 — réalisé le 13/08/2026
+
+L'outil est servi depuis `https://thatmuch.fr/audit-refonte/`, et
+`audit-refonte.thatmuch.fr` redirige en 301 en préservant le chemin.
+
+Ce que la migration a révélé, et qui n'était pas dans l'analyse initiale :
+
+| Point | Réalité |
+|---|---|
+| **Deux pipelines** écrivaient dans `public_html` | Web App Hostinger (depuis `main`) + GitHub Actions SCP (depuis `develop`). Ils s'écrasaient : le parallax d'une release a disparu sous nos yeux. Corrigé par `ref: main` dans `deploy.yml`. |
+| Chemin `/refonte-site-web/` | **Déjà occupé** par un article publié. Retenu : `/audit-refonte/`. |
+| `gatsby-plugin-offline` | Aucune configuration nécessaire — sa `NavigationRoute` retombe sur `fetch()` pour tout chemin inconnu. Le « piège » anticipé n'existait pas. |
+| Apache vs GitHub Pages | Apache ne résout pas les URL sans extension → `trailingSlash: true`. |
+| `url()` du SCSS | Non préfixées par `basePath` → `$base-path` dans `_vars.scss`. |
+| Sous-domaine et URL canonique | **Même dossier** côté hPanel → le 301 doit être conditionné à `HTTP_HOST`, sinon boucle. |
+| `source: "out/*"` en SCP | Ne matche pas les dotfiles → `.htaccess` listé explicitement. |
+
+**Leçon de méthode** : la faisabilité avait été validée en lisant le seul workflow
+présent dans le repo. Le pipeline qui déployait réellement la production n'y était pas.
+Vérifier le dépôt ne remplace pas demander comment le déploiement fonctionne.
 
 ### Sur le budget de 10 €/mois
 
