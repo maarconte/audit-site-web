@@ -88,6 +88,8 @@ jobs:
           username: ${{ secrets.HOSTINGER_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: 65002
-          source: "out/*"
+          # out/* ne matche pas les dotfiles : .htaccess doit etre liste a part,
+          # sinon la redirection 301 de l'ancien sous-domaine n'est pas deployee.
+          source: "out/*,out/.htaccess"
           target: "/home/u566000124/domains/thatmuch.fr/public_html/audit-refonte"
           strip_components: 1

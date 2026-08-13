@@ -1,0 +1,11 @@
+# Ce dossier est servi par DEUX hotes (voir hPanel > Sous-domaines) :
+#   thatmuch.fr/audit-refonte/   -> URL canonique de l'outil
+#   audit-refonte.thatmuch.fr/   -> ancien sous-domaine, conserve pour les liens
+#                                   externes, redirige en 301 vers le canonique
+#
+# La condition sur HTTP_HOST est indispensable : sans elle, la regle
+# s'appliquerait aussi a l'URL canonique et creerait une boucle de redirection.
+# Le $1 preserve le chemin demande (/refonte-form/ reste /refonte-form/).
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^audit-refonte\.thatmuch\.fr$ [NC]
+RewriteRule ^(.*)$ https://thatmuch.fr/audit-refonte/$1 [R=301,L]
