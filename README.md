@@ -1,37 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Analyse de refonte web — THATMUCH
 
-## Getting Started
+Outil d'auto-évaluation en ligne qui permet à un visiteur de savoir si c'est le
+bon moment pour refaire son site internet. L'utilisateur répond à un
+questionnaire, obtient un score de refonte par catégorie (design, UX,
+marketing, SEO, technique, performance, légal), puis laisse son email pour
+recevoir le détail de son analyse — le tout comme outil de génération de leads
+pour l'agence [THATMUCH](https://thatmuch.fr), spécialisée en refonte de sites
+WordPress pour PME.
 
-First, run the development server:
+Contexte produit et roadmap détaillés : [`docs/roadmap.md`](docs/roadmap.md).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- **Next.js 16** (App Router, export statique via `output: "export"`) + React 19
+- **TypeScript**, **Sass** + **Tailwind CSS 4**, Bootstrap (en cours de retrait, cf. roadmap)
+- **Zustand** pour le state du score, **Formik** + **Yup** pour le formulaire
+- **GSAP** pour les animations
+- **Firebase** : Firestore (stockage des soumissions) + Cloud Functions (`functions/`, Node 20)
+- **Brevo** : CRM/emailing — la Cloud Function `submitForm` pousse le contact et son score, un template email (`codeEmailBrevo.html`) restitue l'analyse
+
+## Structure
+
+```
+app/                      Routes Next.js (App Router)
+  page.tsx                  Landing page
+  refonte-form/             Formulaire d'auto-évaluation
+src/
+  components/LandingRefonte/  Landing, formulaire, sections de score
+  components/UI/              Composants UI génériques
+  data/questionquiz.json      Questions et pondération du quiz
+  store/useScoreStore.ts      State Zustand du score
+  utils/firebase.ts           Init client Firebase
+functions/                  Cloud Function submitForm (Firestore + Brevo)
+codeEmailBrevo.html         Template de l'email de restitution (Brevo)
+docs/                       Roadmap produit, tickets, export Linear
+scripts/linear-export.mjs   Export des tickets vers Linear
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Démarrage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+cp .env.example .env.local   # et .env.dev pour le mode dev
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ouvrir [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+Les variables d'environnement (voir [`.env.example`](.env.example)) couvrent
+la config Firebase client et l'URL de la Cloud Function de soumission :
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` charge `.env.dev`
+- `npm run build` / `npm run start` chargent `.env.local`
+- `NEXT_PUBLIC_IS_TEST_ENV` bascule les soumissions vers la liste Brevo et la
+  collection Firestore de test plutôt que celles de production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev      # Serveur de dev (Next.js, charge .env.dev)
+npm run build    # Export statique de production (charge .env.local)
+npm run start    # Build + sert le dossier out/ via `serve`
+npm run lint     # ESLint
+```
 
-## Deploy on Vercel
+## Déploiement
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Le site est exporté en statique (`out/`) et déployé par
+[`.github/workflows/nextjs.yml`](.github/workflows/nextjs.yml) sur push vers
+`main` : build Next.js puis dépôt SCP dans le sous-dossier
+`/audit-refonte` de `thatmuch.fr` (hébergement Hostinger), aux côtés du site
+principal (headless Gatsby + WordPress).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# audit-site-web
+La Cloud Function (`functions/`) se déploie séparément via Firebase CLI :
+
+```bash
+cd functions && npm run deploy
+```
+
+## Roadmap
+
+Le projet suit une roadmap active organisée en phases (P0 à P6) : réparer et
+mesurer, revoir le scoring, travailler l'acquisition, la restitution, puis
+l'analyse automatique. Détails et suivi :
+
+- [`docs/roadmap.md`](docs/roadmap.md) — diagnostic, décisions actées, séquencement
+- [`docs/roadmap-tickets.md`](docs/roadmap-tickets.md) — détail des tickets
+- [`docs/linear/`](docs/linear/) — export et import vers Linear
