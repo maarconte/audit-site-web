@@ -1,4 +1,4 @@
-# Analyse de refonte web — THATMUCH
+# Analyse de refonte web — THATMUCH -
 
 Outil d'auto-évaluation en ligne qui permet à un visiteur de savoir si c'est le
 bon moment pour refaire son site internet. L'utilisateur répond à un
