@@ -1,4 +1,11 @@
+import Link from "next/link";
 import React from "react";
+
+// Le site est servi sous un basePath (voir next.config.ts). next/link le préfixe,
+// une <a> brute non : les liens internes doivent donc passer par next/link, et les
+// liens externes ou vers le site principal rester des <a>.
+const isInternal = (url?: string) =>
+  !!url && url.startsWith("/") && !url.startsWith("//");
 
 interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   label?: string;
@@ -32,21 +39,36 @@ export default function Button({
 
   return (
     <>
-      {type === "link" && (
-        <a
-          onClick={onClick}
-          className={`btn ${className}`}
-          aria-label={label}
-          href={url}
-          target={target}
-          rel={finalRel}
-          role="button"
-          {...rest}
-        >
-          <div className="btn__content"> {children}</div>
-          <div className="btn__overlay"></div>
-        </a>
-      )}
+      {type === "link" &&
+        (isInternal(url) ? (
+          <Link
+            onClick={onClick}
+            className={`btn ${className}`}
+            aria-label={label}
+            href={url as string}
+            target={target}
+            rel={finalRel}
+            role="button"
+            {...rest}
+          >
+            <div className="btn__content"> {children}</div>
+            <div className="btn__overlay"></div>
+          </Link>
+        ) : (
+          <a
+            onClick={onClick}
+            className={`btn ${className}`}
+            aria-label={label}
+            href={url}
+            target={target}
+            rel={finalRel}
+            role="button"
+            {...rest}
+          >
+            <div className="btn__content"> {children}</div>
+            <div className="btn__overlay"></div>
+          </a>
+        ))}
       {type === "submit" && (
         <button
           onClick={onClick}

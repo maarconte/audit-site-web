@@ -1,8 +1,10 @@
-# Sample workflow for building and deploying a Next.js site to GitHub Pages
+# Build de l'export statique Next et depot dans le sous-dossier /audit-refonte
+# du site Gatsby thatmuch.fr, heberge chez Hostinger.
 #
-# To get started with Next.js see: https://nextjs.org/docs/getting-started
-#
-name: Deploy Next.js site to Pages
+# Le depot se fait en SCP (appleboy/scp-action), qui ecrase et ajoute mais ne
+# supprime jamais - le meme mecanisme que le deploiement de thatmuch.fr, qui de
+# son cote ne touchera pas ce sous-dossier.
+name: Deploy Next.js site to Hostinger
 
 on:
   # Runs on pushes targeting the default branch
@@ -12,16 +14,11 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: "deploy-audit-refonte"
   cancel-in-progress: false
 
 jobs:
@@ -53,14 +50,8 @@ jobs:
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          # Automatically inject basePath in your Next.js configuration file and disable
-          # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
-          #
-          # You may remove this line if you want to manage the configuration yourself.
-          static_site_generator: next
+      # NB: pas de actions/configure-pages ici. Cette action reecrit le basePath
+      # de next.config.ts et ecraserait celui defini explicitement (/audit-refonte).
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -84,19 +75,19 @@ jobs:
           NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
           NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID }}
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
+      - name: List output
+        run: ls -al out
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # strip_components: 1 retire le prefixe "out/", donc out/index.html atterrit
+      # sur <target>/index.html. Le target DOIT rester le sous-dossier audit-refonte :
+      # viser public_html directement ecraserait la home de thatmuch.fr.
+      - name: Deploy via SSH (Hostinger)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOSTINGER_IP }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          port: 65002
+          source: "out/*"
+          target: "/home/u566000124/domains/thatmuch.fr/public_html/audit-refonte"
+          strip_components: 1

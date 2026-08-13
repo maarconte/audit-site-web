@@ -23,7 +23,7 @@ export default function LinkSection({}: Props) {
           label={"Évaluer mon site"}
           className="btn btn-dev btn-animate"
           type="link"
-          url={"./refonte-form"}
+          url={"/refonte-form"}
         >
           Évaluer mon site
           <FaArrowRight className="btn-icon" />

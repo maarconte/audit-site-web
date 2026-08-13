@@ -131,6 +131,7 @@ export default function ContactForm() {
                   <label htmlFor="terms" className="form-check-label">
                     <small>
                       J'accepte que <span className="uppercase">Thatmuch</span> collecte mes données selon sa{" "}
+                      {/* <a> brute volontairement : la page vit sur thatmuch.fr, hors basePath. */}
                       <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer" className="text-decoration-underline">
                         politique de confidentialité.
                       </a>
