@@ -1,5 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../src/scss/style.scss";
+import ConsentBanner from "@/components/ConsentBanner/ConsentBanner";
+import PageViewTracker from "@/components/PageViewTracker/PageViewTracker";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        {children}
+        <PageViewTracker />
+        <ConsentBanner />
+      </body>
     </html>
   );
 }

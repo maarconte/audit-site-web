@@ -1,9 +1,10 @@
 import "./ContactForm.scss";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../UI/Button/Button";
 import Image from "next/image";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
+import { EVENEMENTS, suivre } from "../../../utils/analytics";
 import { useScoreStore } from "../../../store/useScoreStore";
 import tardis from "../../../../public/images/tardis.webp";
 
@@ -23,6 +24,18 @@ export default function ContactForm() {
   const scores = useScoreStore((s) => s.scores);
   const [isPending, setIsPending] = useState(false);
   const [state, setState] = useState<FormState | null>(null);
+
+  // Le gate email est le dernier obstacle avant le lead : on veut savoir
+  // combien de visiteurs l'atteignent sans le franchir.
+  useEffect(() => {
+    suivre(EVENEMENTS.formulaireContactVu);
+  }, []);
+
+  useEffect(() => {
+    if (state?.success) {
+      suivre(EVENEMENTS.resultatVu);
+    }
+  }, [state?.success]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,6 +62,11 @@ export default function ContactForm() {
 
       const data: FormState = await response.json();
       setState(data);
+      if (data.success) {
+        suivre(EVENEMENTS.leadEnvoye, {
+          score_total: Object.values(scores).reduce((s, v) => s + v, 0),
+        });
+      }
     } catch {
       setState({
         success: false,
