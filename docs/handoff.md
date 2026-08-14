@@ -17,7 +17,7 @@ l'agence **THATMUCH**.
 | Panier moyen | **2000-3000 €** |
 | Budget infra accepté | **10 €/mois** |
 | Équipe | Mathilde seule, assistée par IA |
-| CTA visé | Prise de RDV **Calendly** |
+| CTA visé | Prise de RDV **HubSpot Meetings** (`meetings-eu1.hubspot.com/mathilde-arconte`) |
 
 **État réel après un an en ligne : moins de 10 soumissions, 0 rendez-vous.**
 
@@ -54,7 +54,7 @@ Quatre causes identifiées dans le code, toutes non corrigées à ce jour :
    **102** ; Marketing affiché `/10` pour un max de **17** ; Légal `/20` pour **15**.
 3. **Aucun analytics installé.** `src/utils/firebase.ts` n'initialise que Firestore,
    `getAnalytics` n'est appelé nulle part. Zéro donnée depuis un an.
-4. **Aucun chemin vers Calendly dans le produit.** Le tunnel finit sur « regardez vos
+4. **Aucun chemin vers la prise de RDV dans le produit.** Le tunnel finit sur « regardez vos
    mails ». Le seul bouton est dans le mail, sous le message qui dissuade.
 
 Autres défauts du scoring : `legal-2` inversé (Oui = 0), pondération accidentelle
@@ -107,7 +107,7 @@ Le détail des sept écarts entre l'analyse initiale et la réalité est consign
   contenu de `main` — le problème s'est déjà produit une fois.
 
 **Puis la Phase 0** (12 points, une semaine) : P0-1 le mail, P0-2 les dénominateurs,
-P0-3 l'inversion `legal-2`, P0-4 l'analytics, P0-5 Search Console, P0-6 Calendly.
+P0-3 l'inversion `legal-2`, P0-4 l'analytics, P0-5 Search Console, P0-6 le CTA de RDV.
 C'est ce qui coûte des leads chaque semaine et rien n'y dépend d'une décision d'infra.
 
 **Deux inconnues qui réordonnent la suite :**

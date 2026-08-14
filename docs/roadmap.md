@@ -5,7 +5,7 @@
 **moins de 10 soumissions, 0 RDV, aucun analytics installé.** Budget infra 10 €/mois.
 Une personne, assistée par IA.
 
-- **42 tickets · 142 points · 6 phases planifiées + 1 conditionnée**
+- **42 tickets · 145 points · 6 phases planifiées + 1 conditionnée**
 - Détail des tickets : [`docs/roadmap-tickets.md`](roadmap-tickets.md)
 - Source de vérité : [`docs/linear/tickets.json`](linear/tickets.json)
 - Import Linear : [`docs/linear/README.md`](linear/README.md)
@@ -50,7 +50,7 @@ impossible de savoir si le goulot est l'acquisition, le tunnel ou la restitution
 ### Et un quatrième, structurel
 
 Le tunnel se termine sur « L'analyse vous attend dans votre boîte mail ». **Il n'existe
-aucun chemin vers Calendly dans le produit lui-même.** Le seul bouton est dans le mail,
+aucun chemin vers la prise de RDV dans le produit lui-même.** Le seul bouton est dans le mail,
 sous le message qui dit que la refonte n'est pas urgente. 0 RDV n'a rien de surprenant :
 le produit n'en demande jamais.
 
@@ -77,7 +77,7 @@ Deux corrections de cap :
 ```
 S1      P0 ████          Réparer et mesurer              12 pts  ← le meilleur ratio
 S2-3    P1 ████████      Score d'urgence de refonte      29 pts
-S2-8    P2 ██████████    Acquisition                     36 pts  ← le goulot probable
+S2-8    P2 ██████████    Acquisition                     39 pts  ← le goulot probable
 S6-8    P3 ██████        Restitution et conversion       21 pts
 S9-11   P4 █████████     Analyse automatique HTML        33 pts
 S12-13  P5 ███           PageSpeed                       10 pts
@@ -85,7 +85,7 @@ S12-13  P5 ███           PageSpeed                       10 pts
 ```
 
 **Phase 0 en semaine 1.** 12 points pour corriger un mail qui dissuade, deux
-dénominateurs faux, un score inversé, brancher l'analytics et poser un CTA Calendly.
+dénominateurs faux, un score inversé, brancher l'analytics et poser un CTA de prise de RDV.
 C'est de loin le meilleur rapport valeur/effort de tout le plan, et **P0-4 et P0-5
 conditionnent la priorisation de tout le reste** : sans mesure, on ne saura pas si les
 phases suivantes servent à quelque chose.
@@ -111,7 +111,7 @@ le SEO signifierait une année de plus sans lead.
 | RGPD | Hors score, en alertes binaires | P1-3 |
 | Marketing | Hors score, devient multiplicateur d'urgence | P1-4 |
 | Gate email | **Conservé** — score partiel affiché, détail par mail | P3-2 |
-| CTA | Calendly, à chaque point de sortie, différencié par palier | P0-6, P3-4 |
+| CTA | **HubSpot Meetings**, à chaque point de sortie, différencié par palier | P0-6, P3-4 |
 | Bootstrap | **Retiré**, migration Tailwind (déjà installé) | P2-7 |
 | Requêtes SEO | **Pas « refonte site web »** en cible directe — voir ci-dessous | P2-2 |
 | Vision IA | Conditionnée à 30 soumissions/mois sur 2 mois | P6-1 |
@@ -228,7 +228,7 @@ sur le factuel.
 
 1. **Qualité du lead > volume.** À 2500 € de panier, 3 leads qualifiés par mois suffisent.
 2. **Le temps est la ressource rare, pas l'argent.** Le budget de 10 € ne bloque rien ;
-   142 points en solo, si.
+   145 points en solo, si.
 3. **Ne rien afficher qui ne soit défendable** face au prospect avec son dev dans la salle.
 4. **Ne rien construire qu'on ne puisse mesurer** — d'où la Phase 0 en premier.
 5. **Latence perçue > latence réelle.** 45 s passent bien si l'écran raconte.
