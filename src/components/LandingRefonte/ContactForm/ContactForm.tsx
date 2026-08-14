@@ -5,6 +5,7 @@ import Button from "../../UI/Button/Button";
 import Image from "next/image";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
 import { EVENEMENTS, suivre } from "../../../utils/analytics";
+import MeetingCta from "../../MeetingCta/MeetingCta";
 import { useScoreStore } from "../../../store/useScoreStore";
 import tardis from "../../../../public/images/tardis.webp";
 
@@ -178,6 +179,14 @@ export default function ContactForm() {
               <p className="text-center mt-3">
                 L'analyse de votre site web vous attend dans votre boîte mail ! Pensez à vérifier vos spams si vous ne le voyez pas dans votre boîte de réception.
               </p>
+              {/* Seul chemin vers un RDV depuis le produit : sans lui, le tunnel
+                  se termine sur une attente et le lead repart. */}
+              <p className="text-center mt-4 mb-3">
+                <small>Une question sur votre résultat ? Autant en parler de vive voix.</small>
+              </p>
+              <MeetingCta emplacement="confirmation_tunnel">
+                Faire relire mon score par une designer — 30 min
+              </MeetingCta>
             </div>
           )}
         </div>

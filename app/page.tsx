@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/LandingRefonte/Landing/HeroSection/Her
 import Image from "next/image";
 import Link from "next/link";
 import LinkSection from "@/components/LandingRefonte/Landing/LinkSection/LinkSection";
+import MeetingCta from "@/components/MeetingCta/MeetingCta";
 import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/NumbersSection";
 import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
 import type { Metadata } from "next";
@@ -31,6 +32,17 @@ export default function Page() {
         <NumbersSection />
         <ScoreSection />
         <LinkSection />
+        {/* Sortie secondaire : capte le visiteur qui ne fera pas le quiz.
+            Formule differemment du CTA de fin de tunnel — ici il n'a pas
+            encore de score, lui proposer de le relire n'aurait aucun sens. */}
+        <div className="d-flex flex-column align-items-center gap-2 my-5">
+          <p className="text-center mb-0">
+            Pas envie de répondre à 21 questions ?
+          </p>
+          <MeetingCta emplacement="accueil_bas_de_page">
+            Parler de mon site à une designer — 30 min
+          </MeetingCta>
+        </div>
       </div>
       <div className="d-flex flex-column align-items-center gap-2 p-2 bg-dark mt-5">
         <Link
