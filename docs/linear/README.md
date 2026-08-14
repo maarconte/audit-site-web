@@ -54,6 +54,23 @@ polluer l'espace partagé avec THATMUCH.
 **Cycles** — 2 semaines. La Phase 2 court en parallèle des Phases 1 et 3 : la traiter
 comme un flux continu plutôt que comme un cycle.
 
+## ⚠️ Plafond du plan gratuit
+
+Le workspace `linear.app/thatmuch` est au **plan gratuit**, dont la limite d'issues
+est comptée **à l'échelle du workspace**, pas de l'équipe. L'équipe `THATMUCH` en
+occupe déjà la quasi-totalité — la création s'est arrêtée net à `REF-18` avec
+« You've exceeded the free issue limit for this workspace ».
+
+Trois sorties, par ordre de coût croissant :
+
+1. **Archiver les issues `Done` et `Canceled` de `THATMUCH`.** L'archivage n'est pas
+   une suppression et reste réversible ; il libère le compteur. La majorité des
+   issues de cette équipe sont terminées.
+2. **Ne créer les tickets qu'au fil de l'eau.** Les phases 0 et 1 chargées suffisent
+   à plusieurs semaines de travail ; `tickets.json` reste la source pour créer la
+   suite au moment voulu.
+3. **Passer le workspace en plan payant.**
+
 ## 2. Importer
 
 `Settings → Import / Export → Import issues → CSV`, puis charger
