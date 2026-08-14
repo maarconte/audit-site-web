@@ -113,8 +113,10 @@ C'est ce qui coûte des leads chaque semaine et rien n'y dépend d'une décision
 
 **Deux inconnues qui réordonnent la suite :**
 
-- Search Console (P0-5) dira si la page est seulement indexée. Si le trafic existe mais
-  ne convertit pas, la restitution (Phase 3) passe devant l'acquisition (Phase 2).
+- ~~Search Console (P0-5)~~ **levée le 14/08/2026** : les deux pages sont indexées,
+  aucun historique n'existe, la ligne de base démarre maintenant. La Phase 2 reste
+  devant la Phase 3, mais P2-2, P2-3 et P2-5 passent devant P2-4 — le goulot est le
+  positionnement, pas l'exploration. Détail dans [`roadmap.md`](roadmap.md).
 - P2-9 (20 analyses envoyées en prospection) conditionne P4-7 puis P6-1.
 
 ---
