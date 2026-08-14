@@ -100,7 +100,7 @@ button {
 
   &-white {
     background-color: $neutral-0;
-    color: $text-color-default;
+    color: $neutral-900;
     &:hover {
       background-color: transparent;
       text-decoration: none;
@@ -111,10 +111,9 @@ button {
     }
   }
   &-dev {
-    color: $text-color-default;
+    color: $neutral-900;
     background-color: $dev-500;
     &:hover {
-      color: $text-color-default;
       background-color: $dev-500;
       text-decoration: none;
     }

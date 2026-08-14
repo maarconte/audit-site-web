@@ -1,0 +1,14 @@
+@use "../../../../scss/vars" as *;
+@use "../../../../scss/mixins" as *;
+.MeetingCtaSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: $spacing-xl 0;
+
+  &__text {
+    text-align: center;
+    margin-bottom: 0;
+  }
+}
