@@ -1,4 +1,5 @@
 import React from "react";
+import ConsentSettingsLink from "@/components/ConsentBanner/ConsentSettingsLink";
 import { HeroSection } from "@/components/LandingRefonte/Landing/HeroSection/HeroSection";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default function Page() {
         <ScoreSection />
         <LinkSection />
       </div>
-      <div className="d-flex justify-content-center p-2 bg-dark mt-5">
+      <div className="d-flex flex-column align-items-center gap-2 p-2 bg-dark mt-5">
         <Link
           href="/"
           className="landing-header__logo"
@@ -40,6 +41,7 @@ export default function Page() {
         >
           <Image src={logo} alt="THATMUCH" width={150} height={50} style={{ objectFit: 'contain' }} priority />
         </Link>
+        <ConsentSettingsLink />
       </div>
     </div>
   );

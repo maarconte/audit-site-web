@@ -4,6 +4,7 @@ import {
 	getAnalytics,
 	isSupported,
 	logEvent,
+	setAnalyticsCollectionEnabled,
 } from "firebase/analytics";
 
 import { app } from "./firebase";
@@ -119,6 +120,7 @@ async function demarrerMesure() {
 /** L'utilisateur accepte la mesure : on demarre et on envoie l'attente. */
 export function accepterMesure() {
 	consentementAccorde = true;
+	if (analytics) setAnalyticsCollectionEnabled(analytics, true);
 	memoriser("accepte");
 	void demarrerMesure();
 }
@@ -127,7 +129,30 @@ export function accepterMesure() {
 export function refuserMesure() {
 	consentementAccorde = false;
 	fileDAttente = [];
+	// Si la mesure avait ete acceptee puis retiree, le SDK est deja charge :
+	// il faut le faire taire explicitement, sans quoi il continuerait a
+	// collecter jusqu'au prochain rechargement.
+	if (analytics) setAnalyticsCollectionEnabled(analytics, false);
 	memoriser("refuse");
+}
+
+/**
+ * Efface le choix : la banniere se reaffiche et la mesure s'arrete en
+ * attendant une nouvelle reponse.
+ *
+ * Retirer son consentement doit etre aussi simple que de le donner ; c'est
+ * aussi ce qui permet de retester la banniere sans vider le stockage a la main.
+ */
+export function oublierChoixConsentement() {
+	consentementAccorde = false;
+	fileDAttente = [];
+	if (analytics) setAnalyticsCollectionEnabled(analytics, false);
+	try {
+		window.localStorage.removeItem(CLE_CONSENTEMENT);
+	} catch {
+		// Sans stockage, le choix n'avait de toute facon pas ete persiste.
+	}
+	for (const abonne of abonnes) abonne();
 }
 
 /** Restaure un consentement donne lors d'une visite precedente. */

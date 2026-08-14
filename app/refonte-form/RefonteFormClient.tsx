@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import ClickSpark from "@/components/ClickSpark/ClickSpark";
+import ConsentSettingsLink from "@/components/ConsentBanner/ConsentSettingsLink";
 import ContactForm from "@/components/LandingRefonte/ContactForm/ContactForm";
 import FormContainer from "@/components/LandingRefonte/Form/FormContainer/FormContainer";
 import FormStepper from "@/components/LandingRefonte/Form/FormStepper/FormStepper";
@@ -77,8 +78,9 @@ export default function RefonteFormClient() {
             <ContactForm />
           )}
         </div>
-        <div className="d-flex justify-content-center p-2 bg-dark mt-5">
+        <div className="d-flex flex-column align-items-center gap-1 p-2 bg-dark mt-5">
           <span className="uppercase text-white">thatmuch</span>
+          <ConsentSettingsLink />
         </div>
       </div>
     </ClickSpark>
