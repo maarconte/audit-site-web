@@ -121,6 +121,16 @@ C'est ce qui coûte des leads chaque semaine et rien n'y dépend d'une décision
 
 ---
 
+## Leçons techniques
+
+[`lecons-techniques.md`](lecons-techniques.md) conserve le *pourquoi* de deux
+décisions encore visibles dans le code : le durcissement de la Cloud Function contre
+le mass assignment (le SDK admin contourne `firestore.rules`) et l'arrêt explicite de
+la boucle d'animation de `ClickSpark`. Récupéré du dossier `.jules/`, supprimé avec
+l'arrêt des agents automatiques.
+
+---
+
 ## Gestion de projet
 
 Linear n'était pas autorisé dans la session. Les 42 tickets sont prêts à importer :
