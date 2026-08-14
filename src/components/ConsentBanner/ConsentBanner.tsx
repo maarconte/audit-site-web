@@ -55,8 +55,8 @@ export default function ConsentBanner() {
       className="position-fixed bottom-0 start-0 end-0 p-3 bg-dark text-white"
       style={{ zIndex: 1080 }}
     >
-      <div className="container-fluid d-flex flex-column flex-md-row align-items-md-center gap-3">
-        <p className="mb-0 flex-grow-1 no-animation opacity-25">
+      <div className="container-fluid d-flex flex-column flex-md-row align-items-md-center gap-3 no-animation">
+        <p className="mb-0 flex-grow-1  opacity-25">
           <small>
             Nous mesurons la façon dont cet outil est utilisé, pour l’améliorer.
             Aucune donnée n’est collectée sans votre accord. Voir notre{" "}

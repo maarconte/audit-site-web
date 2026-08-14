@@ -162,10 +162,10 @@ figure.wp-block-table td {
 }
 
 p:not(.no-animation),
-h2,
-h3,
-blockquote,
-hr {
+:not(.no-animation) h2,
+:not(.no-animation) h3,
+:not(.no-animation) blockquote,
+:not(.no-animation) hr {
   /* animation-name: text-appear; @keyframes defined below */
   /* animation-timing-function: ease-in; standard should be linear */
   /* animation-fill-mode: both; keeps animated values forwards and backwards */
