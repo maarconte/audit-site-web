@@ -74,10 +74,10 @@ button {
   }
 
   &-primary {
-    background-color: $neutral-900;
-    border-color: $neutral-900;
+    background-color: $neutral-500;
+    border-color: $neutral-500;
     &:hover {
-      background-color: $neutral-500;
+      background-color: $neutral-900;
       text-decoration: none;
     }
     &:disabled {
