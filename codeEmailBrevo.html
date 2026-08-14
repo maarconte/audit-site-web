@@ -92,16 +92,16 @@
                                                             <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Bonjour {{ contact.PRENOM }},</p>
                                                             <br>
                                                             <h2 class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>
-                                                               {% if contact.TOTAL >= 66 %}Félicitations !{% endif %}
-                                                               {% if contact.TOTAL < 66 and contact.TOTAL > 33 %}Attention ! {% endif %}
-                                                               {% if contact.TOTAL <= 33 %}Aïe aïe aïe !{% endif %}
+                                                               {% if contact.TOTAL >= 66 %}Votre site tient la route.{% endif %}
+                                                               {% if contact.TOTAL < 66 and contact.TOTAL > 33 %}Votre site montre des signes de fatigue.{% endif %}
+                                                               {% if contact.TOTAL <= 33 %}Votre site vous coûte des clients.{% endif %}
                                                             </h2>
                                                             <br>{% if contact.TOTAL >= 66 %}
-                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Votre site tient encore la route, une refonte n’est pas urgente. Quelques ajustements ciblés suffiraient.</p>
+                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Les bases sont saines. Le détail ci-dessous pointe malgré tout les axes sur lesquels vous perdez des visiteurs : les traiter maintenant coûte bien moins cher qu’une refonte subie dans deux ans.</p>
                                                             {% endif %} {% if contact.TOTAL < 66 and contact.TOTAL > 33 %}
-                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Il y a de vraies faiblesses. Une refonte partielle ou stratégique serait à envisager.</p>
+                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Plusieurs axes décrochent nettement. Une refonte ciblée sur les points les plus faibles ci-dessous produirait un gain rapide, sans repartir de zéro.</p>
                                                             {% endif %} {% if contact.TOTAL <= 33 %}
-                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Une refonte complète semble fortement recommandée pour ne pas nuire à votre activité.</p>
+                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>L’écart est important sur la majorité des axes. Une refonte complète est le chemin le plus court — et le moins coûteux à terme — pour que votre site cesse de freiner votre activité.</p>
                                                             {% endif %}
                                                          </td>
                                                       </tr>
@@ -134,6 +134,17 @@
                                              </tr>
                                           </table>
                                        </th>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                        <table cellspacing="0" cellpadding="0" border="0" role="presentation" width="100%" align="center" class="r3-o" style="table-layout: fixed; width: 100%;">
+                           <tr>
+                              <td class="r4-i" style="padding-left: 15px; padding-right: 15px; padding-bottom: 10px;" align="center">
+                                 <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                                    <tr>
+                                       <td bgcolor="#3FD2DB" style="border-radius: 25px;"> <a href="https://meetings-eu1.hubspot.com/mathilde-arconte" target="_blank" style="display: inline-block; padding: 12px 20px; font-family: 'Space Mono', monospace; font-size: 16px; color: black; text-decoration: none; border-radius: 25px;"> <span style="vertical-align: middle;">Faire relire mon score — 30 min</span> <img src="https://i.postimg.cc/gkSQNyh0/right-arrow.png" alt="→" width="16" height="16" style="vertical-align: middle; margin-left: 8px;"></a> </td>
                                     </tr>
                                  </table>
                               </td>
@@ -329,7 +340,7 @@
                                                                                                                         <tr>
                                                                                                                            <td class="r17-c nl2go-default-textstyle" align="left" style="color: #3b3f44; font-family: 'Space Mono',monospace; font-size: 16px; line-height: 1.5; word-break: break-word; background-color: #fbfaff; padding-bottom: 15px; padding-top: 15px; text-align: left; valign: top;">
                                                                                                                               <div>
-                                                                                                                                 <p style="margin: 0;"><span style="font-family: 'Space Mono', monospace; font-size: 14px;">Ce score est une indication basée sur vos réponses. Pour une analyse approfondie et des recommandations personnalisées, n'hésitez pas à nous contacter.</span></p>
+                                                                                                                                 <p style="margin: 0;"><span style="font-family: 'Space Mono', monospace; font-size: 14px;">Ce score est calculé à partir de vos réponses. Pour savoir ce qu’il implique concrètement sur votre site, et par quoi commencer, 30 minutes suffisent.</span></p>
                                                                                                                               </div>
                                                                                                                            </td>
                                                                                                                         </tr>
