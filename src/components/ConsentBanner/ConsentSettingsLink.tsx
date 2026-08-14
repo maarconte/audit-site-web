@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { oublierChoixConsentement } from "@/utils/analytics";
 
 /**
@@ -21,7 +20,7 @@ export default function ConsentSettingsLink() {
       onClick={oublierChoixConsentement}
       className="btn btn-link btn-sm text-white p-0"
     >
-      <small>Gérer mes préférences de mesure</small>
+      <small className="opacity-25">Gérer mes préférences de mesure</small>
     </button>
   );
 }
