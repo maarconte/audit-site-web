@@ -1,4 +1,4 @@
-# Reprise de contexte — session du 13/08/2026
+# Reprise de contexte — au 14/08/2026
 
 À lire en premier dans une nouvelle conversation. Les décisions et le détail des
 tickets sont dans [`roadmap.md`](roadmap.md) et [`roadmap-tickets.md`](roadmap-tickets.md).
@@ -45,7 +45,8 @@ Aucun n'efface : tous écrasent et ajoutent.
 
 ## Diagnostic — pourquoi 0 RDV
 
-Quatre causes identifiées dans le code, toutes non corrigées à ce jour :
+Quatre causes identifiées dans le code. **Les quatre sont corrigées dans `develop`
+depuis le 14/08/2026, mais rien n'est déployé** — voir « État réel » plus bas.
 
 1. **Le mail dissuade.** `codeEmailBrevo.html` : `{% if contact.TOTAL >= 66 %}` →
    « Félicitations ! Votre site tient encore la route, une refonte n'est pas urgente. »
@@ -81,37 +82,71 @@ crédité 3/5.
 
 ---
 
-## Fait cette session
+## État réel au 14/08/2026
 
-**P2-1 — migration en sous-dossier, terminée et vérifiée.**
-L'outil est passé de `audit-refonte.thatmuch.fr` (GitHub Pages) à
-`https://thatmuch.fr/audit-refonte/`, avec 301 depuis l'ancien sous-domaine.
+### ⚠️ La Phase 0 est écrite, elle n'est pas en ligne
 
-Commits sur `main` de `audit-site-web` : `basePath` + `trailingSlash`, préfixe des
-`url()` SCSS, `.htaccess` de redirection, bascule du déploiement vers Hostinger.
-Sur `develop` de `ThatMuch/website` : 3 liens internes, `workflow_dispatch` avec
-sélecteur de branche, `ref: main`.
+**Les 12 points sont fusionnés dans `develop`. `main` n'a rien reçu.** Les leads qui
+soumettent le quiz aujourd'hui reçoivent toujours l'ancien mail.
 
-Le détail des sept écarts entre l'analyse initiale et la réalité est consigné dans
-[`roadmap.md`](roadmap.md), section « P2-1 — réalisé ».
+| Ticket | Objet | État |
+|---|---|---|
+| REF-1 | Mail qui dissuade réécrit, CTA remonté | dans `develop` |
+| REF-2 | Dénominateurs Marketing et Légal corrigés | dans `develop` |
+| REF-3 | Inversion `legal-2` + test des 21 directions | dans `develop` |
+| REF-4 | Analytics + bandeau de consentement révocable | dans `develop`, **événements validés en réel** |
+| REF-5 | Search Console | **relevé à compléter** — voir plus bas |
+| REF-6 | CTA de RDV à deux points de sortie | dans `develop` |
+
+### La séquence de mise en production, dans cet ordre
+
+1. PR `develop` → `main`, portant les `Fixes REF-1` à `REF-6` — c'est elle qui fait
+   passer les tickets en `Done`, puisque c'est elle qui met réellement en ligne
+2. Attendre la fin du workflow `nextjs.yml`
+3. **Seulement ensuite**, coller `codeEmailBrevo.html` dans Brevo
+
+**L'ordre 2 avant 3 est impératif** : les URL d'images
+`thatmuch.fr/audit-refonte/email/*.png` n'existent qu'après déploiement. Dans
+l'autre sens, tous les envois partent avec sept icônes cassées.
+
+### Ce qui reste ouvert sur la Phase 0
+
+- **Relevé Search Console** — à faire dès le 15/08. Ouvrir la propriété
+  `https://thatmuch.fr/audit-refonte/`, noter impressions, clics, position moyenne
+  et premières requêtes. C'est le seul chiffre de départ qui existera jamais :
+  aucun historique n'est récupérable. Ne pas fermer REF-5 avant.
+- **Envoi de test Brevo** sur les trois branches de message — dernier critère
+  d'acceptation de REF-1, impossible à automatiser. Un rendu local existe :
+  `node scripts/render-email-preview.mjs`.
+- **Politique de confidentialité** : elle doit mentionner la mesure d'audience, le
+  bandeau de consentement y renvoie.
+- **`marketing-3` est inversée** au même titre que `legal-2` l'était : « je souhaite
+  ajouter des pages » vaut 5, alors que ça décrit un besoin, pas un site sain. Non
+  corrigée à dessein — P1-4 sort marketing du score pour en faire un multiplicateur
+  d'urgence, où le 5 redevient juste. Signalée en `todo` par `npm test`.
+
+### Restes plus anciens, toujours valables
+
+- Retirer le domaine personnalisé dans `Settings → Pages` de
+  `maarconte/audit-site-web`, puis désactiver Pages (cosmétique).
+- **Vérifier que `deploy.yml` a bien été poussé sur `develop`** de
+  `ThatMuch/website`. Sans lui, la prochaine publication d'article reconstruit
+  `develop` et efface le contenu de `main` — c'est déjà arrivé une fois.
+
+### Sur le mail — corrections hors ticket
+
+Au-delà de REF-1 et REF-2, l'audit du template a produit : URL Google Fonts
+corrigée (une espace non encodée empêchait tout chargement), `alt` et `height`
+ajoutés aux trois images qui en manquaient, et **rapatriement des icônes** depuis
+`i.postimg.cc` vers `public/email/` — versionnées, redimensionnées au double de leur
+taille d'affichage, **110 Ko ramenés à 16 Ko**.
+
+Reste `blog-placeholder-design-01.png`, un placeholder WordPress de 2021 servant de
+vignette d'article : choix éditorial, non tranché.
 
 ---
 
-## À reprendre
-
-**Deux restes de la session :**
-
-- Retirer le domaine personnalisé dans `Settings → Pages` de `maarconte/audit-site-web`,
-  puis désactiver Pages (cosmétique, GitHub ne sert plus personne).
-- **Vérifier que `deploy.yml` a bien été poussé sur `develop`** de `ThatMuch/website`.
-  Sans lui, la prochaine publication d'article reconstruit `develop` et efface le
-  contenu de `main` — le problème s'est déjà produit une fois.
-
-**Puis la Phase 0** (12 points, une semaine) : P0-1 le mail, P0-2 les dénominateurs,
-P0-3 l'inversion `legal-2`, P0-4 l'analytics, P0-5 Search Console, P0-6 le CTA de RDV.
-C'est ce qui coûte des leads chaque semaine et rien n'y dépend d'une décision d'infra.
-
-**Deux inconnues qui réordonnent la suite :**
+**Une inconnue qui réordonne la suite :**
 
 - ~~Search Console (P0-5)~~ **levée le 14/08/2026** : les deux pages sont indexées,
   aucun historique n'existe, la ligne de base démarre maintenant. La Phase 2 reste
@@ -133,9 +168,45 @@ l'arrêt des agents automatiques.
 
 ## Gestion de projet
 
-Linear n'était pas autorisé dans la session. Les 42 tickets sont prêts à importer :
+**Linear est en place** — workspace `linear.app/thatmuch`, équipe **« Audit Refonte »,
+clé `REF`**, distincte de l'équipe `THATMUCH` pour ne pas mêler les réglages.
 
-- Source : [`linear/tickets.json`](linear/tickets.json)
-- Export CSV : [`linear/linear-import.csv`](linear/linear-import.csv)
+- Initiative « Génération de leads refonte », 7 projets (un par phase)
+- 22 labels d'équipe, plus le label workspace `Bug` réutilisé — `bug` en minuscules
+  n'a pas pu être créé, Linear refusant les doublons insensibles à la casse
+- Estimations en Fibonacci, format de branche réduit à l'identifiant (`ref-12`)
+
+**⚠️ Seuls 18 tickets sur 42 sont créés** (`REF-1` à `REF-18`) : le **plafond de
+250 issues du plan gratuit** est atteint à l'échelle du workspace, `THATMUCH`
+l'occupant presque entièrement. La création s'est arrêtée net sur P2-5.
+
+L'archivage manuel n'existe pas dans Linear — seul l'auto-archivage existe, il tourne
+sous 24 h et **n'archive pas une issue close tant que son projet n'est pas clos**.
+Les 24 tickets restants (P2-5 à P6-1) sont dans `tickets.json`, à créer au fil de
+l'eau ou après passage en plan payant.
+
+- Source de vérité : [`linear/tickets.json`](linear/tickets.json)
+- Régénération des exports : `node scripts/linear-export.mjs`
 - Procédure et câblage GitHub : [`linear/README.md`](linear/README.md)
-- Régénération : `node scripts/linear-export.mjs`
+
+**Convention de PR** : le dépôt a un [template](../.github/pull_request_template.md)
+avec une section « Impact sur le score » obligatoire dès que la PR touche
+`src/lib/scoring/`, `src/data/questionquiz.json` ou `functions/src/`. Les PR portent
+`Part of REF-XX` et non `Fixes` : la fusion dans `develop` ne déploie rien, c'est la
+PR `develop` → `main` qui doit fermer les tickets.
+
+---
+
+## Outillage ajouté
+
+- `npm test` — 24 tests sur le runner Node natif, sans dépendance. Vérifie la
+  direction des 21 questions, que toute question ajoutée déclare la sienne, et que
+  **les maximums par catégorie correspondent aux dénominateurs du mail**.
+- `node scripts/render-email-preview.mjs` — rend `codeEmailBrevo.html` hors de Brevo,
+  un fichier HTML par branche de score, dans `.email-preview/` (ignoré par git).
+- `node scripts/linear-export.mjs` — régénère le CSV et `roadmap-tickets.md` depuis
+  `tickets.json`.
+
+**Ménage du dépôt** : les 107 PR ouvertes par les agents automatiques ont été fermées
+le 14/08/2026 (correctifs déjà appliqués, ou portant sur du code que P2-7 réécrira),
+leurs branches supprimées, et `.jules/` retiré. Il ne reste que `main` et `develop`.
