@@ -382,11 +382,11 @@
         "options": [
           {
             "text": "Oui",
-            "score": 0
+            "score": 5
           },
           {
             "text": "Non",
-            "score": 5
+            "score": 0
           }
         ]
       },

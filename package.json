@@ -6,7 +6,8 @@
     "dev": "dotenv -e .env.dev -- next dev",
     "build": "dotenv -e .env.local -- next build",
     "start": "dotenv -e .env.local -- next build && serve out",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test tests/"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
