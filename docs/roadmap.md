@@ -244,11 +244,60 @@ sur le factuel.
 
 ---
 
-## Ce qui reste à lever
+## P0-5 — relevé Search Console du 14/08/2026
 
-- **P0-5 (Search Console)** dira si la page est seulement indexée. Le résultat
-  **réordonne les Phases 2 et 3** : si le trafic existe mais ne convertit pas, la
-  restitution passe devant l'acquisition.
+### Les deux pages sont indexées
+
+`https://thatmuch.fr/audit-refonte/` et `.../refonte-form/` : **« L'URL est sur
+Google »** à l'inspection. Elles répondent en 200, sans balise `noindex`, et le
+`robots.txt` de thatmuch.fr n'interdit rien.
+
+**L'hypothèse « Google ne trouve pas l'outil » est écartée.** Le goulot n'est pas
+l'exploration mais le **positionnement** : les pages sont dans l'index et ne se
+classent sur rien — cohérent avec une page d'accueil d'environ 150 mots, sans
+requête cible ni `title` travaillé.
+
+### Il n'existe aucun historique de recherche
+
+| Propriété | État |
+|---|---|
+| `audit-refonte.thatmuch.fr` | **n'a jamais existé** |
+| `thatmuch.fr` (domaine) | non vérifiée jusqu'au 14/08/2026 |
+| `https://thatmuch.fr/audit-refonte/` | vérifiée, mais **récente** — « traitement des données en cours » |
+
+Search Console ne collecte que pour une propriété vérifiée et **ne reconstitue
+jamais le passé**. L'année du sous-domaine n'a donc été enregistrée nulle part et
+n'est pas récupérable. **La ligne de base démarre au 14/08/2026**, en même temps que
+l'instrumentation de P0-4. L'outil a tourné un an entièrement à l'aveugle, côté
+produit comme côté recherche.
+
+Un jeton de vérification a été ajouté en TXT sur `thatmuch.fr` le 14/08/2026, en
+ajout des trois valeurs existantes (SPF, Stripe, vérification Google préexistante).
+Il consolidera les sous-domaines sous une seule propriété, sans effet rétroactif.
+
+### Ce que ça décide
+
+**La Phase 2 reste devant la Phase 3.** Le scénario qui l'aurait inversée — du trafic
+qui ne convertit pas — est exclu : il n'y a pas de trafic de recherche.
+
+Mais **la composition de la Phase 2 change**. Les pages étant déjà indexées :
+
+- **P2-4** (sitemap, robots.txt) perd son caractère urgent — de l'hygiène, pas le
+  goulot. L'outil reste absent des 127 URL du sitemap de thatmuch.fr, à corriger,
+  sans que ce soit ce qui bloque.
+- **P2-2** (requêtes atteignables), **P2-3** (métadonnées) et **P2-5** (contenu sous
+  le pli) portent l'enjeu réel : donner aux pages indexées quelque chose sur quoi se
+  classer.
+
+### À refaire dans 24 h
+
+Le rapport Performances était en cours de traitement au moment du relevé. Y revenir
+pour noter impressions, clics, position moyenne et premières requêtes — la vraie
+valeur de départ.
+
+---
+
+## Ce qui reste à lever
 - **P2-9** (20 analyses manuelles envoyées en prospection) est le test le moins cher de
   la pertinence du score, et il **conditionne P4-7 puis P6-1**.
 - **Cas clients (P2-8)** : tu as dit pouvoir en obtenir. Il en faut deux, avec chiffres
