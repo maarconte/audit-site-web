@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 import Button from "../../../UI/Button/Button";
 import FormQuestion from "./FormQuestion/FormQuestion";
+import { EVENEMENTS, suivre } from "../../../../utils/analytics";
 import { useScoreStore } from "../../../../store/useScoreStore";
 
 import { Question } from "./FormQuestion/FormQuestion";
@@ -66,9 +67,20 @@ export default function FormContainer({
     }
   };
 
+  // Une etape franchie = une categorie validee. C'est cet evenement, avec son
+  // index, qui rend le taux d'abandon lisible etape par etape.
+  const suivreEtapeTerminee = (score: number) => {
+    suivre(EVENEMENTS.quizEtapeTerminee, {
+      index: currentCategoryIndex,
+      slug: currentCategory.slug,
+      score,
+    });
+  };
+
   const handleNext = (formValues: {[key: string]: string}) => {
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
+    suivreEtapeTerminee(score);
     setCurrentCategoryIndex(currentCategoryIndex + 1);
   };
 
@@ -84,6 +96,7 @@ export default function FormContainer({
   const handleSubmit = (formValues: {[key: string]: string}) => {
     const score = calculateCurrentCategoryScore(formValues);
     updateScoreByCategory(currentCategory.slug, score);
+    suivreEtapeTerminee(score);
     // After updating the last category's score, calculate the global score
     setIsFinished(true);
     window.scrollTo({ top: 0, behavior: "smooth" });

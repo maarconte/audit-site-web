@@ -2,11 +2,13 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import ClickSpark from "@/components/ClickSpark/ClickSpark";
+import ConsentSettingsLink from "@/components/ConsentBanner/ConsentSettingsLink";
 import ContactForm from "@/components/LandingRefonte/ContactForm/ContactForm";
 import FormContainer from "@/components/LandingRefonte/Form/FormContainer/FormContainer";
 import FormStepper from "@/components/LandingRefonte/Form/FormStepper/FormStepper";
 import { HeroSection } from "@/components/LandingRefonte/Landing/HeroSection/HeroSection";
 import data from "@/data/questionquiz.json";
+import { EVENEMENTS, suivre } from "@/utils/analytics";
 import { useScoreStore } from "@/store/useScoreStore";
 
 export default function RefonteFormClient() {
@@ -30,6 +32,18 @@ export default function RefonteFormClient() {
     }));
     setCategories(categoriesForProvider);
   }, [categories, setCategories]);
+
+  // Entree dans le tunnel : c'est le denominateur du taux d'abandon.
+  useEffect(() => {
+    suivre(EVENEMENTS.quizDemarre, { nombre_categories: categories.length });
+  }, [categories.length]);
+
+  // Toutes les categories ont ete validees, avant meme la demande d'email.
+  useEffect(() => {
+    if (isFinished) {
+      suivre(EVENEMENTS.quizTermine, { nombre_categories: categories.length });
+    }
+  }, [isFinished, categories.length]);
 
   return (
     <ClickSpark
@@ -64,8 +78,9 @@ export default function RefonteFormClient() {
             <ContactForm />
           )}
         </div>
-        <div className="d-flex justify-content-center p-2 bg-dark mt-5">
+        <div className="d-flex flex-column align-items-center gap-1 p-2 bg-dark mt-5">
           <span className="uppercase text-white">thatmuch</span>
+          <ConsentSettingsLink />
         </div>
       </div>
     </ClickSpark>

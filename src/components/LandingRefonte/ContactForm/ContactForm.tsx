@@ -1,11 +1,13 @@
 import "./ContactForm.scss";
 
-import React, { useState } from "react";
-import Button from "../../UI/Button/Button";
+import { EVENEMENTS, suivre } from "../../../utils/analytics";
+import React, { useEffect, useState } from "react";
+
 import Image from "next/image";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
-import { useScoreStore } from "../../../store/useScoreStore";
+import MeetingCta from "../../MeetingCta/MeetingCta";
 import tardis from "../../../../public/images/tardis.webp";
+import { useScoreStore } from "../../../store/useScoreStore";
 
 // Cloud Function URL — update after deployment
 const SUBMIT_URL =
@@ -23,6 +25,18 @@ export default function ContactForm() {
   const scores = useScoreStore((s) => s.scores);
   const [isPending, setIsPending] = useState(false);
   const [state, setState] = useState<FormState | null>(null);
+
+  // Le gate email est le dernier obstacle avant le lead : on veut savoir
+  // combien de visiteurs l'atteignent sans le franchir.
+  useEffect(() => {
+    suivre(EVENEMENTS.formulaireContactVu);
+  }, []);
+
+  useEffect(() => {
+    if (state?.success) {
+      suivre(EVENEMENTS.resultatVu);
+    }
+  }, [state?.success]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,6 +63,11 @@ export default function ContactForm() {
 
       const data: FormState = await response.json();
       setState(data);
+      if (data.success) {
+        suivre(EVENEMENTS.leadEnvoye, {
+          score_total: Object.values(scores).reduce((s, v) => s + v, 0),
+        });
+      }
     } catch {
       setState({
         success: false,
@@ -66,7 +85,13 @@ export default function ContactForm() {
           <h2 className="h3">Analyse terminée !</h2>
           <div className="divider mb-4"></div>
           <h3 className="h1">Recevez votre résultat par mail</h3>
-          <Image src={tardis} alt="Tardis" width={300} height={300} style={{ objectFit: 'contain' }} />
+          <Image
+            src={tardis}
+            alt="Tardis"
+            width={300}
+            height={300}
+            style={{ objectFit: "contain" }}
+          />
         </div>
         <div className="col-md-6">
           {!state?.success ? (
@@ -130,9 +155,15 @@ export default function ContactForm() {
                   />
                   <label htmlFor="terms" className="form-check-label">
                     <small>
-                      J'accepte que <span className="uppercase">Thatmuch</span> collecte mes données selon sa{" "}
+                      J'accepte que <span className="uppercase">Thatmuch</span>{" "}
+                      collecte mes données selon sa{" "}
                       {/* <a> brute volontairement : la page vit sur thatmuch.fr, hors basePath. */}
-                      <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer" className="text-decoration-underline">
+                      <a
+                        href="/politique-de-confidentialite"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-decoration-underline"
+                      >
                         politique de confidentialité.
                       </a>
                     </small>
@@ -153,13 +184,25 @@ export default function ContactForm() {
               </button>
             </form>
           ) : (
-            <div className="d-flex flex-column align-items-center justify-content-center">
+            <div className="">
               <span className="badge badge-success">
                 <MdOutlineMarkEmailUnread className="icon" size={32} />
               </span>
-              <p className="text-center mt-3">
-                L'analyse de votre site web vous attend dans votre boîte mail ! Pensez à vérifier vos spams si vous ne le voyez pas dans votre boîte de réception.
+              <p className=" mt-3 mb-5">
+                L'analyse de votre site web vous attend dans votre boîte mail !
+                Pensez à vérifier vos spams si vous ne le voyez pas dans votre
+                boîte de réception.
               </p>
+              {/* Seul chemin vers un RDV depuis le produit : sans lui, le tunnel
+                  se termine sur une attente et le lead repart. */}
+              <h4 className="h5">Une question sur votre résultat ?</h4>
+              <p className=" mb-3">
+                Autant en parler de vive voix et faire revoir votre site par un
+                professionnel.
+              </p>
+              <MeetingCta emplacement="confirmation_tunnel">
+                Demander un diagnostic complet
+              </MeetingCta>
             </div>
           )}
         </div>
