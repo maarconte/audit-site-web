@@ -50,8 +50,9 @@ Quatre causes identifiées dans le code, toutes non corrigées à ce jour :
 1. **Le mail dissuade.** `codeEmailBrevo.html` : `{% if contact.TOTAL >= 66 %}` →
    « Félicitations ! Votre site tient encore la route, une refonte n'est pas urgente. »
    Suivi d'un bouton « Prendre RDV ».
-2. **Dénominateurs faux dans le mail.** `TOTAL` affiché `/100` mais le max réel est
-   **102** ; Marketing affiché `/10` pour un max de **17** ; Légal `/20` pour **15**.
+2. **Deux dénominateurs faux dans le mail.** Marketing affiché `/10` pour un max de
+   **15** ; Légal `/20` pour **15**. Le `TOTAL /100` est juste (max réel 100), contre
+   ce qu'annonçait la première analyse.
 3. **Aucun analytics installé.** `src/utils/firebase.ts` n'initialise que Firestore,
    `getAnalytics` n'est appelé nulle part. Zéro donnée depuis un an.
 4. **Aucun chemin vers la prise de RDV dans le produit.** Le tunnel finit sur « regardez vos

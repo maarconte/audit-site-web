@@ -30,15 +30,24 @@ Dans [`codeEmailBrevo.html`](../codeEmailBrevo.html) :
 Suivi, quelques blocs plus bas, d'un bouton « Prendre RDV ». Le produit dissuade puis
 sollicite.
 
-### 2. Les dénominateurs du mail sont faux
+### 2. Deux dénominateurs du mail sont faux
 
-| Affiché | Maximum réel |
-|---|---|
-| `{{ TOTAL }}/100` | **102** — les seuils 33 et 66 s'appliquent à cette échelle |
-| Marketing **/10** | **17** — un lead peut recevoir « 14/10 » |
-| Légalité & Accessibilité **/20** | **15** |
+Maximums recalculés depuis `src/data/questionquiz.json` le 14/08/2026, à l'occasion
+de P0-2 :
 
-Design, UX, SEO, Performance et Tech sont justes.
+| Affiché | Maximum réel | Verdict |
+|---|---|---|
+| Marketing **/10** | **15** | faux — un lead pouvait recevoir « 12/10 » |
+| Légalité & Accessibilité **/20** | **15** | faux |
+| `{{ TOTAL }}/100` | **100** | juste |
+| Design /15 · UX /15 · SEO /10 · Performance /15 · Tech /15 | conformes | justes |
+
+**Correction d'une erreur de la version précédente de ce document**, qui annonçait un
+maximum de 17 pour Marketing et un TOTAL sur 102. Le total et les seuils 33 et 66
+étaient donc justes depuis le début, et les seuils de couleur par catégorie sont eux
+aussi proportionnés — SEO utilise 6/3 sur 10 là où les autres utilisent 10/5 sur 15.
+
+Corrigé dans `codeEmailBrevo.html` (P0-2).
 
 ### 3. Rien n'est mesuré, et ne l'a jamais été
 
