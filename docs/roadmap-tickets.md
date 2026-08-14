@@ -45,18 +45,19 @@ Réf. interne : `P0-1` · Dépendances : aucune
 
 **Contexte**
 
-Le mail affiche « Marketing /10 pts » alors que le maximum réel est 17 : un lead peut recevoir « 14/10 ». Il affiche « Légalité & Accessibilité /20 pts » alors que le maximum est 15. Et {{ contact.TOTAL }}/100 est en réalité un total sur 102, auquel s'appliquent des seuils 33 et 66. Design, UX, SEO, Performance et Tech sont justes.
+Le mail affiche « Marketing /10 pts » alors que le maximum réel est 15 : un lead peut recevoir « 12/10 ». Il affiche « Légalité & Accessibilité /20 pts » alors que le maximum est également 15. Maximums recalculés depuis src/data/questionquiz.json : design 15, ux 15, marketing 15, seo 10, performance 15, technique 15, legal 15, soit un TOTAL de 100. Le {{ contact.TOTAL }}/100 et les seuils 33 et 66 sont donc justes, contrairement à ce qu’annonçait la première analyse (qui parlait de 102 et d’un max marketing de 17).
 
 **Spécification**
 
-- Corriger Marketing en /17 et Légalité en /15, ou attendre P1-2 qui normalise tout sur 100.
-- Recommandation : corriger tout de suite en dur, puis basculer sur les valeurs normalisées à la Phase 1 — le mail est cassé aujourd'hui.
-- Vérifier que les seuils 33 et 66 sont recalculés sur la nouvelle échelle.
+- Corriger Marketing en /15 et Légalité en /15.
+- Ne pas toucher au TOTAL ni aux seuils 33 et 66 : ils sont corrects.
+- Les seuils de couleur par catégorie sont déjà proportionnés (SEO 6/3 sur 10, les autres 10/5 sur 15) — rien à faire de ce côté.
+- La normalisation générale sur 100 reste du ressort de P1-2.
 
 **Critères d'acceptation**
 
 - [ ] Aucun score affiché ne peut dépasser son dénominateur.
-- [ ] Le total affiché et le total réel sont sur la même échelle.
+- [ ] Chaque dénominateur correspond au maximum réel calculé depuis questionquiz.json.
 
 **Fichiers concernés**
 
@@ -218,7 +219,7 @@ Réf. interne : `P1-1` · Dépendances : P0-3
 
 **Contexte**
 
-Le score est une somme brute sur 102 points (functions/src/index.ts:106-112) avec une pondération accidentelle : marketing pèse 16,7% et SEO 9,8% parce qu'il y a 4 questions d'un côté et 2 de l'autre. Or l'offre vendue est du design sur WordPress : c'est l'axe design qui doit dominer le score, pas le hasard du nombre de questions.
+Le score est une somme brute sur 100 points (functions/src/index.ts:106-112) avec une pondération accidentelle : marketing pèse 15 % et SEO 10 % parce qu’il y a 4 questions d’un côté et 2 de l’autre. Or l’offre vendue est du design sur WordPress : c’est l’axe design qui doit dominer le score, pas le hasard du nombre de questions.
 
 **Spécification**
 
