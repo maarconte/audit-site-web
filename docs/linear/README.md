@@ -61,15 +61,21 @@ est comptée **à l'échelle du workspace**, pas de l'équipe. L'équipe `THATMU
 occupe déjà la quasi-totalité — la création s'est arrêtée net à `REF-18` avec
 « You've exceeded the free issue limit for this workspace ».
 
-Trois sorties, par ordre de coût croissant :
+Le plafond du plan gratuit est de **250 issues par workspace** (« If you have over
+250 issues, you will no longer be able to create new issues »).
 
-1. **Archiver les issues `Done` et `Canceled` de `THATMUCH`.** L'archivage n'est pas
-   une suppression et reste réversible ; il libère le compteur. La majorité des
-   issues de cette équipe sont terminées.
-2. **Ne créer les tickets qu'au fil de l'eau.** Les phases 0 et 1 chargées suffisent
+**L'archivage manuel n'existe pas dans Linear** — ni par API, ni dans l'UI :
+« Archiving happens automatically with no option to manually archive items. »
+L'auto-archivage se règle dans `Team settings → Issue statuses & automations`, tourne
+sous 24 h, et **n'archive pas une issue close tant que son projet n'est pas clos**.
+Ce n'est donc pas un levier fiable pour libérer de la place à la demande.
+
+Deux sorties réelles :
+
+1. **Ne créer les tickets qu'au fil de l'eau.** Les phases 0 et 1 chargées suffisent
    à plusieurs semaines de travail ; `tickets.json` reste la source pour créer la
-   suite au moment voulu.
-3. **Passer le workspace en plan payant.**
+   suite au moment voulu. C'est l'option retenue par défaut.
+2. **Passer le workspace en plan payant.**
 
 ## 2. Importer
 
