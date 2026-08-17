@@ -97,7 +97,7 @@ soumettent le quiz aujourd'hui reçoivent toujours l'ancien mail.
 | REF-2  | Dénominateurs Marketing et Légal corrigés     | dans `develop`                                 |
 | REF-3  | Inversion `legal-2` + test des 21 directions  | dans `develop`                                 |
 | REF-4  | Analytics + bandeau de consentement révocable | dans `develop`, **événements validés en réel** |
-| REF-5  | Search Console                                | **relevé à compléter** — voir plus bas         |
+| REF-5  | Search Console                                | **terminé** — ligne de base relevée le 17/08   |
 | REF-6  | CTA de RDV à deux points de sortie            | dans `develop`                                 |
 
 ### La séquence de mise en production, dans cet ordre
@@ -113,10 +113,11 @@ l'autre sens, tous les envois partent avec sept icônes cassées.
 
 ### Ce qui reste ouvert sur la Phase 0
 
-- **Relevé Search Console** — à faire dès le 15/08. Ouvrir la propriété
-  `https://thatmuch.fr/audit-refonte/`, noter impressions, clics, position moyenne
-  et premières requêtes. C'est le seul chiffre de départ qui existera jamais :
-  aucun historique n'est récupérable. Ne pas fermer REF-5 avant.
+- ~~**Relevé Search Console**~~ **fait le 17/08/2026.** Ligne de base sur
+  `https://thatmuch.fr/audit-refonte/`, fenêtre 3 mois : **0 clic, 1 impression,
+  CTR 0 %, position moyenne 8**, aucune requête exposée. La propriété domaine
+  `thatmuch.fr` est vérifiée. Détail dans [`roadmap.md`](roadmap.md#p0-5--relevé-search-console-du-14082026).
+  REF-5 peut passer en `Done` avec la PR `develop` → `main`.
 - **Envoi de test Brevo** sur les trois branches de message — dernier critère
   d'acceptation de REF-1, impossible à automatiser. Un rendu local existe :
   `node scripts/render-email-preview.mjs`.

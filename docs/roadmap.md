@@ -289,11 +289,58 @@ Mais **la composition de la Phase 2 change**. Les pages étant déjà indexées 
   le pli) portent l'enjeu réel : donner aux pages indexées quelque chose sur quoi se
   classer.
 
-### À refaire dans 24 h
+### La ligne de base, relevée le 17/08/2026
 
-Le rapport Performances était en cours de traitement au moment du relevé. Y revenir
-pour noter impressions, clics, position moyenne et premières requêtes — la vraie
-valeur de départ.
+Le rapport Performances était en cours de traitement le 14/08. Voici le premier
+relevé exploitable, propriété `https://thatmuch.fr/audit-refonte/`, type de
+recherche Web, fenêtre 3 mois — c'est-à-dire **tout ce que la propriété a jamais
+collecté**, puisqu'elle a été créée le 13/08/2026.
+
+| Métrique         | Valeur |
+| ---------------- | ------ |
+| Clics            | **0**  |
+| Impressions      | **1**  |
+| CTR moyen        | 0 %    |
+| Position moyenne | 8      |
+
+L'unique impression date du **15/08/2026**. Le tableau des requêtes est **vide** :
+à ce volume, Google n'expose aucun terme.
+
+**C'est la valeur de départ, et elle ne sera jamais reconstituée autrement.** Toute
+mesure de progrès SEO de la Phase 2 se compare à cette ligne : 0 clic, 1 impression,
+aucune requête.
+
+Deux lectures, à ne pas confondre :
+
+- **Une impression en trois jours n'est pas un signal**, c'est du bruit. La
+  position 8 en particulier ne veut rien dire — c'est la position d'un affichage
+  unique, sur une requête inconnue, probablement une recherche de marque ou une
+  requête à très longue traîne.
+- Ce que ça confirme en revanche, c'est le diagnostic du 14/08 : **les pages sont
+  indexées et ne se classent sur rien**. Le goulot reste le positionnement.
+
+### Les propriétés Search Console au 17/08/2026
+
+| Propriété                            | État                                 |
+| ------------------------------------ | ------------------------------------ |
+| `thatmuch.fr` (domaine)              | **vérifiée** — consolide les sous-domaines |
+| `https://thatmuch.fr/`               | vérifiée                             |
+| `https://back.thatmuch.fr/`          | vérifiée                             |
+| `https://thatmuch.fr/audit-refonte/` | vérifiée — c'est celle du relevé     |
+
+La vérification du domaine `thatmuch.fr` ajoutée le 14/08 est **effective**. Sans
+effet rétroactif : elle ne fait pas apparaître l'année écoulée.
+
+**P0-5 est clos.** Les deux critères d'acceptation sont remplis : la propriété est
+validée et les données remontent, le statut d'indexation de chaque page est connu et
+documenté.
+
+### Quand y revenir
+
+Pas avant que la Phase 2 ait livré P2-2, P2-3 et P2-5 — il n'y a rien à mesurer
+tant que les pages n'ont pas de requête cible. Le prochain relevé utile se fait
+**4 à 6 semaines après leur mise en ligne**, sur la même fenêtre de 3 mois, et se
+compare aux quatre chiffres ci-dessus.
 
 ---
 
