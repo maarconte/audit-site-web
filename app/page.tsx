@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/NumbersSection";
 import React from "react";
 import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
+import { BASE_PATH } from "@/lib/site";
 import logo from "../public/images/THATMUCH_Logo_White.webp";
 import planetPink from "../public/images/planet-pink.webp";
 import planetYellow from "../public/images/planet-yellow.webp";
@@ -15,15 +16,17 @@ import planetYellow from "../public/images/planet-yellow.webp";
 const title = "Refonte site WordPress Paris : audit gratuit en 3 min | THATMUCH";
 const description =
   "Découvre en 3 minutes si ton site WordPress a besoin d'une refonte. Audit gratuit et sans engagement pour les PME de Paris et Île-de-France.";
+// metadataBase (app/layout.tsx) n'inclut pas le basePath : a prefixer ici a la main.
+const url = `${BASE_PATH}/`;
 
 export const metadata: Metadata = {
   title,
   description,
-  alternates: { canonical: "/" },
+  alternates: { canonical: url },
   openGraph: {
     title,
     description,
-    url: "/",
+    url,
     siteName: "THATMUCH",
     locale: "fr_FR",
     type: "website",
