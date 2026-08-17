@@ -241,6 +241,12 @@ avec une section « Impact sur le score » obligatoire dès que la PR touche
 `Part of REF-XX` et non `Fixes` : la fusion dans `develop` ne déploie rien, c'est la
 PR `develop` → `main` qui doit fermer les tickets.
 
+**Cadence de mise en production** (décidée le 17/08/2026) : les PR de tickets
+vont vers `develop` au fil de l'eau. La PR `develop` → `main` se fait **en fin de
+phase**, pas après chaque ticket — Phase 0 a suivi ce rythme. Ne pas proposer de
+mise en production avant que la phase en cours (Phase 2) soit terminée, sauf
+demande explicite.
+
 ---
 
 ## Outillage ajouté
