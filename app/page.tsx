@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/NumbersSection";
 import React from "react";
 import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
+import SeoContentSection from "@/components/LandingRefonte/Landing/SeoContentSection/SeoContentSection";
 import { BASE_PATH } from "@/lib/site";
 import logo from "../public/images/THATMUCH_Logo_White.webp";
 import planetPink from "../public/images/planet-pink.webp";
@@ -68,6 +69,7 @@ export default function Page() {
         <ScoreSection />
         <LinkSection />
         <MeetingCtaSection />
+        <SeoContentSection />
       </div>
       <div className="d-flex flex-column align-items-center gap-2 p-4 bg-dark mt-5">
         <Link
