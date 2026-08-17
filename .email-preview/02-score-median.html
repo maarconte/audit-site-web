@@ -89,20 +89,16 @@
                                                             <meta charset="UTF-8">
                                                             <title>THATMUCH - Résultats de votre test de refonte de site web</title>
                                                             <style> .total-body{ font-family: 'Space Mono', monospace; } </style>
-                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Bonjour {{ contact.PRENOM }},</p>
+                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Bonjour Marc,</p>
                                                             <br>
                                                             <h2 class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>
-                                                               {% if contact.TOTAL >= 66 %}Votre site tient la route.{% endif %}
-                                                               {% if contact.TOTAL < 66 and contact.TOTAL > 33 %}Votre site montre des signes de fatigue.{% endif %}
-                                                               {% if contact.TOTAL <= 33 %}Votre site vous coûte des clients.{% endif %}
+                                                               
+                                                               Votre site montre des signes de fatigue.
+                                                               
                                                             </h2>
-                                                            <br>{% if contact.TOTAL >= 66 %}
-                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Les bases sont saines. Le détail ci-dessous pointe malgré tout les axes sur lesquels vous perdez des visiteurs : les traiter maintenant coûte bien moins cher qu’une refonte subie dans deux ans.</p>
-                                                            {% endif %} {% if contact.TOTAL < 66 and contact.TOTAL > 33 %}
+                                                            <br> 
                                                             <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>Plusieurs axes décrochent nettement. Une refonte ciblée sur les points les plus faibles ci-dessous produirait un gain rapide, sans repartir de zéro.</p>
-                                                            {% endif %} {% if contact.TOTAL <= 33 %}
-                                                            <p class="total-body" style='margin: 0; font-family: "Space Mono",monospace;'>L’écart est important sur la majorité des axes. Une refonte complète est le chemin le plus court — et le moins coûteux à terme — pour que votre site cesse de freiner votre activité.</p>
-                                                            {% endif %}
+                                                             
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -118,15 +114,11 @@
                                                       <tr>
                                                          <td class="r11-c nl2go-default-textstyle" style="color: #3b3f44; font-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px;">
                                                             <style> .total-wrapper { font-family: 'Neue Machina', monospace, Courier, monospace; border-radius: 25px; font-size: 22px; font-weight: bold; color: #1E1244; text-align: center; padding: 10px 20px; }</style>
-                                                            {% if contact.TOTAL >= 66 %}
-                                                            <div class="total-wrapper" style='font-family: "Neue Machina","Space Mono",monospace; border-radius: 25px; font-size: 22px; font-weight: bold; color: #1E1244; text-align: center; padding: 10px 20px; background-color: #B2E589;'> {{ contact.TOTAL }}/100 </div>
-                                                            {% endif %}
-                                                            {% if contact.TOTAL < 66 and contact.TOTAL > 33 %}
-                                                            <div class="total-wrapper" style='font-family: "Neue Machina","Space Mono",monospace; border-radius: 25px; font-size: 22px; font-weight: bold; color: #1E1244; text-align: center; padding: 10px 20px; background-color: #FED854;'> {{ contact.TOTAL }}/100 </div>
-                                                            {% endif %}
-                                                            {% if contact.TOTAL <= 33 %}
-                                                            <div class="total-wrapper" style='font-family: "Neue Machina","Space Mono",monospace; border-radius: 25px; font-size: 22px; font-weight: bold; color: #1E1244; text-align: center; padding: 10px 20px; background-color: #E56483;'> {{ contact.TOTAL }}/100 </div>
-                                                            {% endif %}
+                                                            
+                                                            
+                                                            <div class="total-wrapper" style='font-family: "Neue Machina","Space Mono",monospace; border-radius: 25px; font-size: 22px; font-weight: bold; color: #1E1244; text-align: center; padding: 10px 20px; background-color: #FED854;'> 52/100 </div>
+                                                            
+                                                            
                                                          </td>
                                                       </tr>
                                                    </table>
@@ -162,102 +154,74 @@
                                                    <table width="100%" cellspacing="0" cellpadding="0" border="0" role="presentation">
                                                       <tr>
                                                          <td class="r11-c nl2go-default-textstyle" style="color: #3b3f44; font-family: arial,helvetica,sans-serif; font-size: 16px; line-height: 1.5; word-break: break-word; padding-bottom: 15px; padding-top: 15px;">
-                                                            {% if contact.DESIGN >= 10 %}
-                                                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                               {% endif %}
-                                                               {% if contact.DESIGN < 10 and contact.DESIGN > 5 %}
+                                                            
+                                                               
                                                                <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                  {% endif %}
-                                                                  {% if contact.DESIGN <= 5 %}
-                                                                  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                     {% endif %}
+                                                                  
+                                                                  
                                                                      <tr>
                                                                         <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Design &amp; Identité visuelle /15 : </td>
-                                                                        <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.DESIGN }} </td>
+                                                                        <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 7 </td>
                                                                      </tr>
                                                                   </table>
-                                                                  {% if contact.MARKETING >= 10 %}
-                                                                  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                                     {% endif %}
-                                                                     {% if contact.MARKETING < 10 and contact.MARKETING > 5 %}
+                                                                  
+                                                                     
                                                                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                        {% endif %}
-                                                                        {% if contact.MARKETING <= 5 %}
-                                                                        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                           {% endif %}
+                                                                        
+                                                                        
                                                                            <tr>
                                                                               <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Marketing /15 pts : </td>
-                                                                              <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.MARKETING }} </td>
+                                                                              <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 6 </td>
                                                                            </tr>
                                                                         </table>
-                                                                        {% if contact.UX >= 10 %}
-                                                                        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                                           {% endif %}
-                                                                           {% if contact.UX < 10 and contact.UX > 5 %}
+                                                                        
+                                                                           
                                                                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                              {% endif %}
-                                                                              {% if contact.UX <= 5 %}
-                                                                              <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                                 {% endif %}
+                                                                              
+                                                                              
                                                                                  <tr>
                                                                                     <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Expérience utilisateur /15 pts : </td>
-                                                                                    <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.UX }} </td>
+                                                                                    <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 8 </td>
                                                                                  </tr>
                                                                               </table>
-                                                                              {% if contact.SEO >= 6 %}
-                                                                              <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                                                 {% endif %}
-                                                                                 {% if contact.SEO < 6 and contact.SEO > 3 %}
+                                                                              
+                                                                                 
                                                                                  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                                    {% endif %}
-                                                                                    {% if contact.SEO <= 3 %}
-                                                                                    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                                       {% endif %}
+                                                                                    
+                                                                                    
                                                                                        <tr>
                                                                                           <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Référencement naturel (SEO) /10 pts : </td>
-                                                                                          <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.SEO }} </td>
+                                                                                          <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 4 </td>
                                                                                        </tr>
                                                                                     </table>
-                                                                                    {% if contact.PERFORMANCE >= 10 %}
-                                                                                    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                                                       {% endif %}
-                                                                                       {% if contact.PERFORMANCE < 10 and contact.PERFORMANCE > 5 %}
+                                                                                    
+                                                                                       
                                                                                        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                                          {% endif %}
-                                                                                          {% if contact.PERFORMANCE <= 5 %}
-                                                                                          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                                             {% endif %}
+                                                                                          
+                                                                                          
                                                                                              <tr>
                                                                                                 <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Performance &amp; Conversion /15 pts : </td>
-                                                                                                <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.PERFORMANCE }} </td>
+                                                                                                <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 9 </td>
                                                                                              </tr>
                                                                                           </table>
-                                                                                          {% if contact.TECH >= 10 %}
+                                                                                          
                                                                                           <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                                                             {% endif %}
-                                                                                             {% if contact.TECH < 10 and contact.TECH > 5 %}
-                                                                                             <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                                                {% endif %}
-                                                                                                {% if contact.TECH <= 5 %}
-                                                                                                <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                                                   {% endif %}
+                                                                                             
+                                                                                             
+                                                                                                
                                                                                                    <tr>
                                                                                                       <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Technique &amp; Maintenance /15 pts : </td>
-                                                                                                      <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.TECH }} </td>
+                                                                                                      <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 10 </td>
                                                                                                    </tr>
                                                                                                 </table>
-                                                                                                {% if contact.LEGAL >= 10 %}
-                                                                                                <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #E1F5D1; border-radius: 8px; margin-bottom: 12px;">
-                                                                                                   {% endif %}
-                                                                                                   {% if contact.LEGAL < 10 and contact.LEGAL > 5 %}
+                                                                                                
+                                                                                                   
                                                                                                    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FEEDB0; border-radius: 8px; margin-bottom: 12px;">
-                                                                                                      {% endif %}
-                                                                                                      {% if contact.LEGAL <= 5 %}
-                                                                                                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F5C3CF; border-radius: 8px; margin-bottom: 12px;">
-                                                                                                         {% endif %}
+                                                                                                      
+                                                                                                      
                                                                                                          <tr>
                                                                                                             <td style="padding: 8px 12px; font-family: 'Space Mono', monospace; font-size: 14px; color: black;"> Légalité &amp; Accessibilité /15 pts : </td>
-                                                                                                            <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> {{ contact.LEGAL }} </td>
+                                                                                                            <td align="right" style="padding: 8px 12px; font-family: monospace, Courier, monospace; font-size: 18px; font-weight: bold; color: black;"> 8 </td>
                                                                                                          </tr>
                                                                                                       </table>
                                                                                                    </table>

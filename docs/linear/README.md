@@ -5,7 +5,10 @@
 Avant d'importer, créer la structure côté Linear — l'importeur ne crée pas les projets
 ni les labels, il essaie de les faire correspondre par nom.
 
-**Équipe** — clé suggérée : `REF` (les issues deviennent `REF-1`, `REF-2`…).
+**Équipe** — « Audit Refonte », clé `REF` (les issues deviennent `REF-1`, `REF-2`…),
+dans le workspace `linear.app/thatmuch`. Équipe distincte de `THATMUCH` : tous les
+réglages ci-dessous (estimations, workflow, format de branche, labels) sont scopés à
+l'équipe et n'affectent pas l'autre.
 La clé apparaît dans les noms de branche et dans les commits : la choisir courte et
 définitive, elle n'est pas confortable à changer ensuite.
 
@@ -40,8 +43,39 @@ pour obtenir la vue roadmap.
 `pagespeed` · `securite` · `fiabilite` · `cout` · `data` · `seo` · `contenu`
 `acquisition` · `perf` · `tech-debt`
 
+⚠️ **`bug` n'existe pas en label d'équipe.** Un label workspace **`Bug`** préexiste
+(équipe THATMUCH) et Linear refuse les doublons insensibles à la casse. Les 4 tickets
+portant `bug` doivent se rattacher à ce label existant — à confirmer lors de l'import
+de test, dont le premier ticket (P0-1) porte précisément ce label.
+
+Les 22 autres sont créés en **labels d'équipe**, pas en labels workspace, pour ne pas
+polluer l'espace partagé avec THATMUCH.
+
 **Cycles** — 2 semaines. La Phase 2 court en parallèle des Phases 1 et 3 : la traiter
 comme un flux continu plutôt que comme un cycle.
+
+## ⚠️ Plafond du plan gratuit
+
+Le workspace `linear.app/thatmuch` est au **plan gratuit**, dont la limite d'issues
+est comptée **à l'échelle du workspace**, pas de l'équipe. L'équipe `THATMUCH` en
+occupe déjà la quasi-totalité — la création s'est arrêtée net à `REF-18` avec
+« You've exceeded the free issue limit for this workspace ».
+
+Le plafond du plan gratuit est de **250 issues par workspace** (« If you have over
+250 issues, you will no longer be able to create new issues »).
+
+**L'archivage manuel n'existe pas dans Linear** — ni par API, ni dans l'UI :
+« Archiving happens automatically with no option to manually archive items. »
+L'auto-archivage se règle dans `Team settings → Issue statuses & automations`, tourne
+sous 24 h, et **n'archive pas une issue close tant que son projet n'est pas clos**.
+Ce n'est donc pas un levier fiable pour libérer de la place à la demande.
+
+Deux sorties réelles :
+
+1. **Ne créer les tickets qu'au fil de l'eau.** Les phases 0 et 1 chargées suffisent
+   à plusieurs semaines de travail ; `tickets.json` reste la source pour créer la
+   suite au moment voulu. C'est l'option retenue par défaut.
+2. **Passer le workspace en plan payant.**
 
 ## 2. Importer
 
@@ -56,7 +90,10 @@ versions.
 Priorités : `1` Urgent · `2` High · `3` Medium · `4` Low.
 
 **Faire un import de test sur une équipe bac à sable d'abord.** Un import CSV Linear ne
-s'annule pas : en cas d'erreur il faut supprimer les 44 issues une par une.
+s'annule pas : en cas d'erreur il faut supprimer les 42 issues une par une.
+
+Si aucune équipe bac à sable n'est possible, importer d'abord un CSV réduit à deux
+lignes, vérifier le résultat, puis supprimer ces deux issues.
 
 Après import, Linear renumérote tout (`REF-1`…). Le code de référence interne (`P0-1`)
 reste dans le titre et en pied de description, ce qui permet de retrouver un ticket
@@ -78,19 +115,25 @@ reste utile pour rejouer un import ou documenter la roadmap dans le repo.
 
 ### Intégration GitHub
 
-`Settings → Integrations → GitHub` → connecter **`maarconte/audit-site-web`**.
+`Settings → Features → Integrations → GitHub` → connecter **`maarconte/audit-site-web`**.
 
 ### Nommage des branches
 
-`Settings → Team → General → Branch name format`. Format recommandé :
+Le réglage **n'est pas dans les paramètres d'équipe** : il vit dans la page de
+l'intégration Git, sous **`Branch format`**, et n'apparaît donc qu'une fois GitHub
+connecté. Connecter l'intégration d'abord, régler le format ensuite.
 
-```
-{identifier}-{title}
-```
+Format par défaut de Linear : `{userName}/{issueIdentifier}-{issueTitle}`, qui produit
+des noms très longs sur ce projet — les titres commencent par le code interne
+(`P0-1 · …`), déjà porté par l'identifiant. Format retenu : **l'identifiant seul**,
+soit `ref-12`.
 
-Le bouton « Copy git branch name » sur une issue produit alors `ref-12-corriger-l-inversion-de-score`.
-Linear reconnaît l'issue au préfixe et bascule automatiquement son statut dès le
-premier push.
+Linear lie la branche dès qu'elle contient l'identifiant de l'issue, et bascule son
+statut au premier push. Rallonger le nom à la main après l'avoir collé ne casse rien.
+
+Voir aussi `Settings → Account → Code & reviews` → **« On git branch copy, move issue
+to started status »** : bascule l'issue en statut démarré au moment où l'on copie le
+nom de branche (⌥ enfoncé pour l'ignorer ponctuellement).
 
 ### Mots-clés dans les PR
 
@@ -105,7 +148,8 @@ Dans la description de la pull request :
 
 ### ⚠️ Piège sur ce repo
 
-`main` déploie sur GitHub Pages ([`.github/workflows/nextjs.yml`](../../.github/workflows/nextjs.yml)),
+`main` déploie en production — SCP vers le sous-dossier `/audit-refonte` de
+`thatmuch.fr` chez Hostinger ([`.github/workflows/nextjs.yml`](../../.github/workflows/nextjs.yml)) —
 et le travail se fait sur `develop`. Par défaut, Linear passe une issue en `Done` dès
 qu'une PR est fusionnée — donc à la fusion dans `develop`, alors que **rien n'est
 déployé**.

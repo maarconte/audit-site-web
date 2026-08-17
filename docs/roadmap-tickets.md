@@ -9,7 +9,7 @@
 
 **Objectif** — Arrêter l'hémorragie : le mail dit aux leads que leur refonte n'est pas urgente, les dénominateurs sont faux, et rien n'est mesuré. Le meilleur rapport valeur/effort de toute la roadmap.
 
-**Condition de sortie** — Un lead qui termine le quiz reçoit un message cohérent avec l'offre, avec un chemin vers Calendly, et chaque étape du tunnel est mesurée.
+**Condition de sortie** — Un lead qui termine le quiz reçoit un message cohérent avec l’offre, avec un chemin vers la prise de RDV, et chaque étape du tunnel est mesurée.
 
 ### P0-1 · Corriger le message du mail qui dissuade la refonte
 
@@ -23,13 +23,13 @@ codeEmailBrevo.html contient : {% if contact.TOTAL >= 66 %} « Félicitations ! 
 
 - Réécrire les trois branches de message dans le sens « urgence de refonte » : un score élevé signifie désormais que la refonte est urgente.
 - Aucune branche ne doit conclure qu'une refonte est inutile : au pire elle est différable, avec un axe précis à travailler.
-- Faire remonter le bouton Calendly au-dessus du détail par catégorie.
+- Faire remonter le bouton de prise de RDV HubSpot au-dessus du détail par catégorie.
 - Reformuler « Ce score est une indication basée sur vos réponses » : c'est une décharge qui affaiblit tout ce qui précède.
 
 **Critères d'acceptation**
 
 - [ ] Aucune branche du mail ne contient « une refonte n'est pas urgente » ni « Félicitations ».
-- [ ] Le CTA Calendly est visible sans défilement sur mobile.
+- [ ] Le CTA de prise de RDV est visible sans défilement sur mobile.
 - [ ] Les trois branches sont testées avec un contact de test dans Brevo.
 
 **Fichiers concernés**
@@ -45,18 +45,19 @@ Réf. interne : `P0-1` · Dépendances : aucune
 
 **Contexte**
 
-Le mail affiche « Marketing /10 pts » alors que le maximum réel est 17 : un lead peut recevoir « 14/10 ». Il affiche « Légalité & Accessibilité /20 pts » alors que le maximum est 15. Et {{ contact.TOTAL }}/100 est en réalité un total sur 102, auquel s'appliquent des seuils 33 et 66. Design, UX, SEO, Performance et Tech sont justes.
+Le mail affiche « Marketing /10 pts » alors que le maximum réel est 15 : un lead peut recevoir « 12/10 ». Il affiche « Légalité & Accessibilité /20 pts » alors que le maximum est également 15. Maximums recalculés depuis src/data/questionquiz.json : design 15, ux 15, marketing 15, seo 10, performance 15, technique 15, legal 15, soit un TOTAL de 100. Le {{ contact.TOTAL }}/100 et les seuils 33 et 66 sont donc justes, contrairement à ce qu’annonçait la première analyse (qui parlait de 102 et d’un max marketing de 17).
 
 **Spécification**
 
-- Corriger Marketing en /17 et Légalité en /15, ou attendre P1-2 qui normalise tout sur 100.
-- Recommandation : corriger tout de suite en dur, puis basculer sur les valeurs normalisées à la Phase 1 — le mail est cassé aujourd'hui.
-- Vérifier que les seuils 33 et 66 sont recalculés sur la nouvelle échelle.
+- Corriger Marketing en /15 et Légalité en /15.
+- Ne pas toucher au TOTAL ni aux seuils 33 et 66 : ils sont corrects.
+- Les seuils de couleur par catégorie sont déjà proportionnés (SEO 6/3 sur 10, les autres 10/5 sur 15) — rien à faire de ce côté.
+- La normalisation générale sur 100 reste du ressort de P1-2.
 
 **Critères d'acceptation**
 
 - [ ] Aucun score affiché ne peut dépasser son dénominateur.
-- [ ] Le total affiché et le total réel sont sur la même échelle.
+- [ ] Chaque dénominateur correspond au maximum réel calculé depuis questionquiz.json.
 
 **Fichiers concernés**
 
@@ -102,7 +103,7 @@ Aucun analytics n'est installé. src/utils/firebase.ts n'initialise que Firestor
 **Spécification**
 
 - Initialiser Firebase Analytics (getAnalytics, avec isSupported pour le rendu statique).
-- Événements : page_view, quiz_start, quiz_step_completed (index, slug), quiz_completed, result_viewed, contact_form_viewed, lead_submitted, calendly_clicked.
+- Événements : page_view, quiz_start, quiz_step_completed (index, slug), quiz_completed, result_viewed, contact_form_viewed, lead_submitted, meeting_link_clicked.
 - N'activer qu'après consentement, en cohérence avec la politique de confidentialité.
 - Vérifier la remontée en temps réel dans la console Firebase avant de fermer le ticket.
 
@@ -147,24 +148,24 @@ Sans Search Console, impossible de savoir si la page est seulement indexée. Ave
 ---
 Réf. interne : `P0-5` · Dépendances : aucune
 
-### P0-6 · Ajouter un chemin vers Calendly à chaque point de sortie
+### P0-6 · Ajouter un chemin vers la prise de RDV à chaque point de sortie
 
 `Urgent` · `3 pts` · `conversion`
 
 **Contexte**
 
-Le tunnel se termine aujourd'hui sur « L'analyse vous attend dans votre boîte mail ». Il n'existe aucun chemin vers une prise de RDV dans le produit lui-même : le seul bouton Calendly est dans le mail, sous un message qui dit que la refonte n'est pas urgente. 0 RDV en un an n'a rien de surprenant — le produit n'en demande jamais.
+Le tunnel se termine aujourd’hui sur « L’analyse vous attend dans votre boîte mail ». Il n’existe aucun chemin vers une prise de RDV dans le produit lui-même : le seul lien de réservation (HubSpot Meetings, https://meetings-eu1.hubspot.com/mathilde-arconte) est dans le mail, sous un message qui dit que la refonte n’est pas urgente. 0 RDV en un an n’a rien de surprenant — le produit n’en demande jamais.
 
 **Spécification**
 
-- Ajouter le CTA Calendly sur l'écran de confirmation après soumission.
+- Ajouter le CTA de prise de RDV (lien HubSpot Meetings) sur l’écran de confirmation après soumission.
 - Ajouter un CTA secondaire sur la page d'accueil, sous le contenu.
-- Instrumenter calendly_clicked (P0-4) sur chaque emplacement pour comparer.
+- Instrumenter meeting_link_clicked (P0-4) sur chaque emplacement pour comparer.
 - Formuler le CTA sur le bénéfice, pas sur l'acte : « Faire relire mon score par un designer, 30 min » plutôt que « Prendre rendez-vous ».
 
 **Critères d'acceptation**
 
-- [ ] Un lead qui termine le quiz a un accès à Calendly sans passer par le mail.
+- [ ] Un lead qui termine le quiz a un accès au lien de RDV sans passer par le mail.
 - [ ] Chaque emplacement de CTA est mesuré séparément.
 
 **Fichiers concernés**
@@ -218,7 +219,7 @@ Réf. interne : `P1-1` · Dépendances : P0-3
 
 **Contexte**
 
-Le score est une somme brute sur 102 points (functions/src/index.ts:106-112) avec une pondération accidentelle : marketing pèse 16,7% et SEO 9,8% parce qu'il y a 4 questions d'un côté et 2 de l'autre. Or l'offre vendue est du design sur WordPress : c'est l'axe design qui doit dominer le score, pas le hasard du nombre de questions.
+Le score est une somme brute sur 100 points (functions/src/index.ts:106-112) avec une pondération accidentelle : marketing pèse 15 % et SEO 10 % parce qu’il y a 4 questions d’un côté et 2 de l’autre. Or l’offre vendue est du design sur WordPress : c’est l’axe design qui doit dominer le score, pas le hasard du nombre de questions.
 
 **Spécification**
 
@@ -732,9 +733,9 @@ Réf. interne : `P2-10` · Dépendances : aucune
 
 **Semaines 6-8** · 6 tickets · 21 points
 
-**Objectif** — Afficher une partie du score sur le site, garder le gate email, et mettre un chemin vers Calendly à chaque point de sortie.
+**Objectif** — Afficher une partie du score sur le site, garder le gate email, et mettre un chemin vers la prise de RDV à chaque point de sortie.
 
-**Condition de sortie** — Le visiteur voit son niveau d'urgence sans donner son email, et le taux de passage vers Calendly est mesuré.
+**Condition de sortie** — Le visiteur voit son niveau d’urgence sans donner son email, et le taux de passage vers la prise de RDV est mesuré.
 
 ### P3-1 · Persister l'état du quiz entre les rechargements
 
@@ -834,7 +835,7 @@ Le score choisit quel CTA afficher, pas s'il y en a un. Sur une échelle d'urgen
 
 **Spécification**
 
-- Urgence supérieure à 65 : « Faire relire mon diagnostic par un designer, 30 min » vers Calendly.
+- Urgence supérieure à 65 : « Faire relire mon diagnostic par un designer, 30 min » vers le lien HubSpot Meetings.
 - Urgence entre 35 et 65 : cœur de cible. Même CTA, message centré sur l'axe le plus faible.
 - Urgence inférieure à 35 : ne pas forcer la refonte. Proposer une optimisation ciblée ou du contenu, et le dire honnêtement — c'est ce qui fait revenir et recommander.
 - L'urgence issue de P1-4 module le message : score faible mais urgence forte donne « votre site est sain mais ne parle plus de votre offre actuelle ».
@@ -895,7 +896,7 @@ Le mail est le produit réellement livré : c'est lui qui porte le détail gaté
 - Basculer sur les nouveaux attributs Brevo : SCORE_GLOBAL sur 100, URGENCE, scores normalisés par catégorie.
 - Recalculer les seuils de branche sur l'échelle d'urgence.
 - Ajouter le bloc d'alertes RGPD, distinct du score.
-- Structurer sur le modèle : l'axe le plus faible en premier, nommé et expliqué, puis le détail, puis le CTA Calendly.
+- Structurer sur le modèle : l’axe le plus faible en premier, nommé et expliqué, puis le détail, puis le CTA de prise de RDV.
 - Retirer la formulation « Ce score est une indication basée sur vos réponses » ou la déplacer en bas de page.
 - Vérifier le rendu mobile — la majorité des ouvertures se fait sur mobile.
 

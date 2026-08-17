@@ -1,25 +1,42 @@
-import React from "react";
+import ConsentSettingsLink from "@/components/ConsentBanner/ConsentSettingsLink";
 import { HeroSection } from "@/components/LandingRefonte/Landing/HeroSection/HeroSection";
 import Image from "next/image";
 import Link from "next/link";
 import LinkSection from "@/components/LandingRefonte/Landing/LinkSection/LinkSection";
-import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/NumbersSection";
-import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
+import MeetingCtaSection from "@/components/LandingRefonte/Landing/MeetingCtaSection/MeetingCtaSection";
 import type { Metadata } from "next";
+import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/NumbersSection";
+import React from "react";
+import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
 import logo from "../public/images/THATMUCH_Logo_White.webp";
 import planetPink from "../public/images/planet-pink.webp";
 import planetYellow from "../public/images/planet-yellow.webp";
 
 export const metadata: Metadata = {
   title: "Analyse de la refonte de site web | Thatmuch",
-  description: "Découvrez si c'est le bon moment pour refaire ton site internet.",
+  description:
+    "Découvrez si c'est le bon moment pour refaire ton site internet.",
 };
 
 export default function Page() {
   return (
     <div className="bg-landing">
-      <Image src={planetPink} className="planet-pink" alt="Planète rose" width={300} height={300} priority />
-      <Image src={planetYellow} className="planet-yellow" alt="Planète jaune" width={200} height={200} priority />
+      <Image
+        src={planetPink}
+        className="planet-pink"
+        alt="Planète rose"
+        width={300}
+        height={300}
+        priority
+      />
+      <Image
+        src={planetYellow}
+        className="planet-yellow"
+        alt="Planète jaune"
+        width={200}
+        height={200}
+        priority
+      />
       <div className="container-fluid z-2 position-relative">
         <HeroSection
           title="Est-ce le moment de refaire mon site internet ?"
@@ -30,16 +47,25 @@ export default function Page() {
         <NumbersSection />
         <ScoreSection />
         <LinkSection />
+        <MeetingCtaSection />
       </div>
-      <div className="d-flex justify-content-center p-2 bg-dark mt-5">
+      <div className="d-flex flex-column align-items-center gap-2 p-4 bg-dark mt-5">
         <Link
           href="/"
           className="landing-header__logo"
           aria-label="Accueil"
           title="Accueil du site THATMUCH"
         >
-          <Image src={logo} alt="THATMUCH" width={150} height={50} style={{ objectFit: 'contain' }} priority />
+          <Image
+            src={logo}
+            alt="THATMUCH"
+            width={150}
+            height={50}
+            style={{ objectFit: "contain" }}
+            priority
+          />
         </Link>
+        <ConsentSettingsLink />
       </div>
     </div>
   );

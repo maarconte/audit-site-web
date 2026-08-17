@@ -2,7 +2,7 @@
 @use "../../../../scss/mixins" as *;
 .LinkSection {
   position: relative;
-  height: 800px;
+  margin-bottom: 100px;
 
   @include breakpoint(mobile) {
     height: auto;
@@ -35,7 +35,7 @@
       );
     }
 
-     @media (max-width: 975px) {
+    @media (max-width: 975px) {
       margin: 0 auto;
       width: 100%;
       max-width: 100%;
@@ -44,15 +44,14 @@
         rgba(198, 189, 226, 0) 0%,
         rgba(198, 189, 226, 0.1) 100%
       );
-     }
-
+    }
   }
 
-   &__image {
+  &__image {
     width: 200%;
     max-width: inherit;
     position: absolute;
-    top:0;
+    top: 0;
     left: -70%;
     z-index: 0;
 

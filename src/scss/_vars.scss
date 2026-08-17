@@ -10,15 +10,17 @@ $tm-cyan: #0fc7d2;
 $tm-green: #9fdf6c;
 
 //Gradient
-$gradient_rainbow: linear-gradient(90deg,
-                rgba(15, 199, 210, 1) 0%,
-                rgba(15, 199, 210, 1) 24%,
-                rgba(159, 223, 108, 1) 25%,
-                rgba(159, 223, 108, 1) 49%,
-                rgba(253, 197, 0, 1) 50%,
-                rgba(253, 197, 0, 1) 74%,
-                rgba(222, 61, 100, 1) 75%,
-                rgba(222, 61, 100, 1) 100%);
+$gradient_rainbow: linear-gradient(
+  90deg,
+  rgba(15, 199, 210, 1) 0%,
+  rgba(15, 199, 210, 1) 24%,
+  rgba(159, 223, 108, 1) 25%,
+  rgba(159, 223, 108, 1) 49%,
+  rgba(253, 197, 0, 1) 50%,
+  rgba(253, 197, 0, 1) 74%,
+  rgba(222, 61, 100, 1) 75%,
+  rgba(222, 61, 100, 1) 100%
+);
 
 // Spaces
 $space_XXL: 100px;
@@ -118,7 +120,7 @@ $surface-dev: $dev-50;
 $surface-project: $project-50;
 
 /* Text */
-$text-color-default: $neutral-900;
+$text-color-default: $neutral-100;
 $text-color-light: $neutral-0;
 $text-color-link: $neutral-400;
 $text-color-mid: $neutral-600;

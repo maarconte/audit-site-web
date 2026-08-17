@@ -5,7 +5,7 @@
 **moins de 10 soumissions, 0 RDV, aucun analytics installé.** Budget infra 10 €/mois.
 Une personne, assistée par IA.
 
-- **42 tickets · 142 points · 6 phases planifiées + 1 conditionnée**
+- **42 tickets · 145 points · 6 phases planifiées + 1 conditionnée**
 - Détail des tickets : [`docs/roadmap-tickets.md`](roadmap-tickets.md)
 - Source de vérité : [`docs/linear/tickets.json`](linear/tickets.json)
 - Import Linear : [`docs/linear/README.md`](linear/README.md)
@@ -30,15 +30,24 @@ Dans [`codeEmailBrevo.html`](../codeEmailBrevo.html) :
 Suivi, quelques blocs plus bas, d'un bouton « Prendre RDV ». Le produit dissuade puis
 sollicite.
 
-### 2. Les dénominateurs du mail sont faux
+### 2. Deux dénominateurs du mail sont faux
 
-| Affiché | Maximum réel |
-|---|---|
-| `{{ TOTAL }}/100` | **102** — les seuils 33 et 66 s'appliquent à cette échelle |
-| Marketing **/10** | **17** — un lead peut recevoir « 14/10 » |
-| Légalité & Accessibilité **/20** | **15** |
+Maximums recalculés depuis `src/data/questionquiz.json` le 14/08/2026, à l'occasion
+de P0-2 :
 
-Design, UX, SEO, Performance et Tech sont justes.
+| Affiché | Maximum réel | Verdict |
+|---|---|---|
+| Marketing **/10** | **15** | faux — un lead pouvait recevoir « 12/10 » |
+| Légalité & Accessibilité **/20** | **15** | faux |
+| `{{ TOTAL }}/100` | **100** | juste |
+| Design /15 · UX /15 · SEO /10 · Performance /15 · Tech /15 | conformes | justes |
+
+**Correction d'une erreur de la version précédente de ce document**, qui annonçait un
+maximum de 17 pour Marketing et un TOTAL sur 102. Le total et les seuils 33 et 66
+étaient donc justes depuis le début, et les seuils de couleur par catégorie sont eux
+aussi proportionnés — SEO utilise 6/3 sur 10 là où les autres utilisent 10/5 sur 15.
+
+Corrigé dans `codeEmailBrevo.html` (P0-2).
 
 ### 3. Rien n'est mesuré, et ne l'a jamais été
 
@@ -50,7 +59,7 @@ impossible de savoir si le goulot est l'acquisition, le tunnel ou la restitution
 ### Et un quatrième, structurel
 
 Le tunnel se termine sur « L'analyse vous attend dans votre boîte mail ». **Il n'existe
-aucun chemin vers Calendly dans le produit lui-même.** Le seul bouton est dans le mail,
+aucun chemin vers la prise de RDV dans le produit lui-même.** Le seul bouton est dans le mail,
 sous le message qui dit que la refonte n'est pas urgente. 0 RDV n'a rien de surprenant :
 le produit n'en demande jamais.
 
@@ -77,7 +86,7 @@ Deux corrections de cap :
 ```
 S1      P0 ████          Réparer et mesurer              12 pts  ← le meilleur ratio
 S2-3    P1 ████████      Score d'urgence de refonte      29 pts
-S2-8    P2 ██████████    Acquisition                     36 pts  ← le goulot probable
+S2-8    P2 ██████████    Acquisition                     39 pts  ← le goulot probable
 S6-8    P3 ██████        Restitution et conversion       21 pts
 S9-11   P4 █████████     Analyse automatique HTML        33 pts
 S12-13  P5 ███           PageSpeed                       10 pts
@@ -85,7 +94,7 @@ S12-13  P5 ███           PageSpeed                       10 pts
 ```
 
 **Phase 0 en semaine 1.** 12 points pour corriger un mail qui dissuade, deux
-dénominateurs faux, un score inversé, brancher l'analytics et poser un CTA Calendly.
+dénominateurs faux, un score inversé, brancher l'analytics et poser un CTA de prise de RDV.
 C'est de loin le meilleur rapport valeur/effort de tout le plan, et **P0-4 et P0-5
 conditionnent la priorisation de tout le reste** : sans mesure, on ne saura pas si les
 phases suivantes servent à quelque chose.
@@ -111,7 +120,7 @@ le SEO signifierait une année de plus sans lead.
 | RGPD | Hors score, en alertes binaires | P1-3 |
 | Marketing | Hors score, devient multiplicateur d'urgence | P1-4 |
 | Gate email | **Conservé** — score partiel affiché, détail par mail | P3-2 |
-| CTA | Calendly, à chaque point de sortie, différencié par palier | P0-6, P3-4 |
+| CTA | **HubSpot Meetings**, à chaque point de sortie, différencié par palier | P0-6, P3-4 |
 | Bootstrap | **Retiré**, migration Tailwind (déjà installé) | P2-7 |
 | Requêtes SEO | **Pas « refonte site web »** en cible directe — voir ci-dessous | P2-2 |
 | Vision IA | Conditionnée à 30 soumissions/mois sur 2 mois | P6-1 |
@@ -228,18 +237,114 @@ sur le factuel.
 
 1. **Qualité du lead > volume.** À 2500 € de panier, 3 leads qualifiés par mois suffisent.
 2. **Le temps est la ressource rare, pas l'argent.** Le budget de 10 € ne bloque rien ;
-   142 points en solo, si.
+   145 points en solo, si.
 3. **Ne rien afficher qui ne soit défendable** face au prospect avec son dev dans la salle.
 4. **Ne rien construire qu'on ne puisse mesurer** — d'où la Phase 0 en premier.
 5. **Latence perçue > latence réelle.** 45 s passent bien si l'écran raconte.
 
 ---
 
-## Ce qui reste à lever
+## P0-5 — relevé Search Console du 14/08/2026
 
-- **P0-5 (Search Console)** dira si la page est seulement indexée. Le résultat
-  **réordonne les Phases 2 et 3** : si le trafic existe mais ne convertit pas, la
-  restitution passe devant l'acquisition.
+### Les deux pages sont indexées
+
+`https://thatmuch.fr/audit-refonte/` et `.../refonte-form/` : **« L'URL est sur
+Google »** à l'inspection. Elles répondent en 200, sans balise `noindex`, et le
+`robots.txt` de thatmuch.fr n'interdit rien.
+
+**L'hypothèse « Google ne trouve pas l'outil » est écartée.** Le goulot n'est pas
+l'exploration mais le **positionnement** : les pages sont dans l'index et ne se
+classent sur rien — cohérent avec une page d'accueil d'environ 150 mots, sans
+requête cible ni `title` travaillé.
+
+### Il n'existe aucun historique de recherche
+
+| Propriété | État |
+|---|---|
+| `audit-refonte.thatmuch.fr` | **n'a jamais existé** |
+| `thatmuch.fr` (domaine) | non vérifiée jusqu'au 14/08/2026 |
+| `https://thatmuch.fr/audit-refonte/` | vérifiée, mais **récente** — « traitement des données en cours » |
+
+Search Console ne collecte que pour une propriété vérifiée et **ne reconstitue
+jamais le passé**. L'année du sous-domaine n'a donc été enregistrée nulle part et
+n'est pas récupérable. **La ligne de base démarre au 14/08/2026**, en même temps que
+l'instrumentation de P0-4. L'outil a tourné un an entièrement à l'aveugle, côté
+produit comme côté recherche.
+
+Un jeton de vérification a été ajouté en TXT sur `thatmuch.fr` le 14/08/2026, en
+ajout des trois valeurs existantes (SPF, Stripe, vérification Google préexistante).
+Il consolidera les sous-domaines sous une seule propriété, sans effet rétroactif.
+
+### Ce que ça décide
+
+**La Phase 2 reste devant la Phase 3.** Le scénario qui l'aurait inversée — du trafic
+qui ne convertit pas — est exclu : il n'y a pas de trafic de recherche.
+
+Mais **la composition de la Phase 2 change**. Les pages étant déjà indexées :
+
+- **P2-4** (sitemap, robots.txt) perd son caractère urgent — de l'hygiène, pas le
+  goulot. L'outil reste absent des 127 URL du sitemap de thatmuch.fr, à corriger,
+  sans que ce soit ce qui bloque.
+- **P2-2** (requêtes atteignables), **P2-3** (métadonnées) et **P2-5** (contenu sous
+  le pli) portent l'enjeu réel : donner aux pages indexées quelque chose sur quoi se
+  classer.
+
+### La ligne de base, relevée le 17/08/2026
+
+Le rapport Performances était en cours de traitement le 14/08. Voici le premier
+relevé exploitable, propriété `https://thatmuch.fr/audit-refonte/`, type de
+recherche Web, fenêtre 3 mois — c'est-à-dire **tout ce que la propriété a jamais
+collecté**, puisqu'elle a été créée le 13/08/2026.
+
+| Métrique         | Valeur |
+| ---------------- | ------ |
+| Clics            | **0**  |
+| Impressions      | **1**  |
+| CTR moyen        | 0 %    |
+| Position moyenne | 8      |
+
+L'unique impression date du **15/08/2026**. Le tableau des requêtes est **vide** :
+à ce volume, Google n'expose aucun terme.
+
+**C'est la valeur de départ, et elle ne sera jamais reconstituée autrement.** Toute
+mesure de progrès SEO de la Phase 2 se compare à cette ligne : 0 clic, 1 impression,
+aucune requête.
+
+Deux lectures, à ne pas confondre :
+
+- **Une impression en trois jours n'est pas un signal**, c'est du bruit. La
+  position 8 en particulier ne veut rien dire — c'est la position d'un affichage
+  unique, sur une requête inconnue, probablement une recherche de marque ou une
+  requête à très longue traîne.
+- Ce que ça confirme en revanche, c'est le diagnostic du 14/08 : **les pages sont
+  indexées et ne se classent sur rien**. Le goulot reste le positionnement.
+
+### Les propriétés Search Console au 17/08/2026
+
+| Propriété                            | État                                 |
+| ------------------------------------ | ------------------------------------ |
+| `thatmuch.fr` (domaine)              | **vérifiée** — consolide les sous-domaines |
+| `https://thatmuch.fr/`               | vérifiée                             |
+| `https://back.thatmuch.fr/`          | vérifiée                             |
+| `https://thatmuch.fr/audit-refonte/` | vérifiée — c'est celle du relevé     |
+
+La vérification du domaine `thatmuch.fr` ajoutée le 14/08 est **effective**. Sans
+effet rétroactif : elle ne fait pas apparaître l'année écoulée.
+
+**P0-5 est clos.** Les deux critères d'acceptation sont remplis : la propriété est
+validée et les données remontent, le statut d'indexation de chaque page est connu et
+documenté.
+
+### Quand y revenir
+
+Pas avant que la Phase 2 ait livré P2-2, P2-3 et P2-5 — il n'y a rien à mesurer
+tant que les pages n'ont pas de requête cible. Le prochain relevé utile se fait
+**4 à 6 semaines après leur mise en ligne**, sur la même fenêtre de 3 mois, et se
+compare aux quatre chiffres ci-dessus.
+
+---
+
+## Ce qui reste à lever
 - **P2-9** (20 analyses manuelles envoyées en prospection) est le test le moins cher de
   la pertinence du score, et il **conditionne P4-7 puis P6-1**.
 - **Cas clients (P2-8)** : tu as dit pouvoir en obtenir. Il en faut deux, avec chiffres

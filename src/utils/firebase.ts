@@ -15,4 +15,6 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
-export { db };
+// `app` est exporte pour que utils/analytics.ts branche getAnalytics dessus
+// apres consentement, sans reinitialiser une seconde application.
+export { app, db };
