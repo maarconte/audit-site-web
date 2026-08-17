@@ -9,6 +9,45 @@ août 2026.
 
 ---
 
+## `metadataBase` et le `basePath` : deux mécanismes incohérents entre eux
+
+**17/08/2026 · `app/layout.tsx`, `src/lib/site.ts`**
+
+**Premier piège.** `metadataBase: new URL("https://thatmuch.fr")`, avec des
+chemins relatifs (`canonical: "/"`, `openGraph.url: "/"`) semblait la
+déclaration naturelle. Le build passe, aucune erreur — mais le HTML généré
+donne `https://thatmuch.fr/`, sans `/audit-refonte`. Next résout les URLs
+relatives contre `metadataBase` seul ; il **n'y ajoute jamais le `basePath`**,
+contrairement à `next/link` ou `next/image`, qui le préfixent automatiquement.
+Correction tentée : inclure le `basePath` directement dans `metadataBase`
+(`new URL("https://thatmuch.fr/audit-refonte/")`).
+
+**Second piège, provoqué par la correction du premier.** Une fois une image
+Open Graph statique ajoutée (convention `opengraph-image.png`, détectée
+automatiquement par Next sans déclaration explicite), `og:image` s'est mis à
+pointer vers `.../audit-refonte/audit-refonte/opengraph-image.png` — le
+`basePath` **dupliqué**. Cause : ce mécanisme-là résout déjà le fichier avec le
+`basePath` inclus, en interne, avant même de tenir compte de `metadataBase`. Il
+n'est donc **pas cohérent** avec la résolution des chemins relatifs classiques
+(`alternates.canonical`, `openGraph.url`), qui elle en a besoin.
+
+**La règle appliquée.** Les deux mécanismes ne peuvent pas être satisfaits par
+un seul réglage global : `metadataBase` reste l'**origine seule**
+(`https://thatmuch.fr`), et chaque page préfixe elle-même `BASE_PATH` — importé
+depuis `src/lib/site.ts`, seule source de vérité, elle-même relue par
+`next.config.ts` — dans son `canonical` et son `openGraph.url`. Ne couvre pas
+`$base-path` dans `src/scss/_vars.scss`, que Next ne peut pas atteindre : ce
+fichier reste à resynchroniser à la main si le sous-dossier change un jour,
+comme c'était déjà le cas avant cette leçon.
+
+**Ce que ça dit plus largement.** Aucun des deux bugs — dénominateur manquant,
+puis dupliqué — ne casse le build ni les tests : les deux ne se voient que dans
+le HTML produit (`out/*.html`). Toute modification touchant `metadataBase`,
+`canonical`, ou une image de partage doit se vérifier après coup sur la sortie
+réelle, jamais sur la seule lecture du code.
+
+---
+
 ## Mass assignment et IDOR par déstructuration d'objet
 
 **03/03/2025 · `functions/src/index.ts`**
