@@ -18,68 +18,15 @@ const template = readFileSync("codeEmailBrevo.html", "utf8");
 const outDir = process.argv[2] ?? ".email-preview";
 mkdirSync(outDir, { recursive: true });
 
-/** Maximums reels par attribut, calcules depuis src/data/questionquiz.json. */
-const MAX = {
-  DESIGN: 15,
-  UX: 15,
-  MARKETING: 15,
-  SEO: 10,
-  PERFORMANCE: 15,
-  TECH: 15,
-  LEGAL: 15,
-};
-
-/** Trois profils couvrant les trois branches de message du mail. */
-const profils = [
-  {
-    nom: "01-score-haut",
-    titre: "Score 78/100 — branche « site sain » (TOTAL >= 66)",
-    attrs: {
-      PRENOM: "Claire",
-      NOM: "Fontaine",
-      URL: "https://cabinet-fontaine.fr",
-      DESIGN: 12,
-      UX: 13,
-      MARKETING: 9,
-      SEO: 7,
-      PERFORMANCE: 12,
-      TECH: 14,
-      LEGAL: 11,
-    },
-  },
-  {
-    nom: "02-score-median",
-    titre: "Score 52/100 — branche « signes de fatigue » (34-65)",
-    attrs: {
-      PRENOM: "Marc",
-      NOM: "Delaunay",
-      URL: "https://delaunay-menuiserie.fr",
-      DESIGN: 7,
-      UX: 8,
-      MARKETING: 6,
-      SEO: 4,
-      PERFORMANCE: 9,
-      TECH: 10,
-      LEGAL: 8,
-    },
-  },
-  {
-    nom: "03-score-bas",
-    titre: "Score 22/100 — branche « coûte des clients » (<= 33)",
-    attrs: {
-      PRENOM: "Sophie",
-      NOM: "Berger",
-      URL: "https://berger-conseil.fr",
-      DESIGN: 3,
-      UX: 2,
-      MARKETING: 5,
-      SEO: 1,
-      PERFORMANCE: 4,
-      TECH: 5,
-      LEGAL: 2,
-    },
-  },
-];
+/**
+ * Profils et maximums viennent de tests/fixtures/profils-email.json, qui sert aussi
+ * de jeu de contacts de test pour Brevo. Un seul endroit a maintenir.
+ */
+const fixture = JSON.parse(
+  readFileSync("tests/fixtures/profils-email.json", "utf8")
+);
+const MAX = fixture.maximums;
+const profils = fixture.profils;
 
 /** Evalue une comparaison unique du type "contact.X >= 12". */
 function comparer(expr, attrs) {
@@ -132,20 +79,50 @@ function rendre(attrs) {
   return { html, total };
 }
 
+/** Branche de message attendue pour un TOTAL, d'apres les seuils du template. */
+const brancheAttendue = (total) =>
+  total >= 66 ? "haute" : total > 33 ? "mediane" : "basse";
+
 const index = [];
+let erreurs = 0;
 for (const profil of profils) {
-  const { html, total } = rendre(profil.attrs);
+  const { html, total } = rendre(profil.contact.attributes);
   const fichier = `${profil.nom}.html`;
   writeFileSync(join(outDir, fichier), html, "utf8");
 
   const restes = (html.match(/\{%|\{\{/g) || []).length;
   const boutons = (html.match(/meetings-eu1/g) || []).length;
+
+  // Le TOTAL du contact Brevo est ecrit a la main dans la fixture : verifier qu'il
+  // vaut bien la somme des categories, sinon le contact de test ment sur son score.
+  const ecrits = [];
+  if (total !== profil.totalAttendu) {
+    ecrits.push(`somme=${total} mais totalAttendu=${profil.totalAttendu}`);
+  }
+  if (Number(profil.contact.attributes.TOTAL) !== total) {
+    ecrits.push(`attribut TOTAL=${profil.contact.attributes.TOTAL} mais somme=${total}`);
+  }
+  if (brancheAttendue(total) !== profil.branche) {
+    ecrits.push(`branche=${profil.branche} mais ${total} tombe en ${brancheAttendue(total)}`);
+  }
+  if (restes > 0) ecrits.push(`${restes} balise(s) Liquid non resolue(s)`);
+  if (boutons === 0) ecrits.push("aucun bouton de RDV dans le rendu");
+
+  erreurs += ecrits.length;
   index.push({ fichier, titre: profil.titre, total, restes, boutons });
   console.log(
-    `${fichier.padEnd(20)} TOTAL=${String(total).padStart(3)}  ` +
-      `boutons RDV=${boutons}  balises Liquid restantes=${restes}`
+    `${fichier.padEnd(22)} TOTAL=${String(total).padStart(3)}  ` +
+      `branche=${profil.branche.padEnd(8)} boutons RDV=${boutons}  ` +
+      `Liquid restant=${restes}` +
+      (ecrits.length ? `\n  ⚠️  ${ecrits.join("\n  ⚠️  ")}` : "")
   );
 }
 
 console.log("\nDetail des maximums utilises :");
 console.log("  " + Object.entries(MAX).map(([k, v]) => `${k}/${v}`).join("  "));
+
+if (erreurs > 0) {
+  console.error(`\n${erreurs} incoherence(s) dans les profils — voir les ⚠️ ci-dessus.`);
+  process.exit(1);
+}
+console.log(`\n${profils.length} profils rendus dans ${outDir}/, tous coherents.`);
