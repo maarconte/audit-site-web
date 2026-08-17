@@ -9,23 +9,67 @@
   padding: 0 $spacing-m;
 
   &__intro {
-    text-align: center;
     margin-bottom: $spacing-xl;
   }
 
   &__lead {
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
     opacity: 0.85;
   }
 
-  &__block {
-    margin-bottom: $spacing-xl;
+  // Accordeon en <details>/<summary> natifs : pas de JS, contenu toujours
+  // present dans le DOM meme replie (voir le commentaire du .tsx).
+  &__item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: $spacing-s 0;
 
-    h2 {
-      font-size: 1.375rem;
+    &:last-child {
+      border-bottom: none;
     }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacing-s;
+
+      // Retire le triangle de divulgation par defaut (Chrome/Firefox et
+      // Safari ont chacun leur propre selecteur).
+      &::marker {
+        content: "";
+      }
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.375rem;
+      }
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: $tm-cyan;
+  }
+
+  // Un seul des deux est affiche, selon l'etat natif [open] de <details>.
+  &__icon--minus {
+    display: none;
+  }
+  details[open] &__icon--plus {
+    display: none;
+  }
+  details[open] &__icon--minus {
+    display: block;
+  }
+
+  &__answer {
+    padding-top: $spacing-s;
 
     p,
     ol {
