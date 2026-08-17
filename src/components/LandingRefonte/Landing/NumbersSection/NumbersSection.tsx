@@ -20,11 +20,11 @@ export default function NumbersSection({}: Props) {
         <h2>Chiffres clés</h2>
         <div className="divider mb-4"></div>
         <p>
-          Pourquoi est-ce une bonne question à se poser en 2025 ? Le monde
+          Pourquoi est-ce une bonne question à se poser en 2026 ? Le monde
           digital évolue à une vitesse fulgurante. Un site web performant hier
           peut rapidement devenir obsolète aujourd’hui. Voici quelques chiffres
-          clés qui présentent sur les exigences du marché/se positionner au
-          niveau de la concurrence.
+          clés qui montrent les exigences du marché et ce qu’il faut pour se
+          positionner au niveau de la concurrence.
         </p>
       </div>
       <div className="NumbersSection__numbers">
