@@ -85,4 +85,23 @@
       }
     }
   }
+
+  // Lien de maillage interne : pleine opacite (le reste du texte de
+  // &__answer est a 0.85) pour se distinguer clairement comme une invite a
+  // cliquer, plutot que comme la suite du paragraphe. Qualifie par
+  // &__answer pour battre en specificite la regle ".SeoContentSection__answer p"
+  // ci-dessus (deux classes contre une classe + un type).
+  &__answer &__more {
+    opacity: 1;
+    margin-bottom: 0;
+
+    a {
+      color: $tm-cyan;
+      text-decoration: underline;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
 }

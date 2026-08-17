@@ -21,6 +21,13 @@ import React from "react";
  * Chaque <h2> reprend une des cinq requetes ciblees par P2-2 (roadmap.md) et
  * repond a la question dans ses deux premieres phrases. Hero et CTA
  * principal, au-dessus, restent inchanges.
+ *
+ * Maillage interne : 4 des 5 reponses renvoient vers un article reel de
+ * thatmuch.fr, verifie par son contenu (pas seulement son slug) via le
+ * sitemap public. La 5e (delai de projet) n'a aucun article correspondant
+ * sur le site a ce jour — aucun lien plutot qu'une correspondance forcee
+ * (ex. confondre "delai de projet" et "delai de rentabilisation", deux
+ * notions distinctes trouvees en cherchant).
  */
 export default function SeoContentSection() {
   return (
@@ -63,6 +70,17 @@ export default function SeoContentSection() {
             de moins en moins de demandes de contact. Le premier dit que Google
             a moins confiance, le second que les visiteurs, une fois arrivés, ne
             trouvent plus ce qu’ils cherchent.
+          </p>
+          <p className="SeoContentSection__more">
+            Pour aller plus loin :{" "}
+            <a
+              href="https://thatmuch.fr/signes-obsolescence-site-web/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              les 5 signes techniques d’obsolescence à repérer
+            </a>
+            .
           </p>
         </div>
       </details>
@@ -110,6 +128,17 @@ export default function SeoContentSection() {
             l’intensité d’un seul, qui indique qu’une refonte devient rentable
             plutôt qu’un simple correctif au coup par coup.
           </p>
+          <p className="SeoContentSection__more">
+            Pour aller plus loin :{" "}
+            <a
+              href="https://thatmuch.fr/10-erreurs-refonte-site-web/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              les 10 erreurs à éviter avant de se lancer
+            </a>
+            .
+          </p>
         </div>
       </details>
 
@@ -145,6 +174,17 @@ export default function SeoContentSection() {
             revanche — rédaction complète, shooting photo, boutique en ligne —
             se chiffre à part, selon l’ampleur réelle du besoin.
           </p>
+          <p className="SeoContentSection__more">
+            Pour aller plus loin :{" "}
+            <a
+              href="https://thatmuch.fr/prix-refonte-site-vitrine-pme/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              le détail du budget refonte pour une PME
+            </a>
+            .
+          </p>
         </div>
       </details>
 
@@ -175,6 +215,17 @@ export default function SeoContentSection() {
             gamme de services ou changé de cible depuis sa création : le site
             raconte encore l’ancienne histoire, et seule une refonte peut le
             faire correspondre à la réalité actuelle de l’entreprise.
+          </p>
+          <p className="SeoContentSection__more">
+            Pour aller plus loin :{" "}
+            <a
+              href="https://thatmuch.fr/refonte-site-web/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              les 5 étapes d’une refonte de site web
+            </a>
+            .
           </p>
         </div>
       </details>
