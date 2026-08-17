@@ -1,3 +1,4 @@
+import { BASE_PATH } from "@/lib/site";
 import ConsentSettingsLink from "@/components/ConsentBanner/ConsentSettingsLink";
 import { HeroSection } from "@/components/LandingRefonte/Landing/HeroSection/HeroSection";
 import Image from "next/image";
@@ -9,12 +10,11 @@ import NumbersSection from "@/components/LandingRefonte/Landing/NumbersSection/N
 import React from "react";
 import ScoreSection from "@/components/LandingRefonte/Landing/ScoreSection/ScoreSection";
 import SeoContentSection from "@/components/LandingRefonte/Landing/SeoContentSection/SeoContentSection";
-import { BASE_PATH } from "@/lib/site";
-import logo from "../public/images/THATMUCH_Logo_White.webp";
 import planetPink from "../public/images/planet-pink.webp";
 import planetYellow from "../public/images/planet-yellow.webp";
 
-const title = "Refonte site WordPress Paris : audit gratuit en 3 min | THATMUCH";
+const title =
+  "Refonte site WordPress Paris : audit gratuit en 3 min | THATMUCH";
 const description =
   "Découvre en 3 minutes si ton site WordPress a besoin d'une refonte. Audit gratuit et sans engagement pour les PME de Paris et Île-de-France.";
 // metadataBase (app/layout.tsx) n'inclut pas le basePath : a prefixer ici a la main.
@@ -91,7 +91,9 @@ export default function Page() {
           title="Accueil du site THATMUCH"
         >
           <Image
-            src={logo}
+            src={
+              "https://cosmosdesign.thatmuch.fr/assets/logos/svg/THATMUCH_Logo_ColorWhite.svg"
+            }
             alt="THATMUCH"
             width={150}
             height={50}
