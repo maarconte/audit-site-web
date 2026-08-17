@@ -13,9 +13,9 @@ import planetPink from "../public/images/planet-pink.webp";
 import planetYellow from "../public/images/planet-yellow.webp";
 
 export const metadata: Metadata = {
-  title: "Analyse de la refonte de site web | Thatmuch",
+  title: "Refonte site WordPress Paris : audit gratuit en 3 min | THATMUCH",
   description:
-    "Découvrez si c'est le bon moment pour refaire ton site internet.",
+    "Découvre en 3 minutes si ton site WordPress a besoin d'une refonte. Audit gratuit et sans engagement pour les PME de Paris et Île-de-France.",
 };
 
 export default function Page() {
@@ -40,7 +40,7 @@ export default function Page() {
       <div className="container-fluid z-2 position-relative">
         <HeroSection
           title="Est-ce le moment de refaire mon site internet ?"
-          desc="Nous avons concocté pour toi, une petite évaluation pour répondre à cette question que tu t'es sûrement déjà posé : quand faut-il engager la refonte de son site internet ?"
+          desc="Un audit gratuit et sans engagement, pensé pour les PME parisiennes sur WordPress. Réponds à 21 questions en 3 minutes pour savoir si la refonte s'impose."
           url="/refonte-form"
           label="Évaluer mon site"
         />
