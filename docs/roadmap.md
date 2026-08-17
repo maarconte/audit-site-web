@@ -344,6 +344,30 @@ compare aux quatre chiffres ci-dessus.
 
 ---
 
+## P2-2 — requêtes cibles, mises en ligne le 17/08/2026
+
+Les cinq requêtes atteignables du ticket, à filtrer dans le rapport Performances de
+Search Console lors du prochain relevé (voir « Quand y revenir » ci-dessus, pas
+avant 4 à 6 semaines) :
+
+- refonte site wordpress paris
+- refonte site internet pme paris
+- refonte site vitrine paris
+- prix refonte site wordpress
+- refaire son site wordpress
+
+**Ce qui a changé sur `app/page.tsx`** — le `<title>` porte la première requête
+telle quelle, la gratuité et le délai : « Refonte site WordPress Paris : audit
+gratuit en 3 min ». Le H1 interrogatif est inchangé. Le sous-titre du hero,
+au-dessus du pli, ajoute ce que le title ne dit pas : à qui (PME parisiennes) et
+sans quel engagement (gratuit, sans engagement, 3 minutes).
+
+« refonte site web », requête de tête hors de portée à 12 mois, n'est délibérément
+ciblée nulle part sur la page — elle reste un objectif de long terme, atteint par
+accumulation plutôt que visé directement.
+
+---
+
 ## Ce qui reste à lever
 - **P2-9** (20 analyses manuelles envoyées en prospection) est le test le moins cher de
   la pertinence du score, et il **conditionne P4-7 puis P6-1**.
