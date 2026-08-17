@@ -78,91 +78,103 @@ export default function ContactForm() {
     }
   }
 
+  const champLabelClass = "block mb-2";
+  const champInputClass =
+    "block w-full px-3 py-2 text-base rounded-md border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:ring-2 focus:ring-dev-500";
+
   return (
     <div className="ContactFormRefonte">
-      <div className="row">
-        <div className="col-md-6 position-relative">
+      <div className="grid md:grid-cols-2 md:gap-8">
+        <div className="relative">
           <h2 className="h3">Analyse terminée !</h2>
           <div className="divider mb-4"></div>
           <h3 className="h1">Recevez votre résultat par mail</h3>
           <Image
             src={tardis}
-            alt="Tardis"
+            alt=""
             width={300}
             height={300}
             style={{ objectFit: "contain" }}
           />
         </div>
-        <div className="col-md-6">
+        <div>
           {!state?.success ? (
             <form
               onSubmit={handleSubmit}
               id="contact-form-refonte-siteweb"
-              className="d-flex flex-column align-items-center justify-content-center"
+              className="flex flex-col items-center justify-center"
             >
-              <div className="form-group mb-4 w-100">
-                <label htmlFor="url">URL du site web</label>
+              <div className="mb-6 w-full">
+                <label htmlFor="url" className={champLabelClass}>
+                  URL du site web
+                </label>
                 <input
                   type="url"
                   id="url"
                   name="url"
-                  className="form-control"
+                  className={champInputClass}
                   required
                 />
               </div>
 
-              <div className="form-group mb-4 w-100">
-                <label htmlFor="firstName">Prénom</label>
+              <div className="mb-6 w-full">
+                <label htmlFor="firstName" className={champLabelClass}>
+                  Prénom
+                </label>
                 <input
                   type="text"
                   id="firstName"
                   name="firstName"
-                  className="form-control"
+                  className={champInputClass}
                   required
                 />
               </div>
 
-              <div className="form-group mb-4 w-100">
-                <label htmlFor="lastName">Nom</label>
+              <div className="mb-6 w-full">
+                <label htmlFor="lastName" className={champLabelClass}>
+                  Nom
+                </label>
                 <input
                   type="text"
                   id="lastName"
                   name="lastName"
-                  className="form-control"
+                  className={champInputClass}
                   required
                 />
               </div>
 
-              <div className="form-group mb-4 w-100">
-                <label htmlFor="email">Email</label>
+              <div className="mb-6 w-full">
+                <label htmlFor="email" className={champLabelClass}>
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  className="form-control"
+                  className={champInputClass}
                   required
                 />
               </div>
 
-              <div className="form-group mb-4 w-100">
-                <div className="d-flex gap-2">
+              <div className="mb-6 w-full">
+                <div className="flex gap-2">
                   <input
                     type="checkbox"
                     name="terms"
                     id="terms"
-                    className="form-check-input"
+                    className="h-4 w-4 mt-1 shrink-0 accent-dev-500"
                     required
                   />
-                  <label htmlFor="terms" className="form-check-label">
+                  <label htmlFor="terms">
                     <small>
-                      J'accepte que <span className="uppercase">Thatmuch</span>{" "}
+                      J’accepte que <span className="uppercase">Thatmuch</span>{" "}
                       collecte mes données selon sa{" "}
                       {/* <a> brute volontairement : la page vit sur thatmuch.fr, hors basePath. */}
                       <a
                         href="/politique-de-confidentialite"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-decoration-underline"
+                        className="underline"
                       >
                         politique de confidentialité.
                       </a>
@@ -172,7 +184,7 @@ export default function ContactForm() {
               </div>
 
               {state?.message && !state?.success && (
-                <div className="text-danger mb-4">{state.message}</div>
+                <div className="text-com-500 mb-6">{state.message}</div>
               )}
 
               <button
@@ -188,15 +200,15 @@ export default function ContactForm() {
               <span className="badge badge-success">
                 <MdOutlineMarkEmailUnread className="icon" size={32} />
               </span>
-              <p className=" mt-3 mb-5">
-                L'analyse de votre site web vous attend dans votre boîte mail !
+              <p className=" mt-4 mb-12">
+                L’analyse de votre site web vous attend dans votre boîte mail !
                 Pensez à vérifier vos spams si vous ne le voyez pas dans votre
                 boîte de réception.
               </p>
               {/* Seul chemin vers un RDV depuis le produit : sans lui, le tunnel
                   se termine sur une attente et le lead repart. */}
               <h4 className="h5">Une question sur votre résultat ?</h4>
-              <p className=" mb-3">
+              <p className=" mb-4">
                 Autant en parler de vive voix et faire revoir votre site par un
                 professionnel.
               </p>

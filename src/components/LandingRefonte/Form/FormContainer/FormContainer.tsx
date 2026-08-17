@@ -168,7 +168,7 @@ export default function FormContainer({
               />
             ))}
             <div
-              className="d-flex justify-content-between align-items-center mt-4"
+              className="flex justify-between items-center mt-6"
               role="navigation"
               aria-label="Navigation du quiz"
             >

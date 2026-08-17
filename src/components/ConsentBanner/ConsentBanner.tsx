@@ -52,11 +52,11 @@ export default function ConsentBanner() {
       role="dialog"
       aria-live="polite"
       aria-label="Consentement à la mesure d'audience"
-      className="position-fixed bottom-0 start-0 end-0 p-3 bg-dark text-white"
+      className="fixed bottom-0 start-0 end-0 p-4 bg-dark text-white"
       style={{ zIndex: 1080 }}
     >
-      <div className="container-fluid d-flex flex-column flex-md-row align-items-md-center gap-3 no-animation">
-        <p className="mb-0 flex-grow-1  opacity-25">
+      <div className="container-fluid flex flex-col md:flex-row md:items-center gap-4 no-animation">
+        <p className="mb-0 grow opacity-25">
           <small>
             Nous mesurons la façon dont cet outil est utilisé, pour l’améliorer.
             Aucune donnée n’est collectée sans votre accord. Voir notre{" "}
@@ -65,24 +65,24 @@ export default function ConsentBanner() {
               href="/politique-de-confidentialite"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white text-decoration-underline"
+              className="text-white underline"
             >
               politique de confidentialité
             </a>
             .
           </small>
         </p>
-        <div className="d-flex gap-2 flex-shrink-0">
+        <div className="flex gap-2 shrink-0">
           <button
             type="button"
-            className="btn btn-outline-light btn-sm"
+            className="btn text-sm px-4 bg-transparent border border-white text-white hover:bg-white hover:text-neutral-900"
             onClick={() => repondre(false)}
           >
             Refuser
           </button>
           <button
             type="button"
-            className="btn btn-light btn-sm"
+            className="btn text-sm px-4 bg-white text-neutral-900 hover:bg-transparent hover:text-white hover:border hover:border-white"
             onClick={() => repondre(true)}
           >
             Accepter
