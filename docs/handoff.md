@@ -111,16 +111,28 @@ Vérifié en ligne après déploiement : les sept icônes du mail répondent **2
 `image/png`**, `/audit-refonte/` et `/audit-refonte/refonte-form/` répondent 200, et
 la home de `thatmuch.fr` est intacte — le SCP n'a pas débordé de son sous-dossier.
 
-### ⚠️ Il reste une étape, et elle est manuelle
+### Le template est en place dans Brevo
 
-**Coller `codeEmailBrevo.html` dans Brevo.** Tant que ce n'est pas fait, un lead qui
-soumet le quiz reçoit toujours l'ancien mail : le déploiement met en ligne le
-produit et les images, pas le template — Brevo en détient sa propre copie.
+**Collé et testé le 17/08/2026, les sept icônes s'affichent.** Le tunnel complet est
+donc à jour de bout en bout : produit déployé, images servies, mail à jour.
 
-L'ordre imposé par les images est désormais **levé** : elles sont en ligne, le
-template peut être collé à tout moment. Il ne le sera plus pour les prochaines
-modifications du mail, où la même règle s'appliquera de nouveau (déployer, puis
-coller).
+Reste à couvrir **deux des trois branches de message** — dernier critère
+d'acceptation de REF-1, impossible à automatiser :
+
+| Branche | Condition        | Message                                | Testée              |
+| ------- | ---------------- | -------------------------------------- | ------------------- |
+| Haute   | `TOTAL >= 66`    | « Votre site tient la route. »         | **non**             |
+| Moyenne | `33 < TOTAL < 66`| « Votre site montre des signes de fatigue. » | oui — 41/100  |
+| Basse   | `TOTAL <= 33`    | « Votre site vous coûte des clients. »  | **non**             |
+
+Bornes vérifiées, sans trou : `33` tombe dans la basse, `34` dans la moyenne, `66`
+dans la haute. La **branche haute est la plus importante à voir rendue** : c'est
+celle qui portait « une refonte n'est pas urgente » au-dessus du bouton de RDV,
+c'est-à-dire le défaut que REF-1 corrigeait.
+
+> **Règle pour les prochaines modifications du mail.** Déployer d'abord, coller
+> ensuite. Toute nouvelle image référencée en `thatmuch.fr/audit-refonte/email/…`
+> n'existe qu'après passage de `nextjs.yml` sur `main`.
 
 ### Ce qui reste ouvert sur la Phase 0
 
