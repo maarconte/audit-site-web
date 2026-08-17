@@ -5,28 +5,30 @@ tickets sont dans [`roadmap.md`](roadmap.md) et [`roadmap-tickets.md`](roadmap-t
 
 ---
 
+---
+
 ## Le projet
 
-Outil d'auto-analyse de site web, servant à générer des leads sur de la refonte pour
+Outil d'auto-analyse de site web, servant à générer des leads sur de la **refonte** pour
 l'agence **THATMUCH**.
 
-| | |
-|---|---|
-| Offre vendue | **Design sur WordPress** |
-| Cible | **PME**, ancrage **Paris / Île-de-France** |
-| Panier moyen | **2000-3000 €** |
-| Budget infra accepté | **10 €/mois** |
-| Équipe | Mathilde seule, assistée par IA |
-| CTA visé | Prise de RDV **HubSpot Meetings** (`meetings-eu1.hubspot.com/mathilde-arconte`) |
+|                      |                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------- |
+| Offre vendue         | **Design sur WordPress**                                                        |
+| Cible                | **PME**, ancrage **Paris / Île-de-France**                                      |
+| Panier moyen         | **2000-3000 €**                                                                 |
+| Budget infra accepté | **10 €/mois**                                                                   |
+| Équipe               | Mathilde seule, assistée par IA                                                 |
+| CTA visé             | Prise de RDV **HubSpot Meetings** (`meetings-eu1.hubspot.com/mathilde-arconte`) |
 
 **État réel après un an en ligne : moins de 10 soumissions, 0 rendez-vous.**
 
 ## Les deux dépôts
 
-| Repo | Local | Remote | Rôle |
-|---|---|---|---|
-| Outil | `analyse-refonte-web` | `maarconte/audit-site-web` | Next 16, export statique, quiz 21 questions |
-| Site principal | `thatmuch` | `ThatMuch/website` | Gatsby headless + WordPress (`back.thatmuch.fr`) |
+| Repo           | Local                 | Remote                     | Rôle                                             |
+| -------------- | --------------------- | -------------------------- | ------------------------------------------------ |
+| Outil          | `analyse-refonte-web` | `maarconte/audit-site-web` | Next 16, export statique, quiz 21 questions      |
+| Site principal | `thatmuch`            | `ThatMuch/website`         | Gatsby headless + WordPress (`back.thatmuch.fr`) |
 
 Hébergement Hostinger, compte `u566000124`, SSH `72.62.214.97:65002`
 (port filtré depuis le poste de Mathilde — les tests locaux SSH sont impossibles,
@@ -67,18 +69,18 @@ crédité 3/5.
 
 ## Décisions actées
 
-| Sujet | Décision |
-|---|---|
-| Sens du score | **100 = urgence de refonte maximale** (inversion complète) |
-| Pondération | `design 30 · ux 22 · seo 18 · performance 15 · technique 15` |
-| RGPD | Hors score, en alertes binaires |
-| Marketing | Hors score, devient multiplicateur d'urgence |
-| Calibration | Panel manuel de 15 sites PME parisiens + 5 profils bornes (historique inexploitable) |
-| Rang comparatif | Retiré jusqu'à 50 soumissions |
-| Gate email | **Conservé** — score partiel affiché, détail par mail |
-| Bootstrap | À retirer, migration Tailwind (déjà installé) |
-| Requêtes SEO | Niches WordPress + Paris. **Pas** « refonte site web » en cible directe |
-| Vision IA | **Reportée**, conditionnée à 30 soumissions/mois sur 2 mois (P6-1) |
+| Sujet           | Décision                                                                             |
+| --------------- | ------------------------------------------------------------------------------------ |
+| Sens du score   | **100 = urgence de refonte maximale** (inversion complète)                           |
+| Pondération     | `design 30 · ux 22 · seo 18 · performance 15 · technique 15`                         |
+| RGPD            | Hors score, en alertes binaires                                                      |
+| Marketing       | Hors score, devient multiplicateur d'urgence                                         |
+| Calibration     | Panel manuel de 15 sites PME parisiens + 5 profils bornes (historique inexploitable) |
+| Rang comparatif | Retiré jusqu'à 50 soumissions                                                        |
+| Gate email      | **Conservé** — score partiel affiché, détail par mail                                |
+| Bootstrap       | À retirer, migration Tailwind (déjà installé)                                        |
+| Requêtes SEO    | Niches WordPress + Paris. **Pas** « refonte site web » en cible directe              |
+| Vision IA       | **Reportée**, conditionnée à 30 soumissions/mois sur 2 mois (P6-1)                   |
 
 ---
 
@@ -89,14 +91,14 @@ crédité 3/5.
 **Les 12 points sont fusionnés dans `develop`. `main` n'a rien reçu.** Les leads qui
 soumettent le quiz aujourd'hui reçoivent toujours l'ancien mail.
 
-| Ticket | Objet | État |
-|---|---|---|
-| REF-1 | Mail qui dissuade réécrit, CTA remonté | dans `develop` |
-| REF-2 | Dénominateurs Marketing et Légal corrigés | dans `develop` |
-| REF-3 | Inversion `legal-2` + test des 21 directions | dans `develop` |
-| REF-4 | Analytics + bandeau de consentement révocable | dans `develop`, **événements validés en réel** |
-| REF-5 | Search Console | **relevé à compléter** — voir plus bas |
-| REF-6 | CTA de RDV à deux points de sortie | dans `develop` |
+| Ticket | Objet                                         | État                                           |
+| ------ | --------------------------------------------- | ---------------------------------------------- |
+| REF-1  | Mail qui dissuade réécrit, CTA remonté        | dans `develop`                                 |
+| REF-2  | Dénominateurs Marketing et Légal corrigés     | dans `develop`                                 |
+| REF-3  | Inversion `legal-2` + test des 21 directions  | dans `develop`                                 |
+| REF-4  | Analytics + bandeau de consentement révocable | dans `develop`, **événements validés en réel** |
+| REF-5  | Search Console                                | **relevé à compléter** — voir plus bas         |
+| REF-6  | CTA de RDV à deux points de sortie            | dans `develop`                                 |
 
 ### La séquence de mise en production, dans cet ordre
 
@@ -158,7 +160,7 @@ vignette d'article : choix éditorial, non tranché.
 
 ## Leçons techniques
 
-[`lecons-techniques.md`](lecons-techniques.md) conserve le *pourquoi* de deux
+[`lecons-techniques.md`](lecons-techniques.md) conserve le _pourquoi_ de deux
 décisions encore visibles dans le code : le durcissement de la Cloud Function contre
 le mass assignment (le SDK admin contourne `firestore.rules`) et l'arrêt explicite de
 la boucle d'animation de `ClickSpark`. Récupéré du dossier `.jules/`, supprimé avec
