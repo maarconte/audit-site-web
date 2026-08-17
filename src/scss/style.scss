@@ -81,6 +81,10 @@ body {
   background-color: $neutral-900;
   overflow: hidden;
 
+  @include breakpoint(desktop) {
+    background-size: cover;
+  }
+
   .planet-pink {
     z-index: 0;
     position: absolute;
