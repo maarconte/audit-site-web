@@ -18,7 +18,7 @@ export default function ConsentSettingsLink() {
     <button
       type="button"
       onClick={oublierChoixConsentement}
-      className="btn btn-link btn-sm text-white p-0"
+      className="p-0 bg-transparent border-0 text-white cursor-pointer"
     >
       <small className="opacity-25">Gérer mes préférences de mesure</small>
     </button>

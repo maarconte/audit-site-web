@@ -11,7 +11,7 @@ export default function ScoreSection({}: Props) {
     <div className="ScoreSection">
       <div>
         <h2>Le score inbox</h2>
-        <div className="divider mb-4"></div>
+        <div className="divider mb-6"></div>
         <p>
           Recevez votre score dans votre boîte mail, et identifiez avec
           précision les axes à refondre sur votre site.

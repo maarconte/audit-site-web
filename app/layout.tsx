@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../src/scss/tailwind.css";
 import "../src/scss/style.scss";
 import ConsentBanner from "@/components/ConsentBanner/ConsentBanner";
 import PageViewTracker from "@/components/PageViewTracker/PageViewTracker";

@@ -63,7 +63,7 @@ const chiffres = [
 export default function NumbersSection() {
   return (
     <div className="NumbersSection">
-      <div className="NumbersSection__content mb-5">
+      <div className="NumbersSection__content mb-12">
         <h2>Chiffres clés</h2>
         <div className="divider mb-4"></div>
         <p>
@@ -81,7 +81,7 @@ export default function NumbersSection() {
               key={valeur + description}
               className={`NumbersSection__number NumbersSection__number--${accent}`}
             >
-              <div className="d-flex justify-content-between align-items-center">
+              <div className="flex justify-between items-center">
                 <h3 className="NumbersSection__number__title">{valeur}</h3>
                 <Icone className="NumbersSection__icon" size={28} />
               </div>

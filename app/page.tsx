@@ -42,10 +42,22 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="bg-landing">
+      {/*
+        Purement decoratif : alt vide. priority conserve sur planet-pink —
+        verifie avec un vrai audit Lighthouse (pas suppose) que c'est elle,
+        et non le H1, que Chrome designe comme element LCP de cette page
+        (plus grande surface peinte). La retirer avait fait passer l'image
+        en chargement paresseux et fait chuter le LCP de ~2s a 7,6s : pour
+        l'element LCP, differer le chargement est le pire choix possible,
+        decoratif ou non. Le vrai gain venait du poids du fichier
+        (972 Ko -> 235 Ko, redimensionne a sa taille d'affichage reelle),
+        pas du retrait de priority. planet-yellow reste eager elle aussi,
+        visible des le chargement au meme titre que planet-pink.
+      */}
       <Image
         src={planetPink}
         className="planet-pink"
-        alt="Planète rose"
+        alt=""
         width={300}
         height={300}
         priority
@@ -53,12 +65,12 @@ export default function Page() {
       <Image
         src={planetYellow}
         className="planet-yellow"
-        alt="Planète jaune"
+        alt=""
         width={200}
         height={200}
         priority
       />
-      <div className="container-fluid z-2 position-relative">
+      <div className="container-fluid z-[2] relative">
         <HeroSection
           title="Est-ce le moment de refaire mon site internet ?"
           desc="Un audit gratuit et sans engagement, pensé pour les PME parisiennes sur WordPress. Réponds à 21 questions en 3 minutes pour savoir si la refonte s'impose."
@@ -71,7 +83,7 @@ export default function Page() {
         <MeetingCtaSection />
         <SeoContentSection />
       </div>
-      <div className="d-flex flex-column align-items-center gap-2 p-4 bg-dark mt-5">
+      <div className="flex flex-col items-center gap-2 p-6 bg-dark mt-12">
         <Link
           href="/"
           className="landing-header__logo"

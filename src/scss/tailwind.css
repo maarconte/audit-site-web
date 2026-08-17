@@ -1,0 +1,80 @@
+/**
+ * Tailwind v4 n'est pas concu pour passer par un preprocesseur Sass (voir
+ * P2-7) : ce fichier reste du CSS pur, importe a part de style.scss, pour
+ * que la directive @import ci-dessous soit interceptee par le plugin
+ * @tailwindcss/postcss avant toute transformation Sass, et non resolue
+ * comme un import Sass classique (qui echouerait, "tailwindcss" n'etant pas
+ * un fichier .scss).
+ */
+@import "tailwindcss";
+
+/**
+ * Reprend la palette de src/scss/_vars.scss (Sass, inaccessible ici — voir
+ * le commentaire en tete de fichier). "neutral" est volontairement
+ * redefini : dans ce projet, $neutral-* est l'echelle violette de marque,
+ * pas le gris generique de Tailwind. Le redefinir ici evite qu'un futur
+ * "text-neutral-900" rende un gris neutre standard au lieu du violet fonce
+ * attendu — piege reel rencontre en ecrivant P2-7.
+ */
+@theme {
+  --color-neutral-0: #f8f8fb;
+  --color-neutral-50: #edeaf6;
+  --color-neutral-100: #c6bde2;
+  --color-neutral-200: #ab9dd4;
+  --color-neutral-300: #8470c1;
+  --color-neutral-400: #6d55b5;
+  --color-neutral-500: #482aa2;
+  --color-neutral-600: #422693;
+  --color-neutral-700: #331e73;
+  --color-neutral-800: #281759;
+  --color-neutral-900: #1e1244;
+
+  --color-com-50: #fcecf0;
+  --color-com-100: #f5c3cf;
+  --color-com-200: #f0a6b8;
+  --color-com-300: #e97d97;
+  --color-com-400: #e56483;
+  --color-com-500: #de3d64;
+  --color-com-600: #ca385b;
+  --color-com-700: #9e2b47;
+  --color-com-800: #7a2237;
+  --color-com-900: #5d1a2a;
+
+  --color-design-50: #fff9e6;
+  --color-design-100: #feedb0;
+  --color-design-200: #fee48a;
+  --color-design-300: #fed854;
+  --color-design-400: #fdd133;
+  --color-design-500: #fdc500;
+  --color-design-600: #e6b300;
+  --color-design-700: #b48c00;
+  --color-design-800: #8b6c00;
+  --color-design-900: #6a5300;
+
+  --color-dev-50: #e7f9fb;
+  --color-dev-100: #b5eef1;
+  --color-dev-200: #91e5ea;
+  --color-dev-300: #5ed9e1;
+  --color-dev-400: #3fd2db;
+  --color-dev-500: #3fd2db;
+  --color-dev-600: #0eb5bf;
+  --color-dev-700: #0b8d95;
+  --color-dev-800: #086d74;
+  --color-dev-900: #065458;
+
+  --color-project-50: #f5fcf0;
+  --color-project-100: #e1f5d1;
+  --color-project-200: #d3f0bb;
+  --color-project-300: #bfea9d;
+  --color-project-400: #b2e589;
+  --color-project-500: #9fdf6c;
+  --color-project-600: #91cb62;
+  --color-project-700: #719e4d;
+  --color-project-800: #577b3b;
+  --color-project-900: #4f792d;
+
+  --color-tm-magenta: #de3d64;
+  --color-tm-yellow: #fdc500;
+  --color-tm-cyan: #0fc7d2;
+  --color-tm-green: #9fdf6c;
+}
