@@ -37,12 +37,12 @@ export default function NumbersSection({}: Props) {
         </div>
         <div className="NumbersSection__number">
           <div className="d-flex justify-content-between align-items-center">
-            <h3 className="NumbersSection__number__title">81%</h3>
+            <h3 className="NumbersSection__number__title">75%</h3>
             <FaGlobe className="NumbersSection__icon" size={32} />
           </div>
           <p>
-            des consommateurs voient le site web comme un critère de confiance
-            de la marque
+            des internautes jugent la crédibilité d’une entreprise sur le
+            design de son site
           </p>
         </div>
         <div className="NumbersSection__number">
@@ -57,7 +57,7 @@ export default function NumbersSection({}: Props) {
             <h3 className="NumbersSection__number__title">3 sec</h3>
             <FaHourglass className="NumbersSection__icon" size={32} />
           </div>
-          <p>de temps de chargement augmente le taux de rebond de 40 %</p>
+          <p>de chargement suffisent à faire fuir 53 % des mobinautes</p>
         </div>
         <div className="NumbersSection__number">
           <div className="d-flex justify-content-between align-items-center">
