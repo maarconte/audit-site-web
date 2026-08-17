@@ -157,13 +157,14 @@ Vérifications faites à la clôture :
 
 ### Ce qui reste, hors Phase 0
 
-- **La politique de confidentialité décrit le mauvais mécanisme de consentement.**
+- **[REF-19](https://linear.app/thatmuch/issue/REF-19/aligner-la-politique-de-confidentialite-sur-le-bandeau-de-consentement)
+  — la politique de confidentialité décrit le mauvais mécanisme de consentement.**
   Elle annonce une gestion « via Axeptio » et un « bandeau dédié » — c'est vrai du
   site Gatsby, mais **pas de `/audit-refonte`**, qui a son propre
   `ConsentBanner.tsx`. La finalité et l'outil sont bien couverts (Firebase
   Analytics est du GA4, la ligne « Google Analytics » du tableau est exacte) ;
   c'est le moyen de retrait qui est faux pour l'outil. Un paragraphe à ajouter,
-  pas une refonte du document. À ticketer.
+  pas une refonte du document. `Medium`, 1 point, rattaché au projet Phase 0.
 - **`marketing-3` est inversée** au même titre que `legal-2` l'était : « je souhaite
   ajouter des pages » vaut 5, alors que ça décrit un besoin, pas un site sain. Non
   corrigée à dessein — P1-4 sort marketing du score pour en faire un multiplicateur
@@ -212,9 +213,14 @@ clé `REF`**, distincte de l'équipe `THATMUCH` pour ne pas mêler les réglages
   n'a pas pu être créé, Linear refusant les doublons insensibles à la casse
 - Estimations en Fibonacci, format de branche réduit à l'identifiant (`ref-12`)
 
-**⚠️ Seuls 18 tickets sur 42 sont créés** (`REF-1` à `REF-18`) : le **plafond de
-250 issues du plan gratuit** est atteint à l'échelle du workspace, `THATMUCH`
-l'occupant presque entièrement. La création s'est arrêtée net sur P2-5.
+**19 tickets créés** (`REF-1` à `REF-19`). La création s'était arrêtée net sur P2-5
+le 14/08, le **plafond de 250 issues du plan gratuit** étant atteint à l'échelle du
+workspace, `THATMUCH` l'occupant presque entièrement.
+
+> **Le 17/08/2026, la création de REF-19 est passée sans erreur.** De la place s'est
+> donc libérée — probablement l'auto-archivage, qui tourne sous 24 h. Avant de
+> supposer le plafond bloquant, **retenter** : les 23 tickets restants de
+> `tickets.json` sont peut-être créables d'un coup.
 
 L'archivage manuel n'existe pas dans Linear — seul l'auto-archivage existe, il tourne
 sous 24 h et **n'archive pas une issue close tant que son projet n'est pas clos**.
