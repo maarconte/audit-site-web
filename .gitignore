@@ -46,3 +46,6 @@ build_output.log
 
 # Rendus locaux du template de mail (scripts/render-email-preview.mjs)
 .email-preview/
+
+# Panel de prospection P2-9 : donnees reelles de tiers, pas de code
+/prospects.json
