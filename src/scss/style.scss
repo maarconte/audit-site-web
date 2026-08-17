@@ -13,7 +13,7 @@ html {
 
 body {
   font-family: "SpaceMono", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 2;
   box-sizing: border-box;
   color: $text-color-default;
@@ -78,12 +78,8 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   color: #fff;
-  background-color: #281759;
+  background-color: $neutral-900;
   overflow: hidden;
-
-  @include breakpoint(desktop) {
-    background-size: cover;
-  }
 
   .planet-pink {
     z-index: 0;
