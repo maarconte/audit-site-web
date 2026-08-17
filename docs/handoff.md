@@ -157,14 +157,18 @@ Vérifications faites à la clôture :
 
 ### Ce qui reste, hors Phase 0
 
-- **[REF-19](https://linear.app/thatmuch/issue/REF-19/aligner-la-politique-de-confidentialite-sur-le-bandeau-de-consentement)
-  — la politique de confidentialité décrit le mauvais mécanisme de consentement.**
-  Elle annonce une gestion « via Axeptio » et un « bandeau dédié » — c'est vrai du
-  site Gatsby, mais **pas de `/audit-refonte`**, qui a son propre
-  `ConsentBanner.tsx`. La finalité et l'outil sont bien couverts (Firebase
-  Analytics est du GA4, la ligne « Google Analytics » du tableau est exacte) ;
-  c'est le moyen de retrait qui est faux pour l'outil. Un paragraphe à ajouter,
-  pas une refonte du document. `Medium`, 1 point, rattaché au projet Phase 0.
+- ~~**[REF-19](https://linear.app/thatmuch/issue/REF-19/aligner-la-politique-de-confidentialite-sur-le-bandeau-de-consentement)**~~
+  **`Done` le 17/08/2026.** La politique de confidentialité distingue maintenant
+  le site principal (Axeptio) de l'outil `/audit-refonte` (bandeau propre,
+  retrait via « Gérer mes préférences de mesure »), et le tableau de la section 3
+  liste Firebase Analytics, Firestore et Cloud Functions à la place de Hotjar,
+  retiré car inutilisé. Vérifié en ligne, texte publié conforme au proposé.
+  Détail : `docs/rgpd-paragraphe-confidentialite.md`.
+  Deux restes mineurs, hors critères d'acceptation : la méta-description SEO de
+  la page mentionne encore Hotjar (champ WordPress séparé, hors dépôt), et le
+  `preconnect` mort vers `content.hotjar.io` est encore servi en production —
+  corrigé dans [ThatMuch/website#83](https://github.com/ThatMuch/website/pull/83),
+  mergé dans `develop` mais pas encore déployé sur `main`.
 - **`marketing-3` est inversée** au même titre que `legal-2` l'était : « je souhaite
   ajouter des pages » vaut 5, alors que ça décrit un besoin, pas un site sain. Non
   corrigée à dessein — P1-4 sort marketing du score pour en faire un multiplicateur
