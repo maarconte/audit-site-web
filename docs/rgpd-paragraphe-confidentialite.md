@@ -59,25 +59,45 @@ Hotjar et Axeptio.
 | Service | Finalité principale | Lieu de traitement des données |
 | --- | --- | --- |
 | Firebase Analytics (Google) | Mesure d'usage de l'outil d'audit, soumise à votre consentement | UE/États-Unis |
-| Firebase — Firestore et Cloud Functions (Google) | Enregistrement et traitement des demandes d'audit envoyées via le formulaire | États-Unis |
+| Firebase Firestore (Google) | Enregistrement des demandes d'audit envoyées via le formulaire | UE |
+| Google Cloud Functions (Google) | Traitement du formulaire et transmission vers Brevo | États-Unis |
 
-### Ce qui est vérifié, et ce qui ne l'est pas
+Trois lignes plutôt que deux : le stockage et le traitement n'ont pas lieu au même
+endroit, et les fondre en un « UE/États-Unis » ferait perdre l'information utile.
+Les données **sont stockées en Europe**, mais **transitent par les États-Unis**.
 
-- **Cloud Functions : `us-central1`, donc États-Unis.** Vérifié le 17/08/2026 par
-  le suffixe `-uc` de l'URL de la fonction déployée
-  (`https://submitform-…-uc.a.run.app`). C'est là que transitent prénom, nom,
-  e-mail et URL.
-- **Firestore : emplacement non vérifié.** Les identifiants Firebase de la session
-  n'étaient plus valides. Par défaut un projet créé avec une fonction en
-  `us-central1` a sa base en `nam5` (multirégion États-Unis), mais **ça reste une
-  supposition** : à confirmer dans la console Firebase, projet `quizzref-9a79b`,
-  avant publication. Si la base est en `eur3`, écrire « UE » plutôt que
-  « États-Unis ».
+### Ligne à retirer
 
-### Autre ajustement
+**Hotjar.** Confirmé absent du site le 17/08/2026 : `window.hj` est indéfini et
+aucun script Hotjar n'est chargé. Il ne reste qu'un `<link rel="preconnect">` vers
+`content.hotjar.io` dans le `<head>` — un vestige, qui déclenche encore une
+résolution DNS et une poignée de main TLS inutiles à chaque page. Idem pour un
+preconnect vers `consent.cookiebot.com`, alors que Cookiebot n'est pas utilisé.
+À nettoyer côté `ThatMuch/website`, sans rapport avec le RGPD.
 
-- **Préciser la portée de Hotjar et Axeptio** — ils ne tournent que sur le site
-  principal, pas sur `/audit-refonte`.
+### Ce qui a été vérifié, et comment
+
+Relevé du 17/08/2026, à l'exécution dans un navigateur — le HTML statique seul
+induit en erreur, les preconnect y ressemblent à des intégrations actives.
+
+| Constat | Méthode |
+| --- | --- |
+| Firestore en `europe-west1`, donc **UE** | API Firebase, projet `quizzref-9a79b` — `locationId: europe-west1` |
+| Cloud Functions en `us-central1`, donc **États-Unis** | suffixe `-uc` de l'URL de la fonction déployée |
+| Hotjar **absent** | `window.hj` indéfini, aucun script `hotjar` chargé |
+| Axeptio **bien présent** | `static.axept.io/sdk.js` chargé, cookies `axeptio_cookies`, `axeptio_authorized_vendors`, `axeptio_all_vendors` |
+| GA4 et GTM présents | `G-EGCDBV43KT`, `GTM-W2WV9WGR`, cookies `_ga` |
+| HubSpot présent, au-delà du CRM | `hs-banner.js`, `hscollectedforms.js`, `hs-analytics.js`, cookies `__hstc`, `hubspotutk`, `__hssrc`, `__hssc` |
+
+**La mention d'Axeptio dans la politique est donc juste** pour le site principal —
+c'est bien son périmètre qui était mal décrit, pas son existence.
+
+> **Un point non tranché, hors périmètre de ce ticket.** Les cookies `_ga` et
+> `__hstc` étaient déjà posés au chargement de la page, avant toute interaction
+> avec le bandeau Axeptio. Ça peut venir d'un choix mémorisé lors d'une visite
+> antérieure du navigateur de test, ou d'un dépôt avant consentement — le second
+> cas serait un vrai défaut. **À vérifier en navigation privée** avant d'en
+> conclure quoi que ce soit.
 
 ---
 
