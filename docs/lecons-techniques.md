@@ -9,6 +9,53 @@ août 2026.
 
 ---
 
+## `metadataBase` ignore le `basePath` par défaut
+
+**17/08/2026 · `app/layout.tsx`, `app/opengraph-image.tsx`**
+
+**Le piège.** `metadataBase: new URL("https://thatmuch.fr")`, avec des chemins
+relatifs (`canonical: "/"`, `openGraph.url: "/"`) semblait la déclaration
+naturelle. Le build passe, aucune erreur — mais le HTML généré donne
+`https://thatmuch.fr/`, sans `/audit-refonte`. Next résout les URLs relatives
+contre `metadataBase` seul ; il **n'y ajoute jamais le `basePath`**, contrairement
+à `next/link` ou `next/image`, qui le préfixent automatiquement.
+
+**Conséquence si ça passe inaperçu.** Un `canonical` faux dit à Google que cette
+page est un doublon de la vraie page d'accueil (`thatmuch.fr/`, le site Gatsby) —
+au mieux ignoré, au pire elle disparaît de l'index à son profit. Et `og:image`
+pointe vers une image qui n'existe nulle part : partage cassé sur tous les
+réseaux, silencieusement, aucune erreur ne le signale.
+
+**La règle appliquée.** Inclure le `basePath` directement dans `metadataBase` :
+`new URL("https://thatmuch.fr/audit-refonte/")`. Vérifier après coup dans le HTML
+généré (`out/*.html`), jamais sur la seule lecture du code — c'est un défaut qui
+ne casse ni le build ni les tests, uniquement le HTML produit.
+
+## Les routes `opengraph-image.tsx` n'ont pas d'extension
+
+**17/08/2026 · `public/.htaccess`**
+
+**Le piège.** La convention Next `opengraph-image.tsx` produit, en export
+statique, un fichier littéralement nommé `opengraph-image` — sans `.png`. Sur un
+serveur Node, Next fixe l'en-tête `Content-Type` lui-même à la volée. Sur un
+hébergement statique comme celui-ci, c'est Apache qui sert le fichier, et il n'a
+que le nom pour deviner le type : sans extension, il tombe sur `text/plain` ou
+`application/octet-stream`.
+
+**Conséquence.** Les crawlers de partage (Facebook en tête) vérifient
+strictement ce `Content-Type` et ignorent l'image si elle n'est pas déclarée en
+`image/*` — le lien se partage sans miniature, sans erreur visible côté outil.
+
+**La règle appliquée.** Forcer le type dans `.htaccess` :
+
+```apache
+<Files "opengraph-image">
+  ForceType image/png
+</Files>
+```
+
+---
+
 ## Mass assignment et IDOR par déstructuration d'objet
 
 **03/03/2025 · `functions/src/index.ts`**

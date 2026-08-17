@@ -12,10 +12,27 @@ import logo from "../public/images/THATMUCH_Logo_White.webp";
 import planetPink from "../public/images/planet-pink.webp";
 import planetYellow from "../public/images/planet-yellow.webp";
 
+const title = "Refonte site WordPress Paris : audit gratuit en 3 min | THATMUCH";
+const description =
+  "Découvre en 3 minutes si ton site WordPress a besoin d'une refonte. Audit gratuit et sans engagement pour les PME de Paris et Île-de-France.";
+
 export const metadata: Metadata = {
-  title: "Refonte site WordPress Paris : audit gratuit en 3 min | THATMUCH",
-  description:
-    "Découvre en 3 minutes si ton site WordPress a besoin d'une refonte. Audit gratuit et sans engagement pour les PME de Paris et Île-de-France.",
+  title,
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title,
+    description,
+    url: "/",
+    siteName: "THATMUCH",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function Page() {

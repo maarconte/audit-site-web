@@ -9,3 +9,14 @@
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^audit-refonte\.thatmuch\.fr$ [NC]
 RewriteRule ^(.*)$ https://thatmuch.fr/audit-refonte/$1 [R=301,L]
+
+# Les images Open Graph (P2-3) sont generees par la convention Next
+# opengraph-image.tsx, qui produit un fichier SANS extension (le PNG genere
+# s'appelle litteralement "opengraph-image"). Sur un serveur Node, Next fixe
+# lui-meme l'en-tete Content-Type ; ici Apache sert un fichier statique et
+# n'a que le nom pour se guider, ce qui le sert par defaut en text/plain ou
+# application/octet-stream. Les crawlers de partage (Facebook notamment)
+# verifient strictement ce Content-Type et ignorent l'image sinon.
+<Files "opengraph-image">
+  ForceType image/png
+</Files>
