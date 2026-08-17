@@ -30,9 +30,15 @@ l'agence **THATMUCH**.
 | Outil          | `analyse-refonte-web` | `maarconte/audit-site-web` | Next 16, export statique, quiz 21 questions      |
 | Site principal | `thatmuch`            | `ThatMuch/website`         | Gatsby headless + WordPress (`back.thatmuch.fr`) |
 
-Hébergement Hostinger, compte `u566000124`, SSH `72.62.214.97:65002`
-(port filtré depuis le poste de Mathilde — les tests locaux SSH sont impossibles,
-seuls les runners GitHub y accèdent).
+Hébergement Hostinger, compte `u566000124`, plan `cloud_economy_v3`,
+SSH `72.62.214.97:65002`.
+
+> **Correction du 17/08/2026.** Le handoff affirmait que ce port était filtré depuis
+> le poste de Mathilde et que seuls les runners GitHub y accédaient. **C'est faux** :
+> `nc 72.62.214.97 65002` répond `SSH-2.0-OpenSSH_9.9` en local. Le diagnostic depuis
+> le poste est donc possible, et c'est lui qui a permis d'innocenter le serveur lors
+> de l'échec de déploiement du 17/08 — voir
+> [`lecons-techniques.md`](lecons-techniques.md#le-scp-de-déploiement-échoue-par-intermittence).
 
 **Deux pipelines écrivent dans `/home/u566000124/domains/thatmuch.fr/public_html` :**
 
@@ -84,32 +90,37 @@ crédité 3/5.
 
 ---
 
-## État réel au 14/08/2026
+## État réel au 17/08/2026
 
-### ⚠️ La Phase 0 est écrite, elle n'est pas en ligne
+### ✅ La Phase 0 est en ligne
 
-**Les 12 points sont fusionnés dans `develop`. `main` n'a rien reçu.** Les leads qui
-soumettent le quiz aujourd'hui reçoivent toujours l'ancien mail.
+**Déployée le 17/08/2026** par la PR [#115](https://github.com/maarconte/audit-site-web/pull/115)
+(`develop` → `main`, 24 commits, 45 fichiers). Ses `Fixes REF-1` à `REF-6` ont fait
+passer les six tickets en `Done`.
 
-| Ticket | Objet                                         | État                                           |
-| ------ | --------------------------------------------- | ---------------------------------------------- |
-| REF-1  | Mail qui dissuade réécrit, CTA remonté        | dans `develop`                                 |
-| REF-2  | Dénominateurs Marketing et Légal corrigés     | dans `develop`                                 |
-| REF-3  | Inversion `legal-2` + test des 21 directions  | dans `develop`                                 |
-| REF-4  | Analytics + bandeau de consentement révocable | dans `develop`, **événements validés en réel** |
-| REF-5  | Search Console                                | **terminé** — ligne de base relevée le 17/08   |
-| REF-6  | CTA de RDV à deux points de sortie            | dans `develop`                                 |
+| Ticket | Objet                                         | État                                    |
+| ------ | --------------------------------------------- | --------------------------------------- |
+| REF-1  | Mail qui dissuade réécrit, CTA remonté        | `Done` — **reste l'envoi de test Brevo** |
+| REF-2  | Dénominateurs Marketing et Légal corrigés     | `Done` — vérifié sur un envoi réel      |
+| REF-3  | Inversion `legal-2` + test des 21 directions  | `Done`                                  |
+| REF-4  | Analytics + bandeau de consentement révocable | `Done` — événements validés en réel     |
+| REF-5  | Search Console                                | `Done` — ligne de base relevée le 17/08 |
+| REF-6  | CTA de RDV à deux points de sortie            | `Done`                                  |
 
-### La séquence de mise en production, dans cet ordre
+Vérifié en ligne après déploiement : les sept icônes du mail répondent **200
+`image/png`**, `/audit-refonte/` et `/audit-refonte/refonte-form/` répondent 200, et
+la home de `thatmuch.fr` est intacte — le SCP n'a pas débordé de son sous-dossier.
 
-1. PR `develop` → `main`, portant les `Fixes REF-1` à `REF-6` — c'est elle qui fait
-   passer les tickets en `Done`, puisque c'est elle qui met réellement en ligne
-2. Attendre la fin du workflow `nextjs.yml`
-3. **Seulement ensuite**, coller `codeEmailBrevo.html` dans Brevo
+### ⚠️ Il reste une étape, et elle est manuelle
 
-**L'ordre 2 avant 3 est impératif** : les URL d'images
-`thatmuch.fr/audit-refonte/email/*.png` n'existent qu'après déploiement. Dans
-l'autre sens, tous les envois partent avec sept icônes cassées.
+**Coller `codeEmailBrevo.html` dans Brevo.** Tant que ce n'est pas fait, un lead qui
+soumet le quiz reçoit toujours l'ancien mail : le déploiement met en ligne le
+produit et les images, pas le template — Brevo en détient sa propre copie.
+
+L'ordre imposé par les images est désormais **levé** : elles sont en ligne, le
+template peut être collé à tout moment. Il ne le sera plus pour les prochaines
+modifications du mail, où la même règle s'appliquera de nouveau (déployer, puis
+coller).
 
 ### Ce qui reste ouvert sur la Phase 0
 
@@ -117,7 +128,6 @@ l'autre sens, tous les envois partent avec sept icônes cassées.
   `https://thatmuch.fr/audit-refonte/`, fenêtre 3 mois : **0 clic, 1 impression,
   CTR 0 %, position moyenne 8**, aucune requête exposée. La propriété domaine
   `thatmuch.fr` est vérifiée. Détail dans [`roadmap.md`](roadmap.md#p0-5--relevé-search-console-du-14082026).
-  REF-5 peut passer en `Done` avec la PR `develop` → `main`.
 - **Envoi de test Brevo** sur les trois branches de message — dernier critère
   d'acceptation de REF-1, impossible à automatiser. Un rendu local existe :
   `node scripts/render-email-preview.mjs`.

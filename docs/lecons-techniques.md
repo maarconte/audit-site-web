@@ -35,6 +35,40 @@ basculement booléen entre deux constantes.
 
 ---
 
+## Le SCP de déploiement échoue par intermittence
+
+**17/08/2026 · `.github/workflows/nextjs.yml`**
+
+**Le problème.** La mise en production de la Phase 0 a échoué à l'étape
+`Deploy via SSH (Hostinger)` : `dial tcp ***:65002: i/o timeout`. Le build avait
+réussi, seul le transfert échouait. Le déploiement précédent, quatre jours plus tôt,
+était passé sans rien changer entre-temps au workflow ni à l'hébergement.
+
+**Ce qui a permis de trancher.** Depuis le poste : `nc 72.62.214.97 65002` répond
+`SSH-2.0-OpenSSH_9.9`, et l'API Hostinger confirme l'`order` actif sur le bon
+`root_directory`. Le serveur écoute, l'IP est la bonne, le compte est actif —
+**seul le runner GitHub n'arrivait pas à établir la connexion TCP**.
+
+**La règle appliquée.** Devant un `i/o timeout` sur cette étape, **relancer le job
+avant de toucher à quoi que ce soit** :
+
+```
+gh run rerun <run-id> --failed
+```
+
+Le rerun est passé sans la moindre modification. Les runners GitHub changent d'IP
+d'une exécution à l'autre et Hostinger en bloque une partie ; l'échec n'est ni le
+workflow, ni les secrets, ni le serveur. Modifier `HOSTINGER_IP` ou le workflow en
+réaction à ce symptôme, c'est corriger ce qui n'est pas cassé — et perdre la trace
+du vrai motif.
+
+**Le corollaire à ne pas oublier.** Le SCP écrase et ajoute, ne supprime jamais : un
+rerun est sans danger, il redépose le même export. Vérifier ensuite que la home de
+`thatmuch.fr` répond toujours 200 — le `target` doit rester le sous-dossier
+`audit-refonte`, le viser trop haut écraserait le site principal.
+
+---
+
 ## Boucle d'animation canvas laissée tourner à vide
 
 **28/02/2025 · `src/components/ClickSpark/ClickSpark.tsx`**
