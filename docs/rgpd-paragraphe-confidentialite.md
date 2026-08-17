@@ -41,14 +41,41 @@ mesure s'arrête immédiatement, sans attendre un rechargement de la page.
 
 ---
 
-## Modification connexe, section 3
+## Modification connexe, section 3 — tableau des services
 
 Le tableau « Outils et services utilisés » liste Google Analytics, Hubspot, Brevo,
-Hotjar et Axeptio. Deux ajustements le rendraient exact :
+Hotjar et Axeptio.
 
-- **Ajouter une ligne** — `Firebase Analytics (GA4) · Mesure d'usage de l'outil
-  d'audit · UE/États-Unis`. La ligne « Google Analytics » existante couvre la
-  finalité, mais nomme un service que l'outil n'appelle pas directement.
+> **Le manque le plus sérieux n'est pas la mesure d'audience.** Les données du
+> formulaire — prénom, nom, adresse e-mail, adresse du site et scores — sont
+> écrites dans **Firestore** par une Cloud Function, avant même l'envoi vers
+> Brevo (`functions/src/index.ts`, collection `submissions`). Google est donc
+> sous-traitant de la donnée personnelle la plus identifiante que l'outil
+> collecte, et **il n'apparaît nulle part au tableau à ce titre**. La ligne
+> « Google Analytics » ne couvre que la mesure d'audience.
+
+### Lignes à ajouter
+
+| Service | Finalité principale | Lieu de traitement des données |
+| --- | --- | --- |
+| Firebase Analytics (Google) | Mesure d'usage de l'outil d'audit, soumise à votre consentement | UE/États-Unis |
+| Firebase — Firestore et Cloud Functions (Google) | Enregistrement et traitement des demandes d'audit envoyées via le formulaire | États-Unis |
+
+### Ce qui est vérifié, et ce qui ne l'est pas
+
+- **Cloud Functions : `us-central1`, donc États-Unis.** Vérifié le 17/08/2026 par
+  le suffixe `-uc` de l'URL de la fonction déployée
+  (`https://submitform-…-uc.a.run.app`). C'est là que transitent prénom, nom,
+  e-mail et URL.
+- **Firestore : emplacement non vérifié.** Les identifiants Firebase de la session
+  n'étaient plus valides. Par défaut un projet créé avec une fonction en
+  `us-central1` a sa base en `nam5` (multirégion États-Unis), mais **ça reste une
+  supposition** : à confirmer dans la console Firebase, projet `quizzref-9a79b`,
+  avant publication. Si la base est en `eur3`, écrire « UE » plutôt que
+  « États-Unis ».
+
+### Autre ajustement
+
 - **Préciser la portée de Hotjar et Axeptio** — ils ne tournent que sur le site
   principal, pas sur `/audit-refonte`.
 
