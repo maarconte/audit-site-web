@@ -117,46 +117,57 @@ la home de `thatmuch.fr` est intacte — le SCP n'a pas débordé de son sous-do
 donc à jour de bout en bout : produit déployé, images servies, mail à jour.
 
 Reste à couvrir **deux des trois branches de message** — dernier critère
-d'acceptation de REF-1, impossible à automatiser :
+d'acceptation de REF-1 — **couvert le 17/08/2026** :
 
-| Branche | Condition        | Message                                | Testée              |
-| ------- | ---------------- | -------------------------------------- | ------------------- |
-| Haute   | `TOTAL >= 66`    | « Votre site tient la route. »         | **non**             |
-| Moyenne | `33 < TOTAL < 66`| « Votre site montre des signes de fatigue. » | oui — 41/100  |
-| Basse   | `TOTAL <= 33`    | « Votre site vous coûte des clients. »  | **non**             |
+| Branche | Condition        | Message                                      | Testée |
+| ------- | ---------------- | -------------------------------------------- | ------ |
+| Haute   | `TOTAL >= 66`    | « Votre site tient la route. »               | oui    |
+| Moyenne | `33 < TOTAL < 66`| « Votre site montre des signes de fatigue. » | oui    |
+| Basse   | `TOTAL <= 33`    | « Votre site vous coûte des clients. »       | oui    |
 
 Bornes vérifiées, sans trou : `33` tombe dans la basse, `34` dans la moyenne, `66`
-dans la haute. La **branche haute est la plus importante à voir rendue** : c'est
-celle qui portait « une refonte n'est pas urgente » au-dessus du bouton de RDV,
-c'est-à-dire le défaut que REF-1 corrigeait.
+dans la haute. La phrase « une refonte n'est pas urgente » est absente des rendus
+des branches hautes (78 et 66) — c'est le défaut que REF-1 corrigeait.
+
+Les jeux d'attributs sont figés dans [`tests/fixtures/profils-email.json`](../tests/fixtures/profils-email.json) :
+huit profils couvrant les trois branches, les quatre bornes de basculement et le
+cas réel à 41. Le bloc `contact` de chaque profil est collable dans un contact de
+test Brevo. `node scripts/render-email-preview.mjs` les rend hors de Brevo et
+**sort en code 1** si un profil devient incohérent.
 
 > **Règle pour les prochaines modifications du mail.** Déployer d'abord, coller
 > ensuite. Toute nouvelle image référencée en `thatmuch.fr/audit-refonte/email/…`
 > n'existe qu'après passage de `nextjs.yml` sur `main`.
 
-### Ce qui reste ouvert sur la Phase 0
+### 🎯 Phase 0 close le 17/08/2026
 
-- ~~**Relevé Search Console**~~ **fait le 17/08/2026.** Ligne de base sur
-  `https://thatmuch.fr/audit-refonte/`, fenêtre 3 mois : **0 clic, 1 impression,
-  CTR 0 %, position moyenne 8**, aucune requête exposée. La propriété domaine
-  `thatmuch.fr` est vérifiée. Détail dans [`roadmap.md`](roadmap.md#p0-5--relevé-search-console-du-14082026).
-- **Envoi de test Brevo** sur les trois branches de message — dernier critère
-  d'acceptation de REF-1, impossible à automatiser. Un rendu local existe :
-  `node scripts/render-email-preview.mjs`.
-- **Politique de confidentialité** : elle doit mentionner la mesure d'audience, le
-  bandeau de consentement y renvoie.
+Les six tickets sont `Done`, déployés et vérifiés en ligne. Les trois angles morts
+du diagnostic initial sont fermés : le mail ne dissuade plus, le tunnel mène à une
+prise de RDV mesurée, et il existe une ligne de base côté produit comme côté
+recherche. **Rien n'est prouvé pour autant** — la Phase 0 rend l'outil observable,
+elle ne le rend pas performant. Les chiffres arrivent maintenant.
+
+Vérifications faites à la clôture :
+
+| Point                                   | Résultat                                             |
+| --------------------------------------- | ---------------------------------------------------- |
+| `deploy.yml` sur `develop` de `ThatMuch/website` | **présent**, avec `ref: inputs.branch \|\| 'main'` — le risque d'écrasement de `main` par une publication WordPress est fermé |
+| Domaine personnalisé GitHub Pages       | **déjà retiré** (`cname: null`). Pages reste activé, purement cosmétique |
+| Politique de confidentialité            | mentionne Google Analytics, le suivi d'audience, les cookies, le consentement et son retrait — **le point du handoff est satisfait**, à une réserve près ci-dessous |
+
+### Ce qui reste, hors Phase 0
+
+- **La politique de confidentialité décrit le mauvais mécanisme de consentement.**
+  Elle annonce une gestion « via Axeptio » et un « bandeau dédié » — c'est vrai du
+  site Gatsby, mais **pas de `/audit-refonte`**, qui a son propre
+  `ConsentBanner.tsx`. La finalité et l'outil sont bien couverts (Firebase
+  Analytics est du GA4, la ligne « Google Analytics » du tableau est exacte) ;
+  c'est le moyen de retrait qui est faux pour l'outil. Un paragraphe à ajouter,
+  pas une refonte du document. À ticketer.
 - **`marketing-3` est inversée** au même titre que `legal-2` l'était : « je souhaite
   ajouter des pages » vaut 5, alors que ça décrit un besoin, pas un site sain. Non
   corrigée à dessein — P1-4 sort marketing du score pour en faire un multiplicateur
   d'urgence, où le 5 redevient juste. Signalée en `todo` par `npm test`.
-
-### Restes plus anciens, toujours valables
-
-- Retirer le domaine personnalisé dans `Settings → Pages` de
-  `maarconte/audit-site-web`, puis désactiver Pages (cosmétique).
-- **Vérifier que `deploy.yml` a bien été poussé sur `develop`** de
-  `ThatMuch/website`. Sans lui, la prochaine publication d'article reconstruit
-  `develop` et efface le contenu de `main` — c'est déjà arrivé une fois.
 
 ### Sur le mail — corrections hors ticket
 
