@@ -4,12 +4,13 @@
  * reduit (maximums_externe), pas sur 100.
  *
  * Le quiz declaratif suppose que le repondant connait ses propres intentions
- * (marketing-1/2/3 : branding, offre, envie d'ajouter des pages). Un analyste
+ * (marketing-1/2/3 : branding, offre, envie d'ajouter des pages) — un analyste
  * externe qui remplit le quiz a la place du prospect ne peut pas les observer
- * sans le contacter — les laisser a 0 fausserait le score a la baisse sans
- * raison. On les exclut donc du calcul : MARKETING passe de /15 a /2 (seule
- * marketing-4, "visible sur Google Maps", est verifiable de l'exterieur), et
- * le TOTAL est recalcule sur 87 (somme de maximums_externe) au lieu de 100.
+ * sans le contacter. Le formulaire ne permet pas non plus de repondre a une
+ * seule question du bloc marketing isolement : impossible donc de ne garder
+ * que marketing-4 (observable). MARKETING est donc entierement absente de
+ * maximums_externe (pas juste plafonnee), et le TOTAL est recalcule sur 85
+ * (somme des 6 categories restantes) au lieu de 100.
  *
  * Usage : node scripts/score-prospection.mjs [prospects.json]
  */
@@ -27,7 +28,10 @@ const categories = Object.keys(MAX);
 const maxEffectif = categories.reduce((s, c) => s + MAX[c], 0);
 
 let erreurs = 0;
-console.log(`Denominateur externe : ${maxEffectif}/100 (MARKETING plafonne a ${MAX.MARKETING}/15)\n`);
+console.log(
+  `Denominateur externe : ${maxEffectif}/100 sur ${categories.join(", ")} ` +
+    `(MARKETING exclue — cf. _lisezmoi)\n`
+);
 
 for (const prospect of data.prospects) {
   const attrs = prospect.contact.attributes;

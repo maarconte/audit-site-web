@@ -1,0 +1,20 @@
+Objet : {{ENTREPRISE}}, un point qui vous fait perdre des visiteurs
+
+{{SALUTATION}}
+
+{{CONSTAT}}
+
+C'est le genre de détail qui coûte des clients sans qu'on s'en rende compte : un visiteur qui hésite ferme l'onglet et va voir ailleurs, il ne cherche pas plus loin.
+
+THATMUCH est une agence parisienne spécialisée dans le design de sites WordPress pour PME. On a déjà commencé à passer votre site au crible sur plusieurs aspects (design, UX, référencement, performance, technique, légal) : sur ce qu'on peut observer depuis l'extérieur, ça donne un score de refonte de {{SCORE}}/100.
+
+Si ça vous parle, vous pouvez faire vous-même le test complet et gratuit sur votre site (quelques questions, 2 minutes) pour voir en détail tous les axes à travailler en priorité :
+{{LIEN_OUTIL}}
+
+Ou si vous préférez qu'on en parle directement, on peut se programmer un point de 30 minutes :
+{{LIEN_RDV}}
+
+Au passage : l'équipe THATMUCH est sur place au Village tous les jeudis, si vous préférez qu'on en discute autour d'un café plutôt que par visio.
+
+À bientôt,
+Mathilde, THATMUCH
