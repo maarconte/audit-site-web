@@ -53,3 +53,4 @@ build_output.log
 
 # Panel de prospection P2-9 : donnees reelles de tiers, pas de code
 /prospects.json
+mail-prospection.txt

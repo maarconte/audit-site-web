@@ -4,9 +4,9 @@ Objet : {{ENTREPRISE}}, un point qui vous fait perdre des visiteurs
 
 {{CONSTAT}}
 
-C'est le genre de détail qui coûte des clients sans qu'on s'en rende compte : un visiteur qui hésite ferme l'onglet et va voir ailleurs, il ne cherche pas plus loin.
+{{COUT}}
 
-THATMUCH est une agence parisienne spécialisée dans le design de sites WordPress pour PME. On a déjà commencé à passer votre site au crible sur plusieurs aspects (design, UX, référencement, performance, technique, légal) : sur ce qu'on peut observer depuis l'extérieur, ça donne un score de refonte de {{SCORE}}/100.
+THATMUCH est une agence parisienne spécialisée dans le design, le développement et le référencement de sites WordPress pour PME. On a déjà commencé à passer votre site au crible sur plusieurs aspects (design, UX, référencement, performance, technique, légal) : sur ce qu'on peut observer depuis l'extérieur, ça donne un score de refonte de {{SCORE}}/100.
 
 Si ça vous parle, vous pouvez faire vous-même le test complet et gratuit sur votre site (quelques questions, 2 minutes) pour voir en détail tous les axes à travailler en priorité :
 {{LIEN_OUTIL}}
