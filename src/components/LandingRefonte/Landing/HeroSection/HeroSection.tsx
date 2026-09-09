@@ -6,7 +6,6 @@ import Button from "../../../UI/Button/Button";
 import { FaArrowRight } from "react-icons/fa6";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../../../../../public/images/THATMUCH_Logo_White.webp";
 
 export interface IHeroSectionProps {
   title: string;
@@ -32,7 +31,16 @@ export const HeroSection: React.FC<IHeroSectionProps> = ({
           aria-label="Accueil"
           title="Accueil du site THATMUCH"
         >
-          <Image src={logo} alt="THATMUCH" width={150} height={50} style={{ objectFit: 'contain' }} priority />
+          <Image
+            src={
+              "https://cosmosdesign.thatmuch.fr/assets/logos/svg/THATMUCH_Logo_ColorWhite.svg"
+            }
+            alt="THATMUCH"
+            width={200}
+            height={100}
+            style={{ objectFit: "contain" }}
+            priority
+          />
         </Link>
       </header>
       {!isLanding && <h1 className="hero-title">{title}</h1>}

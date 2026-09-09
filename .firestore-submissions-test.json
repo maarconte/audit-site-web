@@ -1,0 +1,19 @@
+[
+  {
+    "__path__": "submissions-test/lCOY8aAq4N9TyYiPiAQu",
+    "firstName": "Hugues",
+    "lastName": "Bouclier",
+    "email": "mat.arconte+00@gmail.com",
+    "url": "https://www.assysto.com/",
+    "scores": {
+      "design": 6,
+      "ux": 10,
+      "marketing": 8,
+      "seo": 5,
+      "performance": 5,
+      "technique": 13,
+      "legal": 10
+    },
+    "createdAt": { "__type__": "Timestamp", "value": "2026-08-18T07:19:09.222Z" }
+  }
+]

@@ -83,7 +83,7 @@
       },
       {
         "id": "ux-2",
-        "question": "Il est facile de trouver les informations importantes sur mon site",
+        "question": "Si vous demandez à quelqu’un d’extérieur de trouver votre offre ou votre numéro de téléphone en moins de 10 secondes sur votre site, y arrive-t-il ?",
         "options": [
           {
             "text": "Oui",
@@ -101,8 +101,8 @@
       },
       {
         "id": "ux-3",
-        "question": "Mon site a-t-il été réfléchi en prenant compte de l’accessibilité utilisateur ?",
-        "description": "Par exemple : couleurs, contrastes, polices, taille des textes, navigation au clavier, etc.",
+        "question": "Avez-vous vérifié que les images de votre page d’accueil ont toutes un texte alternatif renseigné ?",
+        "description": "Clic droit sur une image > Inspecter : cherchez l’attribut « alt ». C’est ce que lisent Google et les lecteurs d’écran quand l’image ne s’affiche pas.",
         "options": [
           {
             "text": "Oui",
@@ -212,18 +212,18 @@
       },
       {
         "id": "seo-2",
-        "question": "J’utilise des titres et sous-titres pour structurer mon texte",
+        "question": "Diriez-vous que votre page d’accueil a un seul titre principal, gros et clair, ou plusieurs titres qui se disputent l’attention ?",
         "options": [
           {
-            "text": "Oui",
+            "text": "Un seul titre principal, clair",
             "score": 5
           },
           {
-            "text": "Non",
+            "text": "Plusieurs titres se disputent l’attention",
             "score": 0
           },
           {
-            "text": "Pas toujours",
+            "text": "Je ne sais pas",
             "score": 3
           }
         ]
@@ -254,15 +254,20 @@
       },
       {
         "id": "performance-2",
-        "question": "Le contenu de mes pages met-il du temps à s’afficher ?",
+        "question": "Avez-vous testé la vitesse de votre site sur un outil comme PageSpeed Insights (pagespeed.web.dev, gratuit) ?",
+        "description": "Le score mobile affiché est-il plutôt vert, ou plutôt orange/rouge ?",
         "options": [
           {
-            "text": "Oui, plus de 3 secondes",
+            "text": "Oui, le score est plutôt vert",
+            "score": 5
+          },
+          {
+            "text": "Oui, le score est orange ou rouge",
             "score": 0
           },
           {
-            "text": "Non, moins de 3 secondes",
-            "score": 5
+            "text": "Non, je n’ai jamais testé",
+            "score": 3
           }
         ]
       },
@@ -307,6 +312,14 @@
             "score": 2
           },
           {
+            "text": "Bubble",
+            "score": 1
+          },
+          {
+            "text": "Webflow",
+            "score": 4
+          },
+          {
             "text": "Wordpress",
             "score": 5
           },
@@ -336,19 +349,20 @@
       },
       {
         "id": "technique-3",
-        "question": "Je reçois des spams sur le mail de contact de mon site",
+        "question": "Avez-vous testé vous-même votre formulaire de contact dans les 3 derniers mois pour vérifier qu’il fonctionne vraiment ?",
+        "description": "Un formulaire cassé sans message d’erreur, c’est invisible pour vous mais ça fait fuir des clients en silence, semaine après semaine.",
         "options": [
           {
-            "text": "beaucoup",
+            "text": "Oui",
+            "score": 5
+          },
+          {
+            "text": "Non",
             "score": 0
           },
           {
-            "text": "un peu",
+            "text": "Je ne sais pas",
             "score": 3
-          },
-          {
-            "text": "pas du tout",
-            "score": 5
           }
         ]
       }
@@ -360,7 +374,7 @@
     "questions": [
       {
         "id": "legal-1",
-        "question": "Mon site a un pop-up pour gérer les cookies ?",
+        "question": "En ouvrant votre site en navigation privée, un bandeau de consentement aux cookies apparaît-il avant que vous cliquiez sur quoi que ce soit ?",
         "options": [
           {
             "text": "Oui",
@@ -392,7 +406,7 @@
       },
       {
         "id": "legal-3",
-        "question": "Mon site a des pages de politiques de confidentialité et/ou conditions générales ?",
+        "question": "Mon site a-t-il une page Mentions légales ET une page Politique de confidentialité (ou CGU/CGV) ?",
         "options": [
           {
             "text": "Oui",

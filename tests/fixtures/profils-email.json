@@ -1,0 +1,213 @@
+{
+  "_lisezmoi": [
+    "Jeux d'attributs de contact pour tester codeEmailBrevo.html.",
+    "Source unique : consomme par scripts/render-email-preview.mjs et collable tel quel",
+    "dans un contact de test Brevo (bloc `contact` = payload POST /v3/contacts).",
+    "",
+    "TOTAL est la somme des sept categories — c'est ce que calcule la Cloud Function",
+    "(functions/src/index.ts). Il est ecrit en dur ici parce qu'un contact Brevo cree a",
+    "la main ne le calcule pas ; le script de rendu verifie que la somme correspond et",
+    "echoue sinon, pour qu'une categorie modifiee sans son TOTAL ne passe pas inapercue.",
+    "",
+    "Bornes du template — TOTAL >= 66 : haute · 34-65 : mediane · TOTAL <= 33 : basse.",
+    "Bornes par categorie — /15 : >= 10 haute, 6-9 mediane, <= 5 basse.",
+    "                       SEO /10 : >= 6 haute, 4-5 mediane, <= 3 basse."
+  ],
+
+  "maximums": {
+    "DESIGN": 15,
+    "UX": 15,
+    "MARKETING": 15,
+    "SEO": 10,
+    "PERFORMANCE": 15,
+    "TECH": 15,
+    "LEGAL": 15
+  },
+
+  "profils": [
+    {
+      "nom": "01-score-haut",
+      "titre": "Score 78/100 — branche « site sain » (TOTAL >= 66)",
+      "branche": "haute",
+      "pourquoi": "La branche que REF-1 corrigeait : elle portait « une refonte n'est pas urgente » juste au-dessus du bouton de RDV. C'est le profil le plus important a voir rendu.",
+      "totalAttendu": 78,
+      "contact": {
+        "email": "marconte+score-haut@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Claire",
+          "NOM": "Fontaine",
+          "URL": "https://cabinet-fontaine.fr",
+          "TOTAL": 78,
+          "DESIGN": 12,
+          "UX": 13,
+          "MARKETING": 9,
+          "SEO": 7,
+          "PERFORMANCE": 12,
+          "TECH": 14,
+          "LEGAL": 11
+        }
+      }
+    },
+    {
+      "nom": "02-score-median",
+      "titre": "Score 52/100 — branche « signes de fatigue » (34-65)",
+      "branche": "mediane",
+      "pourquoi": "Branche deja validee en reel le 17/08. Sert de reference de non-regression.",
+      "totalAttendu": 52,
+      "contact": {
+        "email": "marconte+score-median@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Marc",
+          "NOM": "Delaunay",
+          "URL": "https://delaunay-menuiserie.fr",
+          "TOTAL": 52,
+          "DESIGN": 7,
+          "UX": 8,
+          "MARKETING": 6,
+          "SEO": 4,
+          "PERFORMANCE": 9,
+          "TECH": 10,
+          "LEGAL": 8
+        }
+      }
+    },
+    {
+      "nom": "03-score-bas",
+      "titre": "Score 22/100 — branche « coute des clients » (TOTAL <= 33)",
+      "branche": "basse",
+      "pourquoi": "Le lead le plus qualifie pour une refonte : verifier que le message est direct sans etre insultant, et que le CTA est bien present.",
+      "totalAttendu": 22,
+      "contact": {
+        "email": "marconte+score-bas@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Sophie",
+          "NOM": "Berger",
+          "URL": "https://berger-conseil.fr",
+          "TOTAL": 22,
+          "DESIGN": 3,
+          "UX": 2,
+          "MARKETING": 5,
+          "SEO": 1,
+          "PERFORMANCE": 4,
+          "TECH": 5,
+          "LEGAL": 2
+        }
+      }
+    },
+    {
+      "nom": "04-borne-33-basse",
+      "titre": "Score 33/100 — derniere valeur de la branche basse",
+      "branche": "basse",
+      "pourquoi": "Chaque categorie est posee exactement sur sa borne basse (5, et 3 pour SEO) : un seul profil teste la borne du TOTAL et celle des sept categories.",
+      "totalAttendu": 33,
+      "contact": {
+        "email": "marconte+borne-33@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Borne",
+          "NOM": "Basse",
+          "URL": "https://exemple-borne-33.fr",
+          "TOTAL": 33,
+          "DESIGN": 5,
+          "UX": 5,
+          "MARKETING": 5,
+          "SEO": 3,
+          "PERFORMANCE": 5,
+          "TECH": 5,
+          "LEGAL": 5
+        }
+      }
+    },
+    {
+      "nom": "05-borne-34-mediane",
+      "titre": "Score 34/100 — premiere valeur de la branche mediane",
+      "branche": "mediane",
+      "pourquoi": "Avec le profil 33, prouve que le basculement se fait au bon endroit et qu'aucun score entier ne tombe entre deux branches.",
+      "totalAttendu": 34,
+      "contact": {
+        "email": "marconte+borne-34@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Borne",
+          "NOM": "Mediane Basse",
+          "URL": "https://exemple-borne-34.fr",
+          "TOTAL": 34,
+          "DESIGN": 5,
+          "UX": 5,
+          "MARKETING": 5,
+          "SEO": 4,
+          "PERFORMANCE": 5,
+          "TECH": 5,
+          "LEGAL": 5
+        }
+      }
+    },
+    {
+      "nom": "06-borne-65-mediane",
+      "titre": "Score 65/100 — derniere valeur de la branche mediane",
+      "branche": "mediane",
+      "pourquoi": "Borne haute de la branche mediane, cote inferieur du basculement.",
+      "totalAttendu": 65,
+      "contact": {
+        "email": "marconte+borne-65@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Borne",
+          "NOM": "Mediane Haute",
+          "URL": "https://exemple-borne-65.fr",
+          "TOTAL": 65,
+          "DESIGN": 10,
+          "UX": 10,
+          "MARKETING": 10,
+          "SEO": 5,
+          "PERFORMANCE": 10,
+          "TECH": 10,
+          "LEGAL": 10
+        }
+      }
+    },
+    {
+      "nom": "07-borne-66-haute",
+      "titre": "Score 66/100 — premiere valeur de la branche haute",
+      "branche": "haute",
+      "pourquoi": "Chaque categorie est posee exactement sur sa borne haute (10, et 6 pour SEO). Avec le profil 65, verrouille le seuil des 66 dans les deux sens.",
+      "totalAttendu": 66,
+      "contact": {
+        "email": "marconte+borne-66@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Borne",
+          "NOM": "Haute",
+          "URL": "https://exemple-borne-66.fr",
+          "TOTAL": 66,
+          "DESIGN": 10,
+          "UX": 10,
+          "MARKETING": 10,
+          "SEO": 6,
+          "PERFORMANCE": 10,
+          "TECH": 10,
+          "LEGAL": 10
+        }
+      }
+    },
+    {
+      "nom": "08-cas-reel-41",
+      "titre": "Score 41/100 — reproduction du mail recu le 17/08/2026",
+      "branche": "mediane",
+      "pourquoi": "Rejoue a l'identique le seul envoi reel observe. Les sept categories couvrent les trois bandes a la fois (UX au plancher, DESIGN et LEGAL en haute, le reste entre les deux), ce qui en fait le meilleur test des pastilles de couleur.",
+      "totalAttendu": 41,
+      "contact": {
+        "email": "marconte+cas-reel-41@thatmuch.fr",
+        "attributes": {
+          "PRENOM": "Mathilde",
+          "NOM": "Arconte",
+          "URL": "https://thatmuch.fr",
+          "TOTAL": 41,
+          "DESIGN": 11,
+          "UX": 0,
+          "MARKETING": 7,
+          "SEO": 5,
+          "PERFORMANCE": 5,
+          "TECH": 3,
+          "LEGAL": 10
+        }
+      }
+    }
+  ]
+}

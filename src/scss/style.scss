@@ -13,7 +13,7 @@ html {
 
 body {
   font-family: "SpaceMono", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 2;
   box-sizing: border-box;
   color: $text-color-default;
@@ -77,37 +77,34 @@ body {
   background-image: url("#{$base-path}/images/bg_landing.webp");
   background-size: contain;
   background-repeat: no-repeat;
-  color: #fff;
-  background-color: #281759;
+
+  background-color: $neutral-900;
   overflow: hidden;
 
   @include breakpoint(desktop) {
     background-size: cover;
   }
 
+  // planet-pink/planet-yellow sont rendues par next/image (<img>, voir
+  // app/page.tsx) : ces regles ne positionnent que cet <img>. Elles
+  // portaient jusqu'ici EN PLUS un background-image pointant vers le meme
+  // fichier que le src de l'img — doublait la requete reseau pour rien,
+  // reste d'une version anterieure ou l'image etait un simple <div> en
+  // fond CSS. Retire en trouvant la cause du LCP lent de P2-7.
   .planet-pink {
     z-index: 0;
     position: absolute;
-    background-image: url("#{$base-path}/images/planet-pink.webp");
     left: 0;
     top: 500px;
     display: block;
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    background-size: contain;
   }
 
   .planet-yellow {
     z-index: 0;
-
     position: absolute;
-    background-image: url("#{$base-path}/images/planet-yellow.webp");
     right: -50px;
     top: 500px;
     display: block;
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: contain;
 
     @include breakpoint(mobile) {
       width: 200px;

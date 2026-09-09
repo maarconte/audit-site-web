@@ -78,7 +78,7 @@ export default function RefonteFormClient() {
             <ContactForm />
           )}
         </div>
-        <div className="d-flex flex-column align-items-center gap-1 p-2 bg-dark mt-5">
+        <div className="flex flex-col items-center gap-1 p-2 bg-dark mt-12">
           <span className="uppercase text-white">thatmuch</span>
           <ConsentSettingsLink />
         </div>
