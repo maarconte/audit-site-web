@@ -35,6 +35,7 @@ functions/                  Cloud Function submitForm (Firestore + Brevo)
 codeEmailBrevo.html         Template de l'email de restitution (Brevo)
 docs/                       Roadmap produit, tickets, export Linear
 scripts/linear-export.mjs   Export des tickets vers Linear
+scripts/audit-tool/         Outil d'audit interne (voir ci-dessous)
 ```
 
 ## Démarrage
@@ -58,11 +59,43 @@ la config Firebase client et l'URL de la Cloud Function de soumission :
 ## Scripts
 
 ```bash
-npm run dev      # Serveur de dev (Next.js, charge .env.dev)
-npm run build    # Export statique de production (charge .env.local)
-npm run start    # Build + sert le dossier out/ via `serve`
-npm run lint     # ESLint
+npm run dev         # Serveur de dev (Next.js, charge .env.dev)
+npm run build       # Export statique de production (charge .env.local)
+npm run start       # Build + sert le dossier out/ via `serve`
+npm run lint        # ESLint
+npm test            # Tests (node --test), notamment le sens des questions du quiz
+npm run audit:tool  # Outil d'audit interne — voir ci-dessous
 ```
+
+## Outil d'audit interne
+
+`scripts/audit-tool/` : petit serveur local (jamais déployé, hors du build
+Next.js) pour tester en profondeur l'analyse d'un site externe sans passer par
+le quiz déclaratif ni générer de mail. Sert de base d'exploration avant
+d'éventuellement automatiser l'analyse (cf. roadmap, phase 4).
+
+```bash
+npm run audit:tool
+```
+
+Ouvrir [http://localhost:4949](http://localhost:4949), coller une URL. Le
+rapport heuristique (lecture du HTML brut, sans rendu JS ni capture d'écran)
+couvre quatre catégories :
+
+- **SEO** — titre, meta description, Open Graph, nombre de H1, hiérarchie de
+  titres, contenu réellement présent dans le HTML (détecte les sites en
+  JavaScript pur sans rendu serveur), URL canonique
+- **Accessibilité** — texte alternatif des images, attribut `lang`, zoom
+  mobile, viewport (le contraste et la navigation clavier restent à vérifier
+  manuellement)
+- **Performance** — poids du HTML, temps de réponse serveur, outil
+  d'analytics détecté, ressources externes chargées
+- **Design** — signaux observables sans rendu visuel uniquement (thème/CMS
+  détecté, police personnalisée, image de partage et son orientation,
+  favicon) : aucune note d'esthétique n'est calculée
+
+La plateforme (WordPress/Wix/Webflow/Bubble/Odoo/Vite...) et l'activité d'un
+bandeau cookies sont affichées en en-tête du rapport.
 
 ## Déploiement
 
